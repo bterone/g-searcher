@@ -1,0 +1,11 @@
+version: "3.2"
+
+services:
+  db:
+    image: postgres:12.3
+    container_name: g_searcher_db
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=g_searcher_dev
+    ports:
+      - "5432:5432"
