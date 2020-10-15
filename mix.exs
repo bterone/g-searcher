@@ -40,25 +40,26 @@ defmodule GSearcher.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:wallaby, "~> 0.26.2", [only: :test, runtime: false]},
-      {:sobelow, "~> 0.10.4", [only: [:dev, :test], runtime: false]},
-      {:mox, "~> 1.0.0", [only: :test]},
+      {:argon2_elixir, "~> 2.3"},
+      {:credo, "~> 1.5.0-rc.4", [only: [:dev, :test], runtime: false]},
+      {:dialyxir, "~> 1.0.0", [only: [:dev], runtime: false]},
+      {:ecto_sql, "~> 3.4"},
       {:ex_machina, "~> 2.4.0", [only: :test]},
       {:excoveralls, "~> 0.13.2", [only: :test]},
-      {:dialyxir, "~> 1.0.0", [only: [:dev], runtime: false]},
-      {:credo, "~> 1.5.0-rc.4", [only: [:dev, :test], runtime: false]},
+      {:gettext, "~> 0.11"},
+      {:jason, "~> 1.0"},
+      {:mox, "~> 1.0.0", [only: :test]},
       {:phoenix, "~> 1.5.5"},
       {:phoenix_ecto, "~> 4.1"},
-      {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_dashboard, "~> 0.3 or ~> 0.2.9"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
-      {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:wallaby, "~> 0.26.2", [only: :test, runtime: false]},
+      {:sobelow, "~> 0.10.4", [only: [:dev, :test], runtime: false]}
     ]
   end
 
