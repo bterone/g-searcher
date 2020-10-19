@@ -32,7 +32,7 @@ defmodule GSearcher.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test/support", "test"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -58,6 +58,7 @@ defmodule GSearcher.MixProject do
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
       {:plug_cowboy, "~> 2.0"},
+      {:faker, "~> 0.15.0", [only: :test]},
       {:wallaby, "~> 0.26.2", [only: :test, runtime: false]},
       {:sobelow, "~> 0.10.4", [only: [:dev, :test], runtime: false]}
     ]
