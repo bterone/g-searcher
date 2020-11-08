@@ -7,11 +7,16 @@ defmodule GSearcherWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug GSearcherWeb.Plugs.SetCurrentUser
   end
 
   # coveralls-ignore-start
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :authentication do
+    plug GSearcherWeb.Plugs.EnsureAuth
   end
 
   # coveralls-ignore-stop
@@ -20,6 +25,18 @@ defmodule GSearcherWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+  scope "/auth", GSearcherWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthenticationController, :request
+    get "/:provider/callback", AuthenticationController, :callback
+    delete "/sign-out", AuthenticationController, :sign_out
+  end
+
+  scope "/", GSearcherWeb do
+    pipe_through [:browser, :authentication]
   end
 
   # Other scopes may use custom stacks.
