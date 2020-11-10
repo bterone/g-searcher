@@ -18,9 +18,9 @@
             <% end %>
 
             <%= if @conn.assigns.user_signed_in? do %>
-              <li><%= link "Sign Out", to: Routes.authentication_path(@conn, :sign_out) %></li>
+              <li><%= link "Sign Out", to: Routes.authentication_path(@conn, :sign_out), method: :delete %></li>
             <% else %>
-              <li><%= link "Google Sign In", to: Routes.authentication_path(@conn, :request, "google")%></li>
+              <li><%= link "Sign In", to: Routes.authentication_path(@conn, :request, "google")%></li>
             <% end%>
             </ul>
           </ul>
