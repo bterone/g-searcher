@@ -32,7 +32,7 @@ defmodule GSearcher.MixProject do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test/support", "test/factories"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -44,6 +44,7 @@ defmodule GSearcher.MixProject do
       {:sobelow, "~> 0.10.4", [only: [:dev, :test], runtime: false]},
       {:mox, "~> 1.0.0", [only: :test]},
       {:ex_machina, "~> 2.4.0", [only: :test]},
+      {:faker, "~> 0.15.0", [only: :test]},
       {:excoveralls, "~> 0.13.2", [only: :test]},
       {:dialyxir, "~> 1.0.0", [only: [:dev], runtime: false]},
       {:credo, "~> 1.5.0-rc.4", [only: [:dev, :test], runtime: false]},
