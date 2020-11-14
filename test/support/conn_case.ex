@@ -24,6 +24,7 @@ defmodule GSearcherWeb.ConnCase do
       import Phoenix.ConnTest
       import GSearcherWeb.ConnCase
       import GSearcher.Factory
+      import GSearcher.Helpers.ConnHelper
 
       alias GSearcherWeb.Router.Helpers, as: Routes
 
