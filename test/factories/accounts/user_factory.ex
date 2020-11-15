@@ -4,11 +4,13 @@ defmodule GSearcher.Accounts.UserFactory do
   defmacro __using__(_opts) do
     quote do
       def user_factory(attrs) do
-        %User{
+        user = %User{
           email: Faker.Internet.email(),
           provider: String.downcase(Faker.Person.first_name()),
           token: Faker.String.base64(100)
         }
+
+        merge_attributes(user, attrs)
       end
     end
   end

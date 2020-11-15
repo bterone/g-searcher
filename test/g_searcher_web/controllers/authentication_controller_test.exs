@@ -14,6 +14,7 @@ defmodule GSearcherWeb.AuthenticationControllerTest do
         |> get(Routes.authentication_path(conn, :callback, "google"))
 
       assert get_flash(conn, :info) == "You successfully logged in!"
+      assert redirected_to(conn) == Routes.page_path(conn, :index)
     end
 
     test "register user given valid params", %{conn: conn} do
@@ -25,8 +26,11 @@ defmodule GSearcherWeb.AuthenticationControllerTest do
         |> get(Routes.authentication_path(conn, :callback, "google"))
 
       assert get_flash(conn, :info) == "You successfully logged in!"
+      assert redirected_to(conn) == Routes.page_path(conn, :index)
 
-      assert [user_in_db] = Repo.all(User)
+      [user_in_db] = Repo.all(User)
+
+      assert user_in_db.token == user_params.token
     end
   end
 end
