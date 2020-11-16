@@ -43,6 +43,7 @@ defmodule GSearcher.MixProject do
       {:wallaby, "~> 0.26.2", [only: :test, runtime: false]},
       {:sobelow, "~> 0.10.4", [only: [:dev, :test], runtime: false]},
       {:mox, "~> 1.0.0", [only: :test]},
+      {:mimic, "~> 1.3", only: :test},
       {:ex_machina, "~> 2.4.0", [only: :test]},
       {:faker, "~> 0.15.0", [only: :test]},
       {:excoveralls, "~> 0.13.2", [only: :test]},

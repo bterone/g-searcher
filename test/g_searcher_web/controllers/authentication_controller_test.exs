@@ -1,8 +1,6 @@
 defmodule GSearcherWeb.AuthenticationControllerTest do
   use GSearcherWeb.ConnCase
 
-  import Mox
-
   alias GSearcher.Accounts.User
   alias GSearcher.Repo
 
@@ -45,7 +43,21 @@ defmodule GSearcherWeb.AuthenticationControllerTest do
       assert user_in_db.token == user_params.token
     end
 
-    # TODO: Create test for when User fails to insert
+    test "redirects to homepage with error if fail to save user", %{conn: conn} do
+      user_params = build(:user)
+
+      expect(Repo, :insert, fn _ -> {:error, %Ecto.Changeset{valid?: false}} end)
+
+      conn =
+        conn
+        |> assign_user_auth(user_params)
+        |> get(Routes.authentication_path(conn, :callback, "google"))
+
+      assert get_flash(conn, :error) == "Sorry! Something went wrong!"
+      assert redirected_to(conn) == Routes.page_path(conn, :index)
+
+      assert [] = Repo.all(User)
+    end
   end
 
   describe "delete /sign-out" do

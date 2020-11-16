@@ -26,6 +26,8 @@ defmodule GSearcherWeb.ConnCase do
       import GSearcher.Factory
       import GSearcher.Helpers.SessionHelper
 
+      import Mimic
+
       alias GSearcherWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
