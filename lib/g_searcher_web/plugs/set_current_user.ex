@@ -12,7 +12,7 @@ defmodule GSearcherWeb.Plugs.SetCurrentUser do
   def call(conn, _options) do
     user_id = Plug.Conn.get_session(conn, :current_user_id)
 
-    if current_user = user_id && Accounts.get_by_user_id!(user_id) do
+    if current_user = user_id && Accounts.get_user_by_id(user_id) do
       conn
       |> assign(:current_user, current_user)
       |> assign(:user_signed_in?, true)

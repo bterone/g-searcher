@@ -3,14 +3,12 @@ defmodule GSearcherWeb.AuthenticationController do
 
   plug Ueberauth
 
-  alias GSearcher.Accounts.User
-  alias GSearcher.Repo
+  alias GSearcher.Accounts
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     user_params = %{token: auth.credentials.token, email: auth.info.email, provider: "google"}
-    changeset = User.changeset(%User{}, user_params)
 
-    sign_in(conn, changeset)
+    sign_in(conn, user_params)
   end
 
   def sign_out(conn, _params) do
@@ -20,8 +18,8 @@ defmodule GSearcherWeb.AuthenticationController do
     |> redirect(to: Routes.page_path(conn, :index))
   end
 
-  defp sign_in(conn, changeset) do
-    case insert_or_update_user(changeset) do
+  defp sign_in(conn, user_params) do
+    case insert_or_update_user(user_params) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "You successfully logged in!")
@@ -35,10 +33,10 @@ defmodule GSearcherWeb.AuthenticationController do
     end
   end
 
-  defp insert_or_update_user(changeset) do
-    case Repo.get_by(User, email: changeset.changes.email) do
+  defp insert_or_update_user(user_params) do
+    case Accounts.get_user_by_email(user_params.email) do
       nil ->
-        Repo.insert(changeset)
+        Accounts.create_user(user_params)
 
       user ->
         {:ok, user}

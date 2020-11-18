@@ -74,9 +74,6 @@ jobs:
           MIX_ENV: test
           DB_HOST: localhost
 
-      - name: Run format check
-        run: mix format --check-formatted
-
       - name: Run codebase check
         run: mix codebase
 
