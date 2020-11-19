@@ -1,6 +1,7 @@
 defmodule GSearcherWeb.AuthenticationControllerTest do
   use GSearcherWeb.ConnCase
 
+  alias GSearcher.Accounts
   alias GSearcher.Accounts.User
   alias GSearcher.Repo
 
@@ -46,7 +47,7 @@ defmodule GSearcherWeb.AuthenticationControllerTest do
     test "redirects to homepage with error if fail to save user", %{conn: conn} do
       user_params = build(:user)
 
-      expect(Repo, :insert, fn _ -> {:error, %Ecto.Changeset{valid?: false}} end)
+      expect(Accounts, :create_user, fn _ -> {:error, %Ecto.Changeset{valid?: false}} end)
 
       conn =
         conn
