@@ -4,6 +4,8 @@
 
 {:ok, _} = Application.ensure_all_started(:wallaby)
 
+Mimic.copy(GSearcher.Accounts)
+
 ExUnit.start()
 Ecto.Adapters.SQL.Sandbox.mode(GSearcher.Repo, :manual)
 
