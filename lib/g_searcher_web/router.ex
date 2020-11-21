@@ -37,6 +37,8 @@ defmodule GSearcherWeb.Router do
 
   scope "/", GSearcherWeb do
     pipe_through [:browser, :authentication]
+
+    get "/dashboard", DashboardController, :index
   end
 
   # Other scopes may use custom stacks.
@@ -57,7 +59,7 @@ defmodule GSearcherWeb.Router do
     scope "/" do
       pipe_through :browser
       # coveralls-ignore-start
-      live_dashboard "/dashboard", metrics: GSearcherWeb.Telemetry
+      live_dashboard "/telemtry", metrics: GSearcherWeb.Telemetry
       # coveralls-ignore-stop
     end
   end

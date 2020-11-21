@@ -65,7 +65,7 @@ defmodule GSearcherWeb.AuthenticationControllerTest do
     test "redirects to homepage when session is deleted", %{conn: conn} do
       conn =
         conn
-        |> sign_in
+        |> sign_in()
         |> delete(Routes.authentication_path(conn, :sign_out))
 
       assert get_flash(conn, :info) == "Signed out successfully!"
