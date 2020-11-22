@@ -1,0 +1,12 @@
+<h1>Welcome to your Dashboard</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <p>Example</p>
+  </tbody>
+</table>

@@ -25,7 +25,7 @@ defmodule GSearcherWeb.AuthenticationControllerTest do
         |> get(Routes.authentication_path(conn, :callback, "google"))
 
       assert get_flash(conn, :info) == "You successfully logged in!"
-      assert redirected_to(conn) == Routes.page_path(conn, :index)
+      assert redirected_to(conn) == Routes.dashboard_path(conn, :index)
     end
 
     test "register user and redirects to homepage given valid params", %{conn: conn} do
@@ -37,7 +37,7 @@ defmodule GSearcherWeb.AuthenticationControllerTest do
         |> get(Routes.authentication_path(conn, :callback, "google"))
 
       assert get_flash(conn, :info) == "You successfully logged in!"
-      assert redirected_to(conn) == Routes.page_path(conn, :index)
+      assert redirected_to(conn) == Routes.dashboard_path(conn, :index)
 
       [user_in_db] = Repo.all(User)
 
@@ -65,7 +65,7 @@ defmodule GSearcherWeb.AuthenticationControllerTest do
     test "redirects to homepage when session is deleted", %{conn: conn} do
       conn =
         conn
-        |> sign_in
+        |> sign_in()
         |> delete(Routes.authentication_path(conn, :sign_out))
 
       assert get_flash(conn, :info) == "Signed out successfully!"
