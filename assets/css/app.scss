@@ -1,5 +1,7 @@
 /* This file is for your main application css. */
-@import "./phoenix.css";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Alerts and form errors */
 .alert {
@@ -33,4 +35,8 @@
   color: #a94442;
   display: block;
   margin: -1rem 0 2rem;
+}
+
+iframe {
+  display: none;
 }
