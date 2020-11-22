@@ -21,7 +21,7 @@
               <li><%= link "Sign Out", to: Routes.authentication_path(@conn, :sign_out), method: :delete %></li>
             <% else %>
               <li><%= link "Sign In", to: Routes.authentication_path(@conn, :request, "google")%></li>
-            <% end%>
+            <% end %>
             </ul>
           </ul>
         </nav>
