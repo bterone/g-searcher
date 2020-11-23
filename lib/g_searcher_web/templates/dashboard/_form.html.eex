@@ -1,13 +1,13 @@
 <%= form_for @report, @action, [multipart: true, as: :report], fn f -> %>
-  <%= label f, :title %>
-  <%= text_input f, :title %>
+  <%= label f, :title, class: "block text-gray-700 text-sm font-bold mb-2" %>
+  <%= text_input f, :title, class: "appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none" %>
   <%= error_tag f, :title %>
 
-  <%= label f, :csv %>
+  <%= label f, :csv, class: "block text-gray-700 text-sm font-bold mb-2 mt-2" %>
   <%= file_input f, :csv %>
   <%= error_tag f, :csv %>
 
   <div>
-    <%= submit "Generate Report" %>
+    <%= submit "Create", class: "inline-block py-4 px-8 mt-6 leading-none text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded shadow" %>
   </div>
 <% end %>

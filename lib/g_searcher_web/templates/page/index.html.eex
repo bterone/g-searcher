@@ -1,38 +1,9 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
-  <p>Peace of mind from prototype to production</p>
-</section>
-
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-      <li>
-        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
-      </li>
-    </ul>
-  </article>
+<section class="py-12 px-4 text-center">
+  <div class="w-full max-w-2xl mx-auto">
+    <h2 class="text-5xl leading-tight font-semibold font-heading">No business can sell what is already made</h2>
+    <p class="mt-6 mb-8 text-gray-400 leading-relaxed">Competition, Marketing, SEO. G-SearcherⓇ is here to change the way you see your competition. That's us - all the information you need, at your fingertips</p>
+    <%= link to: Routes.authentication_path(@conn, :request, "google"), class: "inline-block py-4 px-8 transition-colors border border-indigo-600 hover:bg-gray-100 rounded shadow" do %>
+      <span class="leading-none text-indigo-600 font-semibold">SIGN IN WITH GOOGLE</span>
+    <% end %>
+  </div>
 </section>

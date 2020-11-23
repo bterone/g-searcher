@@ -8,26 +8,23 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body>
+  <body class="antialiased bg-body text-body font-body">
     <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
+      <section class="container mx-auto px-4">
+        <nav class="flex flex-wrap items-center justify-between p-4" role="navigation">
+          <div class="w-1/5 lg:text-center"><a class="text-xl text-indigo-600 font-semibold font-heading" href="/">G Searcher</a></div>
+          <div class="block w-2/5 text-right">
             <%= if @conn.assigns.user_signed_in? do %>
-              <li><%= link "Dashboard", to: Routes.dashboard_path(@conn, :index) %></li>
-              <li><%= link "Sign Out", to: Routes.authentication_path(@conn, :sign_out), method: :delete %></li>
+              <%= link "Dashboard", to: Routes.dashboard_path(@conn, :index), class: "inline-block mr-10 text-blue-900 hover:text-indigo-600" %>
+              <%= link "Sign Out", to: Routes.authentication_path(@conn, :sign_out), method: :delete, class: "inline-block text-blue-900 hover:text-indigo-600" %>
             <% else %>
-              <li><%= link "Sign In", to: Routes.authentication_path(@conn, :request, "google")%></li>
+              <%= link "Sign In", to: Routes.authentication_path(@conn, :request, "google"), class: "inline-block text-blue-900 hover:text-indigo-600" %>
             <% end %>
-            </ul>
-          </ul>
+          </div>
         </nav>
-        <a href="/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/main-logo.png") %>" alt="G-Searcher Logo"/>
-        </a>
       </section>
     </header>
-    <main role="main" class="container">
+    <main role="main" class="container mx-auto px-8">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= @inner_content %>

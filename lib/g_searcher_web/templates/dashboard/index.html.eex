@@ -1,13 +1,5 @@
-<h3>Welcome to your Dashboard</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <h5>Upload your file here</h5>
+<section class="mx-auto max-w-lg">
+  <div class="mb-6">
     <%= render "_form.html", Map.put(assigns, :action, Routes.report_path(@conn, :create)) %>
-  </tbody>
-</table>
+  </div>
+</section>
