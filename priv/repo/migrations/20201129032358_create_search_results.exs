@@ -1,0 +1,19 @@
+defmodule GSearcher.Repo.Migrations.CreateSearchResults do
+  use Ecto.Migration
+
+  def change do
+    create table(:search_results) do
+      add :search_term, :string
+      add :number_of_results_on_page, :integer
+      add :number_of_top_advertisers, :integer
+      add :number_of_urls, :integer
+      add :top_advertiser_urls, {:array, :string}
+      add :advertiser_urls, {:array, :string}
+      add :total_number_of_advertisers, :integer
+      add :total_number_results, :integer
+      add :html_cache, :string
+
+      timestamps()
+    end
+  end
+end

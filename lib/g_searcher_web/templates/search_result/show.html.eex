@@ -1,0 +1,43 @@
+<h1>Show Search result</h1>
+
+<ul>
+
+  <li>
+    <strong>Search term:</strong>
+    <%= @search_result.search_term %>
+  </li>
+
+  <li>
+    <strong>Html cache:</strong>
+    <%= @search_result.html_cache %>
+  </li>
+
+  <li>
+    <strong>Number of results on page:</strong>
+    <%= @search_result.number_of_results_on_page %>
+  </li>
+
+  <li>
+    <strong>Number of top advertisers:</strong>
+    <%= @search_result.number_of_top_advertisers %>
+  </li>
+
+  <li>
+    <strong>Number of urls:</strong>
+    <%= @search_result.number_of_urls %>
+  </li>
+
+  <li>
+    <strong>Total number of advertisers:</strong>
+    <%= @search_result.total_number_of_advertisers %>
+  </li>
+
+  <li>
+    <strong>Total number results:</strong>
+    <%= @search_result.total_number_results %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.search_result_path(@conn, :edit, @search_result) %></span>
+<span><%= link "Back", to: Routes.search_result_path(@conn, :index) %></span>
