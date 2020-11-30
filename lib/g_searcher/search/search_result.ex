@@ -16,8 +16,13 @@ defmodule GSearcher.Search.SearchResult do
     timestamps()
   end
 
-  @doc false
-  def changeset(search_result, attrs) do
+  def create_keyword_changeset(search_result \\ %__MODULE__{}, attrs) do
+    search_result
+    |> cast(attrs, [:search_term])
+    |> validate_required(:search_term)
+  end
+
+  def create_search_result_changeset(search_result \\ %__MODULE__{}, attrs) do
     search_result
     |> cast(attrs, [
       :search_term,
@@ -29,7 +34,7 @@ defmodule GSearcher.Search.SearchResult do
       :top_advertiser_urls,
       :advertiser_urls,
       :html_cache
-      ])
+    ])
     |> validate_required([
       :search_term,
       :number_of_results_on_page,
