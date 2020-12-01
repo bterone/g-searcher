@@ -4,7 +4,7 @@ defmodule GSearcher.Reports do
   alias Ecto.Multi
   alias GSearcher.Repo
   alias GSearcher.Search
-  alias GSearcher.Search.{Report, SearchResult}
+  alias GSearcher.Search.Report
 
   NimbleCSV.define(CSVParser, separator: "\t", escape: "\"")
 

@@ -21,7 +21,7 @@ defmodule GSearcher.Search.Report do
   def changeset(report \\ %__MODULE__{}, attrs) do
     report
     |> cast(attrs, [:title, :csv_path, :user_id])
-    |> validate_required([:title, :csv_path, :user_id])
+    |> validate_required([:title, :user_id])
     |> unique_constraint([:title, :user_id],
       message: "is already used."
     )

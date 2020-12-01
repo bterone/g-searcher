@@ -4,6 +4,14 @@ defmodule GSearcher.Accounts.UserTest do
   alias GSearcher.Accounts.User
 
   describe "changeset/2" do
+    test "returns valid changeset given valid params" do
+      user_params = params_for(:user)
+
+      changeset = User.changeset(user_params)
+
+      assert changeset.valid?
+    end
+
     test "returns invalid changeset if required params are missing" do
       changeset = User.changeset(%{})
 
