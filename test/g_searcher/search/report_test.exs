@@ -23,7 +23,7 @@ defmodule GSearcher.Search.ReportTest do
              }
     end
 
-    test "returns invalid if required params are empty" do
+    test "returns invalid changeset if required params are empty" do
       changeset = Report.changeset(%{title: "", user_id: ""})
 
       refute changeset.valid?

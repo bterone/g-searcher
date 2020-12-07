@@ -1,5 +1,6 @@
 {
   "skip_files": [
+    "deps/",
     "lib/mix",
     "lib/g_searcher/application.ex",
     "lib/g_searcher/release_tasks.ex",

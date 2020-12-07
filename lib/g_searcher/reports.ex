@@ -8,7 +8,7 @@ defmodule GSearcher.Reports do
 
   NimbleCSV.define(CSVParser, separator: "\t", escape: "\"")
 
-  def generate_report(user_id, title, file_path) do
+  def create_report(user_id, title, file_path) do
     Multi.new()
     |> Multi.insert(
       :report,
