@@ -18,25 +18,46 @@ defmodule GSearcher.Reports do
       save_keywords_from_file(csv_path, report_id)
     end)
     |> Repo.transaction()
-
-    {:ok, "report"}
+    |> handle_report_transaction_response()
   end
 
   defp save_keywords_from_file(csv_path, report_id) do
-    csv_path
-    |> Path.expand(__DIR__)
-    |> File.stream!()
-    |> CSVParser.parse_stream()
-    |> Stream.map(fn [search_term] ->
-      {:ok, %{id: keyword_id}} = Search.create_search_result(%{search_term: search_term})
+    list_of_keywords =
+      csv_path
+      |> Path.expand(__DIR__)
+      |> File.stream!()
+      |> CSVParser.parse_stream()
+      |> Stream.map(fn [search_term] ->
+        create_report_search_result(search_term, report_id)
+      end)
+      |> Enum.to_list()
 
-      Search.associate_search_result_to_report(%{
-        report_id: report_id,
-        search_result_id: keyword_id
-      })
-    end)
-    |> Stream.run()
-
-    {:ok, :stuff_inserted}
+    case Enum.member?(list_of_keywords, :error) do
+      false -> {:ok, list_of_keywords}
+      true -> {:error, :failed_to_save_from_file}
+    end
   end
+
+  defp create_report_search_result(search_term, report_id) do
+    with {:ok, %{id: keyword_id}} <- Search.create_search_result(%{search_term: search_term}),
+         {:ok, _report_search_result} <-
+           Search.associate_search_result_to_report(%{
+             report_id: report_id,
+             search_result_id: keyword_id
+           }) do
+      search_term
+    else
+      {:error, _} -> :error
+    end
+  end
+
+  defp handle_report_transaction_response(
+         {:ok, %{report: report, search_keywords: search_keywords}}
+       ) do
+    # TODO: Cast keywords to GenServer
+
+    {:ok, report}
+  end
+
+  defp handle_report_transaction_response(response), do: response
 end
