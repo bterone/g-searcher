@@ -22,20 +22,44 @@ defmodule GSearcher.Reports do
   end
 
   defp save_keywords_from_file(csv_path, report_id) do
-    list_of_keywords =
+    with {:ok, csv_path} <- validate_file_path(csv_path),
+         {:ok, file_stream} <- stream_csv(csv_path),
+         {:ok, keyword_list} <- save_keywords(file_stream, report_id) do
+      case Enum.member?(keyword_list, :error) do
+        false -> {:ok, keyword_list}
+        true -> {:error, :failed_to_save_from_file}
+      end
+    else
+      {:error, :invalid_file_path} -> {:error, :invalid_file_path}
+      error -> error
+    end
+  end
+
+  defp validate_file_path(csv_path) do
+    if File.exists?(csv_path) do
+      {:ok, csv_path}
+    else
+      {:error, :invalid_file_path}
+    end
+  end
+
+  defp stream_csv(csv_path) do
+    file_stream =
       csv_path
-      |> Path.expand(__DIR__)
       |> File.stream!()
-      |> CSVParser.parse_stream()
-      |> Stream.map(fn [search_term] ->
+      |> CSVParser.parse_stream(skip_headers: false)
+
+    {:ok, file_stream}
+  end
+
+  defp save_keywords(file_stream, report_id) do
+    keyword_list =
+      Stream.map(file_stream, fn [search_term] ->
         create_report_search_result(search_term, report_id)
       end)
       |> Enum.to_list()
 
-    case Enum.member?(list_of_keywords, :error) do
-      false -> {:ok, list_of_keywords}
-      true -> {:error, :failed_to_save_from_file}
-    end
+    {:ok, keyword_list}
   end
 
   defp create_report_search_result(search_term, report_id) do
@@ -52,12 +76,13 @@ defmodule GSearcher.Reports do
   end
 
   defp handle_report_transaction_response(
-         {:ok, %{report: report, search_keywords: search_keywords}}
+         {:ok, %{report: report, search_keywords: _search_keywords}}
        ) do
     # TODO: Cast keywords to GenServer
 
     {:ok, report}
   end
 
-  defp handle_report_transaction_response(response), do: response
+  defp handle_report_transaction_response({:error, operation, changeset, _}),
+    do: {:error, operation, changeset}
 end
