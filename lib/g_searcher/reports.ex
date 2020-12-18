@@ -31,7 +31,6 @@ defmodule GSearcher.Reports do
       end
     else
       {:error, :invalid_file_path} -> {:error, :invalid_file_path}
-      error -> error
     end
   end
 

@@ -3,7 +3,6 @@ defmodule GSearcherWeb.ReportControllerTest do
 
   alias GSearcher.Repo
   alias GSearcher.Search.Report
-  alias GSearcherWeb.ReportController
 
   describe "create/2" do
     test "redirects to dashboard with success flash given valid CSV", %{conn: conn} do
