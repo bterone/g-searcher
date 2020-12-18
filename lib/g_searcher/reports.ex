@@ -65,10 +65,7 @@ defmodule GSearcher.Reports do
   defp create_report_search_result(search_term, report_id) do
     with {:ok, %{id: keyword_id}} <- Search.create_search_result(%{search_term: search_term}),
          {:ok, _report_search_result} <-
-           Search.associate_search_result_to_report(%{
-             report_id: report_id,
-             search_result_id: keyword_id
-           }) do
+           Search.associate_search_result_to_report(report_id, keyword_id) do
       search_term
     else
       {:error, _} -> :error

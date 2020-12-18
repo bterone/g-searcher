@@ -14,7 +14,7 @@ defmodule GSearcherWeb.ReportController do
     else
       _ ->
         conn
-        |> put_flash(:info, "Something went wrong.")
+        |> put_flash(:error, "Something went wrong.")
         |> redirect(to: Routes.dashboard_path(conn, :index))
     end
   end
