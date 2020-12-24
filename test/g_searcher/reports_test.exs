@@ -19,7 +19,7 @@ defmodule GSearcher.ReportsTest do
     test "returns an error given invalid information" do
       report = build(:report)
 
-      assert {:error, :report, changeset} =
+      assert {:error, changeset} =
                Reports.create_report("user_MISSING", report.title, report.csv_path)
 
       assert errors_on(changeset) == %{user_id: ["is invalid"]}
@@ -28,13 +28,13 @@ defmodule GSearcher.ReportsTest do
     end
 
     test "returns an error if one keyword fails to save" do
-      user = insert(:user)
-      report = build(:report)
+      %{id: user_id} = insert(:user)
+      %{title: report_title, csv_path: report_csv_path} = build(:report)
 
       stub(Search, :create_search_result, fn _ -> {:error, %Ecto.Changeset{valid?: false}} end)
 
-      assert {:error, :search_keywords, :failed_to_save_from_file} =
-               Reports.create_report(user.id, report.title, report.csv_path)
+      assert Reports.create_report(user_id, report_title, report_csv_path) ==
+               {:error, :failed_to_save_keywords}
 
       assert [] = Repo.all(SearchResult)
     end

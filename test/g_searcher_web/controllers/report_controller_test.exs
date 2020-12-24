@@ -33,7 +33,7 @@ defmodule GSearcherWeb.ReportControllerTest do
       assert report_in_db.title == "Test Report"
     end
 
-    test "redirects to dashboard with error flash if report title is taken", %{conn: conn} do
+    test "renders dashboard with error flash if report title is taken", %{conn: conn} do
       user = insert(:user)
       _old_report = insert(:report, user: user, title: "Taken Title")
 
@@ -57,7 +57,33 @@ defmodule GSearcherWeb.ReportControllerTest do
         )
 
       assert get_flash(conn, :error) == "Something went wrong."
+      assert html_response(conn, 200) =~ "is already used"
+    end
+
+    test "redirects to dashboard with error flash if CSV is invalid", %{conn: conn} do
+      user = insert(:user)
+
+      conn =
+        conn
+        |> sign_in(user)
+        |> post(
+          Routes.report_path(conn, :create),
+          %{
+            "report" => %{
+              "title" => "Test Report",
+              "csv" => %Plug.Upload{
+                path: "invalid_path",
+                filename: "invalid_filename",
+                content_type: "text/csv"
+              }
+            }
+          }
+        )
+
+      assert get_flash(conn, :error) == "Failed to save from file."
       assert redirected_to(conn) == Routes.dashboard_path(conn, :index)
+
+      assert [] = Repo.all(Report)
     end
   end
 end
