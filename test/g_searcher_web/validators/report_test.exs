@@ -1,7 +1,8 @@
-defmodule GSearcher.Validators.ReportParamValidatorTest do
+defmodule GSearcher.Validators.ReportTest do
   use GSearcher.DataCase
 
-  alias GSearcher.Validators.ReportParamValidator
+  alias GSearcherWeb.Validators.Report, as: ReportParams
+  alias GSearcherWeb.Validators.ParamValidator
 
   describe "validate/2" do
     test "returns {:ok, valid_params} given valid params" do
@@ -16,7 +17,8 @@ defmodule GSearcher.Validators.ReportParamValidatorTest do
         }
       }
 
-      assert {:ok, %{csv: _, title: "Test Report"}} = ReportParamValidator.validate(params)
+      assert {:ok, %{csv: _, title: "Test Report"}} =
+               ParamValidator.validate(params, for: ReportParams)
     end
 
     test "returns {:error, :invalid_params, changeset} given invalid params" do
@@ -29,7 +31,8 @@ defmodule GSearcher.Validators.ReportParamValidatorTest do
         }
       }
 
-      assert {:error, :invalid_params, changeset} = ReportParamValidator.validate(params)
+      assert {:error, :invalid_params, changeset} =
+               ParamValidator.validate(params, for: ReportParams)
 
       assert errors_on(changeset) == %{
                csv: ["is not a CSV"]
