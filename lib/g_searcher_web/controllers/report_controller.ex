@@ -2,7 +2,7 @@ defmodule GSearcherWeb.ReportController do
   use GSearcherWeb, :controller
 
   alias GSearcher.Reports
-  alias GSearcher.ReportParamValidator
+  alias GSearcher.Validators.ReportParamValidator
   alias GSearcherWeb.DashboardView
 
   def create(conn, %{"report" => report_params}) do

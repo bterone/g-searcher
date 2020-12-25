@@ -1,4 +1,4 @@
-defmodule GSearcher.ReportParamValidator do
+defmodule GSearcher.Validators.ReportParamValidator do
   use Ecto.Schema
 
   import Ecto.Changeset
@@ -16,6 +16,7 @@ defmodule GSearcher.ReportParamValidator do
     ])
     |> validate_required([:title, :csv])
     |> validate_is_csv()
+    |> add_validate_action()
     |> handle_changeset()
   end
 
@@ -28,5 +29,10 @@ defmodule GSearcher.ReportParamValidator do
   defp handle_changeset(%Ecto.Changeset{changes: changes, valid?: true}),
     do: {:ok, changes}
 
-  defp handle_changeset(changeset), do: {:error, :invalid_params, changeset}
+  defp handle_changeset(changeset) do
+    {:error, :invalid_params, changeset}
+  end
+
+  defp add_validate_action(changeset),
+    do: %{changeset | action: :validate}
 end

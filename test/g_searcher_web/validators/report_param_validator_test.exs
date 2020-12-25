@@ -1,7 +1,7 @@
-defmodule GSearcher.ReportParamValidatorTest do
+defmodule GSearcher.Validators.ReportParamValidatorTest do
   use GSearcher.DataCase
 
-  alias GSearcher.ReportParamValidator
+  alias GSearcher.Validators.ReportParamValidator
 
   describe "validate/2" do
     test "returns {:ok, valid_params} given valid params" do
