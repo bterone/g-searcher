@@ -2,18 +2,20 @@ defmodule GSearcherWeb.ReportController do
   use GSearcherWeb, :controller
 
   alias GSearcher.Reports
+  alias GSearcher.ReportParamValidator
   alias GSearcherWeb.DashboardView
 
   def create(conn, %{"report" => report_params}) do
     user = conn.assigns.current_user
 
-    with %{"title" => title, "csv" => file} <- report_params,
-         {:ok, _report} <- Reports.create_report(user.id, title, file.path) do
+    with {:ok, %{title: title, csv: csv}} <-
+           ReportParamValidator.validate(report_params),
+         {:ok, _report} <- Reports.create_report(user.id, title, csv.path) do
       conn
       |> put_flash(:info, "Report generated successfully.")
       |> redirect(to: Routes.dashboard_path(conn, :index))
     else
-      {:error, %Ecto.Changeset{} = report_changeset} ->
+      {:error, :invalid_params, %Ecto.Changeset{} = report_changeset} ->
         conn
         |> put_flash(:error, "Something went wrong.")
         |> put_view(DashboardView)
