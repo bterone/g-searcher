@@ -1,8 +1,8 @@
-defmodule GSearcher.Search.ReportSearchResultTest do
+defmodule GSearcher.SearchResults.ReportSearchResultTest do
   use GSearcher.DataCase, async: true
 
   alias GSearcher.Repo
-  alias GSearcher.Search.ReportSearchResult
+  alias GSearcher.SearchResults.ReportSearchResult
 
   describe "changeset/2" do
     test "returns valid changeset given valid params" do

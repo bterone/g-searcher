@@ -1,19 +1,19 @@
-defmodule GSearcher.Search.ReportTest do
+defmodule GSearcher.SearchResults.ReportTest do
   use GSearcher.DataCase, async: true
 
-  alias GSearcher.Search.Report
+  alias GSearcher.SearchResults.Report
 
   describe "changeset/2" do
     test "returns valid changeset given valid params" do
       report_params = params_for(:report)
 
-      changeset = Report.changeset(report_params)
+      changeset = Report.create_changeset(report_params)
 
       assert changeset.valid?
     end
 
     test "returns invalid changeset if required params are missing" do
-      changeset = Report.changeset(%{})
+      changeset = Report.create_changeset(%{})
 
       refute changeset.valid?
 
@@ -24,7 +24,7 @@ defmodule GSearcher.Search.ReportTest do
     end
 
     test "returns invalid changeset if required params are empty" do
-      changeset = Report.changeset(%{title: "", user_id: ""})
+      changeset = Report.create_changeset(%{title: "", user_id: ""})
 
       refute changeset.valid?
 

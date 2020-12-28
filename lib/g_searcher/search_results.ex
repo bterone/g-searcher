@@ -1,8 +1,8 @@
-defmodule GSearcher.Search do
+defmodule GSearcher.SearchResults do
   import Ecto.Query, warn: false
 
   alias GSearcher.Repo
-  alias GSearcher.Search.{ReportSearchResult, SearchResult}
+  alias GSearcher.SearchResults.{ReportSearchResult, SearchResult}
 
   def create_search_result(attrs) do
     %SearchResult{}

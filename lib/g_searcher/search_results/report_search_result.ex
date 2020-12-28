@@ -1,8 +1,8 @@
-defmodule GSearcher.Search.ReportSearchResult do
+defmodule GSearcher.SearchResults.ReportSearchResult do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias GSearcher.Search.{Report, SearchResult}
+  alias GSearcher.SearchResults.{Report, SearchResult}
 
   schema "reports_search_results" do
     belongs_to :report, Report

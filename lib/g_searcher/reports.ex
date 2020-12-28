@@ -2,9 +2,8 @@ defmodule GSearcher.Reports do
   import Ecto.Query, warn: false
 
   alias Ecto.Multi
-  alias GSearcher.Repo
-  alias GSearcher.Search
-  alias GSearcher.Search.Report
+  alias GSearcher.{Repo, SearchResults}
+  alias GSearcher.SearchResults.Report
 
   NimbleCSV.define(CSVParser, separator: "\t", escape: "\"")
 
@@ -12,7 +11,7 @@ defmodule GSearcher.Reports do
     Multi.new()
     |> Multi.insert(
       :report,
-      Report.changeset(%{title: title, csv_path: file_path, user_id: user_id})
+      Report.create_changeset(%{title: title, csv_path: file_path, user_id: user_id})
     )
     |> Multi.run(:search_keywords, fn _, %{report: %{id: report_id, csv_path: csv_path}} ->
       save_keywords_from_file(csv_path, report_id)
@@ -62,9 +61,10 @@ defmodule GSearcher.Reports do
   end
 
   defp create_report_search_result(search_term, report_id) do
-    with {:ok, %{id: keyword_id}} <- Search.create_search_result(%{search_term: search_term}),
+    with {:ok, %{id: keyword_id}} <-
+           SearchResults.create_search_result(%{search_term: search_term}),
          {:ok, _report_search_result} <-
-           Search.associate_search_result_to_report(report_id, keyword_id) do
+           SearchResults.associate_search_result_to_report(report_id, keyword_id) do
       search_term
     else
       {:error, _} -> :error

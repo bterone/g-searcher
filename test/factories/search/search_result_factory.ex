@@ -1,5 +1,5 @@
-defmodule GSearcher.Search.SearchResultFactory do
-  alias GSearcher.Search.SearchResult
+defmodule GSearcher.SearchResults.SearchResultFactory do
+  alias GSearcher.SearchResults.SearchResult
 
   defmacro __using__(_opts) do
     quote do

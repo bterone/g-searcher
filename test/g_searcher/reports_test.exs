@@ -1,8 +1,8 @@
 defmodule GSearcher.ReportsTest do
   use GSearcher.DataCase
 
-  alias GSearcher.{Reports, Search}
-  alias GSearcher.Search.SearchResult
+  alias GSearcher.{Reports, SearchResults}
+  alias GSearcher.SearchResults.SearchResult
 
   describe "create_report/3" do
     test "returns report given a valid CSV and valid information" do
@@ -24,19 +24,21 @@ defmodule GSearcher.ReportsTest do
 
       assert errors_on(changeset) == %{user_id: ["is invalid"]}
 
-      assert [] = Repo.all(SearchResult)
+      assert Repo.all(SearchResult) == []
     end
 
     test "returns an error if one keyword fails to save" do
       %{id: user_id} = insert(:user)
       %{title: report_title, csv_path: report_csv_path} = build(:report)
 
-      stub(Search, :create_search_result, fn _ -> {:error, %Ecto.Changeset{valid?: false}} end)
+      stub(SearchResults, :create_search_result, fn _ ->
+        {:error, %Ecto.Changeset{valid?: false}}
+      end)
 
       assert Reports.create_report(user_id, report_title, report_csv_path) ==
                {:error, :failed_to_save_keywords}
 
-      assert [] = Repo.all(SearchResult)
+      assert Repo.all(SearchResult) == []
     end
   end
 end

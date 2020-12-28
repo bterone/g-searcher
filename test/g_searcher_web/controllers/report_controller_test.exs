@@ -2,7 +2,7 @@ defmodule GSearcherWeb.ReportControllerTest do
   use GSearcherWeb.ConnCase, async: true
 
   alias GSearcher.Repo
-  alias GSearcher.Search.Report
+  alias GSearcher.SearchResults.Report
 
   describe "create/2" do
     test "redirects to dashboard with success flash given valid CSV", %{conn: conn} do

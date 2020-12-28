@@ -1,9 +1,9 @@
-defmodule GSearcher.Search.Report do
+defmodule GSearcher.SearchResults.Report do
   use Ecto.Schema
   import Ecto.Changeset
 
   alias GSearcher.Accounts.User
-  alias GSearcher.Search.{ReportSearchResult, SearchResult}
+  alias GSearcher.SearchResults.{ReportSearchResult, SearchResult}
 
   schema "reports" do
     field :title, :string
@@ -18,7 +18,7 @@ defmodule GSearcher.Search.Report do
     timestamps()
   end
 
-  def changeset(report \\ %__MODULE__{}, attrs) do
+  def create_changeset(report \\ %__MODULE__{}, attrs) do
     report
     |> cast(attrs, [:title, :csv_path, :user_id])
     |> validate_required([:title, :user_id])

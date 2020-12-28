@@ -1,7 +1,7 @@
-defmodule GSearcher.Search.SearchResultTest do
+defmodule GSearcher.SearchResults.SearchResultTest do
   use GSearcher.DataCase, async: true
 
-  alias GSearcher.Search.SearchResult
+  alias GSearcher.SearchResults.SearchResult
 
   describe "create_keyword_changeset/2" do
     test "returns valid changeset given valid params" do
