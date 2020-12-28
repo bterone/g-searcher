@@ -1,7 +1,9 @@
-defmodule GSearcherWeb.Validators.Report do
+defmodule GSearcherWeb.Validators.CreateReport do
   use Ecto.Schema
 
   import Ecto.Changeset
+
+  @csv_mime_type "text/csv"
 
   embedded_schema do
     field :title, :string
@@ -15,12 +17,14 @@ defmodule GSearcherWeb.Validators.Report do
       :csv
     ])
     |> validate_required([:title, :csv])
-    |> validate_is_csv()
+    |> validate_csv_type()
   end
 
-  defp validate_is_csv(%Ecto.Changeset{changes: %{csv: %{content_type: "text/csv"}}} = changeset),
-    do: changeset
+  defp validate_csv_type(
+         %Ecto.Changeset{changes: %{csv: %{content_type: @csv_mime_type}}} = changeset
+       ),
+       do: changeset
 
-  defp validate_is_csv(changeset),
+  defp validate_csv_type(changeset),
     do: add_error(changeset, :csv, "is not a CSV")
 end
