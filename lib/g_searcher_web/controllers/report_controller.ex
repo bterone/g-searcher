@@ -3,7 +3,7 @@ defmodule GSearcherWeb.ReportController do
 
   alias GSearcher.Reports
   alias GSearcherWeb.DashboardView
-  alias GSearcherWeb.Validators.Report, as: ReportParams
+  alias GSearcherWeb.Validators.CreateReport, as: ReportParams
   alias GSearcherWeb.Validators.ParamValidator
 
   def create(conn, %{"report" => report_params}) do
