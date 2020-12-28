@@ -27,18 +27,22 @@ defmodule GSearcher.ReportsTest do
       assert Repo.all(SearchResult) == []
     end
 
-    test "returns an error if one keyword fails to save" do
+    test "returns an error if one keyword fails to save and rolls back trasaction" do
       %{id: user_id} = insert(:user)
       %{title: report_title, csv_path: report_csv_path} = build(:report)
 
-      stub(SearchResults, :create_search_result, fn _ ->
+      SearchResults
+      |> expect(:create_search_result, fn word ->
+        SearchResults.create_search_result(%{search_term: word})
+      end)
+      |> stub(:create_search_result, fn _ ->
         {:error, %Ecto.Changeset{valid?: false}}
       end)
 
       assert Reports.create_report(user_id, report_title, report_csv_path) ==
                {:error, :failed_to_save_keywords}
 
-      assert Repo.all(SearchResult) == []
+      assert [] = Repo.all(SearchResult)
     end
   end
 end

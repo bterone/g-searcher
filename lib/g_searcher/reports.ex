@@ -24,6 +24,7 @@ defmodule GSearcher.Reports do
     with {:ok, csv_path} <- validate_file_path(csv_path),
          {:ok, file_stream} <- stream_csv(csv_path),
          {:ok, keyword_list} <- save_keywords(file_stream, report_id) do
+      # TODO: Rollback only keywords and fail report when making the Report Index
       case Enum.member?(keyword_list, :error) do
         false -> {:ok, keyword_list}
         true -> {:error, :failed_to_save_from_file}
