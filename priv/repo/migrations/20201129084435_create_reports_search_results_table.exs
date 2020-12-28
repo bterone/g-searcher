@@ -8,5 +8,7 @@ defmodule GSearcher.Repo.Migrations.CreateReportsSearchResultsTable do
 
       timestamps()
     end
+
+    create index(:reports_search_results, [:report_id, :search_result_id])
   end
 end

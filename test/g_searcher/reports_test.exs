@@ -27,7 +27,7 @@ defmodule GSearcher.ReportsTest do
       assert Repo.all(SearchResult) == []
     end
 
-    test "returns an error if one keyword fails to save and rolls back trasaction" do
+    test "returns an error if one keyword fails to save and rolls back transaction" do
       %{id: user_id} = insert(:user)
       %{title: report_title, csv_path: report_csv_path} = build(:report)
 

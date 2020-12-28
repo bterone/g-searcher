@@ -5,6 +5,7 @@ defmodule GSearcherWeb.DashboardController do
 
   def index(conn, _params) do
     report_changeset = Report.create_changeset(%{})
+
     render(conn, "index.html", report: report_changeset)
   end
 end

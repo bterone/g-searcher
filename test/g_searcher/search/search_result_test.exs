@@ -50,7 +50,6 @@ defmodule GSearcher.SearchResults.SearchResultTest do
                search_term: ["can't be blank"],
                total_number_results: ["can't be blank"],
                number_of_results_on_page: ["can't be blank"],
-               all_urls: ["should have at least 1 item(s)"],
                html_cache: ["can't be blank"],
                number_of_top_advertisers: ["can't be blank"],
                total_number_of_advertisers: ["can't be blank"]

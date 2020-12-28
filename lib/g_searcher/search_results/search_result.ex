@@ -47,6 +47,5 @@ defmodule GSearcher.SearchResults.SearchResult do
       :total_number_results,
       :html_cache
     ])
-    |> validate_length(:all_urls, min: 1)
   end
 end
