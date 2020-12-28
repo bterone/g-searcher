@@ -2,10 +2,9 @@ defmodule GSearcher.Validators.ReportTest do
   use GSearcher.DataCase
 
   alias GSearcherWeb.Validators.Report, as: ReportParams
-  alias GSearcherWeb.Validators.ParamValidator
 
-  describe "validate/2" do
-    test "returns {:ok, valid_params} given valid params" do
+  describe "changeset/2" do
+    test "returns valid changeset given valid params" do
       report = build(:report)
 
       params = %{
@@ -17,24 +16,27 @@ defmodule GSearcher.Validators.ReportTest do
         }
       }
 
-      assert {:ok, %{csv: _, title: "Test Report"}} =
-               ParamValidator.validate(params, for: ReportParams)
+      changeset = ReportParams.changeset(params)
+
+      assert changeset.valid? === true
     end
 
-    test "returns {:error, :invalid_params, changeset} given invalid params" do
+    test "returns invalid chanegset given invalid params" do
       params = %{
-        "title" => "An Accident",
+        "title" => "",
         "csv" => %Plug.Upload{
-          path: "invalid_path",
+          path: "/cat_picture.jpg",
           filename: "cat_picture.jpg",
-          content_type: "text/plain"
+          content_type: "image/jpeg"
         }
       }
 
-      assert {:error, :invalid_params, changeset} =
-               ParamValidator.validate(params, for: ReportParams)
+      changeset = ReportParams.changeset(params)
 
-      assert errors_on(changeset) == %{
+      assert changeset.valid? === false
+
+      assert errors_on(changeset) === %{
+               title: ["can't be blank"],
                csv: ["is not a CSV"]
              }
     end
