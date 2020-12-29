@@ -9,6 +9,7 @@ defmodule GSearcher.Reports do
 
   def create_report(user_id, title, file_path) do
     Multi.new()
+    |> Multi.run(:file_path, fn _, _ -> validate_file_path(file_path) end)
     |> Multi.insert(
       :report,
       Report.create_changeset(%{title: title, csv_path: file_path, user_id: user_id})
@@ -21,16 +22,13 @@ defmodule GSearcher.Reports do
   end
 
   defp save_keywords_from_file(csv_path, report_id) do
-    with {:ok, csv_path} <- validate_file_path(csv_path),
-         {:ok, file_stream} <- stream_csv(csv_path),
+    with {:ok, file_stream} <- stream_csv(csv_path),
          {:ok, keyword_list} <- save_keywords(file_stream, report_id) do
       # TODO: Rollback only keywords and fail report when making the Report Index
       case Enum.member?(keyword_list, :error) do
         false -> {:ok, keyword_list}
         true -> {:error, :failed_to_save_from_file}
       end
-    else
-      {:error, :invalid_file_path} -> {:error, :invalid_file_path}
     end
   end
 
@@ -82,6 +80,7 @@ defmodule GSearcher.Reports do
 
   defp handle_report_transaction_response({:error, _, _, _} = attrs) do
     case attrs do
+      {:error, :file_path, :invalid_file_path, _} -> {:error, :failed_to_save_keywords}
       {:error, :report, changeset, _} -> {:error, changeset}
       {:error, :search_keywords, _, _} -> {:error, :failed_to_save_keywords}
     end
