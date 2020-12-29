@@ -1,4 +1,4 @@
-<h1>Welcome to your Dashboard</h1>
+<h3>Welcome to your Dashboard</h3>
 
 <table>
   <thead>
@@ -7,6 +7,7 @@
     </tr>
   </thead>
   <tbody>
-    <p>Example</p>
+    <h5>Upload your file here</h5>
+    <%= render "_form.html", Map.put(assigns, :action, Routes.report_path(@conn, :create)) %>
   </tbody>
 </table>

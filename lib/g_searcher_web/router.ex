@@ -39,6 +39,8 @@ defmodule GSearcherWeb.Router do
     pipe_through [:browser, :authentication]
 
     get "/dashboard", DashboardController, :index
+
+    post "/reports", ReportController, :create
   end
 
   # Other scopes may use custom stacks.

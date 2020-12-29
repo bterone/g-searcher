@@ -25,6 +25,8 @@ defmodule GSearcher.DataCase do
       import Ecto.Query
       import GSearcher.DataCase
       import GSearcher.Factory
+
+      import Mimic
     end
   end
 

@@ -1,0 +1,13 @@
+<%= form_for @report, @action, [multipart: true], fn f -> %>
+  <%= label f, :title %>
+  <%= text_input f, :title %>
+  <%= error_tag f, :title %>
+
+  <%= label f, :csv %>
+  <%= file_input f, :csv %>
+  <%= error_tag f, :csv %>
+
+  <div>
+    <%= submit "Generate Report" %>
+  </div>
+<% end %>
