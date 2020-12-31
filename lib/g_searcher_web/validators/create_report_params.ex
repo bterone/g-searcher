@@ -1,4 +1,4 @@
-defmodule GSearcherWeb.Validators.CreateReport do
+defmodule GSearcherWeb.Validators.CreateReportParams do
   use Ecto.Schema
 
   import Ecto.Changeset

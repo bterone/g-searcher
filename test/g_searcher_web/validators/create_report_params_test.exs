@@ -1,7 +1,7 @@
-defmodule GSearcher.Validators.CreateReportTest do
+defmodule GSearcher.Validators.CreateReportParamsTest do
   use GSearcher.DataCase
 
-  alias GSearcherWeb.Validators.CreateReport, as: ReportParams
+  alias GSearcherWeb.Validators.CreateReportParams
 
   describe "changeset/2" do
     test "returns valid changeset given valid params" do
@@ -16,7 +16,7 @@ defmodule GSearcher.Validators.CreateReportTest do
         }
       }
 
-      changeset = ReportParams.changeset(params)
+      changeset = CreateReportParams.changeset(params)
 
       assert changeset.valid? === true
     end
@@ -31,7 +31,7 @@ defmodule GSearcher.Validators.CreateReportTest do
         }
       }
 
-      changeset = ReportParams.changeset(params)
+      changeset = CreateReportParams.changeset(params)
 
       assert changeset.valid? === false
 
