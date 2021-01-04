@@ -25,7 +25,7 @@ defmodule GSearcherWeb.Validators.ParamValidatorTest do
         "name" => "John Smith"
       }
 
-      assert ParamValidator.validate(params, for: PersonTest) === {:ok, %{name: "John Smith"}}
+      assert {:ok, %{name: "John Smith"}} = ParamValidator.validate(params, for: PersonTest)
     end
 
     test "returns {:error, :invalid_params, changeset} given invalid params" do
