@@ -81,7 +81,7 @@ defmodule GSearcher.Reports do
   defp handle_report_transaction_response({:error, _, _, _} = attrs) do
     case attrs do
       {:error, :file_path, :invalid_file_path, _} -> {:error, :failed_to_save_keywords}
-      {:error, :report, changeset, _} -> {:error, changeset}
+      {:error, :report, changeset, _} -> {:error, :invalid_params, changeset}
       {:error, :search_keywords, _, _} -> {:error, :failed_to_save_keywords}
     end
   end

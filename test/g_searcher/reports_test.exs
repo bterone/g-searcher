@@ -19,7 +19,7 @@ defmodule GSearcher.ReportsTest do
     test "returns an error given invalid information" do
       report = build(:report)
 
-      assert {:error, changeset} =
+      assert {:error, :invalid_params, changeset} =
                Reports.create_report("user_MISSING", report.title, report.csv_path)
 
       assert errors_on(changeset) == %{user_id: ["is invalid"]}
