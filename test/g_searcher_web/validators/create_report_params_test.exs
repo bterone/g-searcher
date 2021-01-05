@@ -21,7 +21,7 @@ defmodule GSearcher.Validators.CreateReportParamsTest do
       assert changeset.valid? === true
     end
 
-    test "returns invalid chanegset given invalid params" do
+    test "returns invalid changeset given invalid params" do
       params = %{
         "title" => "",
         "csv" => %Plug.Upload{
