@@ -36,8 +36,8 @@ defmodule GSearcherWeb.Validators.ParamValidatorTest do
       assert {:error, :invalid_params, changeset} =
                ParamValidator.validate(params, for: PersonTest)
 
-      assert changeset.valid? === false
-      assert changeset.action === :validate
+      assert changeset.valid? == false
+      assert changeset.action == :validate
     end
   end
 end

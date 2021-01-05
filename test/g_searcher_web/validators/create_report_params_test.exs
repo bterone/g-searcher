@@ -18,7 +18,7 @@ defmodule GSearcher.Validators.CreateReportParamsTest do
 
       changeset = CreateReportParams.changeset(params)
 
-      assert changeset.valid? === true
+      assert changeset.valid? == true
     end
 
     test "returns invalid changeset given invalid params" do
@@ -33,7 +33,7 @@ defmodule GSearcher.Validators.CreateReportParamsTest do
 
       changeset = CreateReportParams.changeset(params)
 
-      assert changeset.valid? === false
+      assert changeset.valid? == false
 
       assert errors_on(changeset) === %{
                title: ["can't be blank"],
