@@ -23,18 +23,18 @@ defmodule GSearcher.SearchResults.SearchResultTest do
     end
   end
 
-  describe "create_search_result_changeset/2" do
+  describe "update_search_result_changeset/2" do
     test "returns valid changeset given valid params" do
       params = params_for(:search_result)
 
-      changeset = SearchResult.create_search_result_changeset(params)
+      changeset = SearchResult.update_search_result_changeset(params)
 
       assert changeset.valid?
     end
 
     test "returns invalid changeset if required params are empty" do
       changeset =
-        SearchResult.create_search_result_changeset(%{
+        SearchResult.update_search_result_changeset(%{
           search_term: "",
           total_number_results: "",
           number_of_results_on_page: "",

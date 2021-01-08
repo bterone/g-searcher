@@ -63,7 +63,9 @@ defmodule GSearcher.MixProject do
       {:nimble_csv, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:ueberauth, "~> 0.6.3"},
-      {:ueberauth_google, "~> 0.10.0"}
+      {:ueberauth_google, "~> 0.10.0"},
+      {:oban, "~> 2.3"},
+      {:httpoison, "~> 1.7"}
     ]
   end
 

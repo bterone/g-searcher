@@ -19,6 +19,7 @@ config :g_searcher, GSearcherWeb.Endpoint,
   server: true
 
 config :g_searcher, :sql_sandbox, true
+config :g_searcher, Oban, crontab: false, queues: false, plugins: false
 
 config :wallaby,
   otp_app: :g_searcher,

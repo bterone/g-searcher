@@ -15,4 +15,11 @@ defmodule GSearcher.SearchResults do
     |> ReportSearchResult.changeset(%{report_id: report_id, search_result_id: search_result_id})
     |> Repo.insert()
   end
+
+  def update_search_result(search_result_id, params) do
+    SearchResult
+    |> Repo.get(search_result_id)
+    |> SearchResult.update_search_result_changeset(params)
+    |> Repo.update()
+  end
 end
