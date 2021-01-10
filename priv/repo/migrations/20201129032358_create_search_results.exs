@@ -7,7 +7,7 @@ defmodule GSearcher.Repo.Migrations.CreateSearchResults do
       add :total_number_results, :integer
       add :number_of_results_on_page, :integer
       add :all_urls, {:array, :string}
-      add :html_cache, :string
+      add :html_cache, :text
 
       add :number_of_top_advertisers, :integer
       add :top_advertiser_urls, {:array, :string}

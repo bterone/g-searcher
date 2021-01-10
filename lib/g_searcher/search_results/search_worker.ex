@@ -1,5 +1,5 @@
 defmodule GSearcher.SearchResults.SearchWorker do
-  use Oban.Worker, queue: :events
+  use Oban.Worker, queue: :events, max_attempts: 2
 
   alias GSearcher.SearchResults
 
@@ -8,14 +8,17 @@ defmodule GSearcher.SearchResults.SearchWorker do
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"id" => id, "keyword" => keyword}}) do
-    search_result_params =
-      keyword
-      |> search_keyword()
-      |> extract_search_result_details()
+    with {:ok, response_body} <- search_keyword(keyword),
+         {:ok, search_result_params} <- extract_search_result_details(response_body),
+         {:ok, _} <- SearchResults.update_search_result(id, search_result_params) do
+      :ok
+    else
+      {:error, :http_client_error, reason} ->
+        {:error, "HTTP Client error: #{inspect(reason)}"}
 
-    {:ok, _} = SearchResults.update_search_result(id, search_result_params)
-
-    :ok
+      {:error, %Ecto.Changeset{}} ->
+        {:error, "Failed to update keyword: ID: #{id}, Keyword: #{keyword}"}
+    end
   end
 
   defp search_keyword(keyword) do
@@ -25,23 +28,24 @@ defmodule GSearcher.SearchResults.SearchWorker do
 
     HTTPoison.start()
 
-    {:ok, response} = HTTPoison.get("#{@base_url}#{encoded_keyword}", headers)
-
-    handle_response(response)
+    case HTTPoison.get("#{@base_url}#{encoded_keyword}", headers) do
+      {:ok, %{status_code: 200, body: body}} -> {:ok, body}
+      {:error, %{reason: reason}} -> {:error, :http_client_error, reason}
+    end
   end
 
-  defp handle_response(%{status_code: 200, body: body}), do: body
-
+  # TODO: Actually extract the information in a separate service
   defp extract_search_result_details(response_body) do
-    %{
-      number_of_results_on_page: 1,
-      number_of_top_advertisers: 0,
-      total_number_of_advertisers: 0,
-      total_number_results: 1,
-      top_advertiser_urls: ["sample"],
-      advertiser_urls: ["sample"],
-      all_urls: ["sample"],
-      html_cache: response_body
-    }
+    {:ok,
+     %{
+       number_of_results_on_page: 1,
+       number_of_top_advertisers: 0,
+       total_number_of_advertisers: 0,
+       total_number_results: 1,
+       top_advertiser_urls: ["sample"],
+       advertiser_urls: ["sample"],
+       all_urls: ["sample"],
+       html_cache: response_body
+     }}
   end
 end
