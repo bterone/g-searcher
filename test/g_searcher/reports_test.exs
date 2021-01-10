@@ -1,8 +1,9 @@
 defmodule GSearcher.ReportsTest do
   use GSearcher.DataCase
+  use Oban.Testing, repo: GSearcher.Repo
 
   alias GSearcher.{Reports, SearchResults}
-  alias GSearcher.SearchResults.SearchResult
+  alias GSearcher.SearchResults.{SearchResult, SearchWorker}
 
   describe "create_report/3" do
     test "returns report given a valid CSV and valid information" do
@@ -12,6 +13,8 @@ defmodule GSearcher.ReportsTest do
       assert {:ok, report} = Reports.create_report(user.id, report.title, report.csv_path)
 
       search_results = Repo.all(SearchResult)
+
+      assert_enqueued worker: SearchWorker
 
       assert length(search_results) == 5
     end
@@ -23,6 +26,8 @@ defmodule GSearcher.ReportsTest do
                Reports.create_report("user_MISSING", report.title, report.csv_path)
 
       assert errors_on(changeset) == %{user_id: ["is invalid"]}
+
+      refute_enqueued worker: SearchWorker
 
       assert Repo.all(SearchResult) == []
     end
@@ -42,7 +47,9 @@ defmodule GSearcher.ReportsTest do
       assert Reports.create_report(user_id, report_title, report_csv_path) ==
                {:error, :failed_to_save_keywords}
 
-      assert [] = Repo.all(SearchResult)
+      refute_enqueued worker: SearchWorker
+
+      assert Repo.all(SearchResult) == []
     end
   end
 end

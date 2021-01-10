@@ -10,11 +10,15 @@ defmodule GSearcher.SearchResults.SearchWorker do
   def perform(%Oban.Job{args: %{"id" => id, "keyword" => keyword}}) do
     with {:ok, response_body} <- search_keyword(keyword),
          {:ok, search_result_params} <- extract_search_result_details(response_body),
-         {:ok, _} <- SearchResults.update_search_result(id, search_result_params) do
+         {:ok, search_result} <- SearchResults.get_search_result(id),
+         {:ok, _} <- SearchResults.update_search_result(search_result, search_result_params) do
       :ok
     else
       {:error, :http_client_error, reason} ->
         {:error, "HTTP Client error: #{inspect(reason)}"}
+
+      {:error, :not_found} ->
+        {:error, "Search Result not found for: ID: #{id}, Keyword: #{keyword}"}
 
       {:error, %Ecto.Changeset{}} ->
         {:error, "Failed to update keyword: ID: #{id}, Keyword: #{keyword}"}

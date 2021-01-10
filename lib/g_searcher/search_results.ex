@@ -10,16 +10,24 @@ defmodule GSearcher.SearchResults do
     |> Repo.insert()
   end
 
+  def get_search_result(search_result_id) do
+    SearchResult
+    |> Repo.get(search_result_id)
+    |> case do
+      nil -> {:error, :not_found}
+      search_result -> {:ok, search_result}
+    end
+  end
+
+  def update_search_result(search_result, params) do
+    search_result
+    |> SearchResult.update_search_result_changeset(params)
+    |> Repo.update()
+  end
+
   def associate_search_result_to_report(report_id, search_result_id) do
     %ReportSearchResult{}
     |> ReportSearchResult.changeset(%{report_id: report_id, search_result_id: search_result_id})
     |> Repo.insert()
-  end
-
-  def update_search_result(search_result_id, params) do
-    SearchResult
-    |> Repo.get(search_result_id)
-    |> SearchResult.update_search_result_changeset(params)
-    |> Repo.update()
   end
 end
