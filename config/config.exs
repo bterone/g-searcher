@@ -21,7 +21,10 @@ config :g_searcher, GSearcherWeb.Endpoint,
 config :g_searcher, Oban,
   repo: GSearcher.Repo,
   plugins: [Oban.Plugins.Pruner],
-  queues: [default: 5, events: 5]
+  queues: [
+    default: 5,
+    events: [limit: 5, dispatch_cooldown: :timer.seconds(2)]
+  ]
 
 config :ueberauth, Ueberauth,
   providers: [
