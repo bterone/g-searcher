@@ -8,9 +8,9 @@ defmodule GSearcher.SearchResults.SearchWorker do
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"id" => id, "keyword" => keyword}}) do
-    with {:ok, response_body} <- search_keyword(keyword),
+    with {:ok, search_result} <- SearchResults.get_search_result(id),
+         {:ok, response_body} <- search_keyword(keyword),
          {:ok, search_result_params} <- extract_search_result_details(response_body),
-         {:ok, search_result} <- SearchResults.get_search_result(id),
          {:ok, _} <- SearchResults.update_search_result(search_result, search_result_params) do
       :ok
     else

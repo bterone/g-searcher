@@ -14,7 +14,7 @@ defmodule GSearcher.ReportsTest do
 
       search_results = Repo.all(SearchResult)
 
-      assert_enqueued worker: SearchWorker
+      assert_enqueued(worker: SearchWorker)
 
       assert length(search_results) == 5
     end
@@ -27,7 +27,7 @@ defmodule GSearcher.ReportsTest do
 
       assert errors_on(changeset) == %{user_id: ["is invalid"]}
 
-      refute_enqueued worker: SearchWorker
+      refute_enqueued(worker: SearchWorker)
 
       assert Repo.all(SearchResult) == []
     end
@@ -47,7 +47,7 @@ defmodule GSearcher.ReportsTest do
       assert Reports.create_report(user_id, report_title, report_csv_path) ==
                {:error, :failed_to_save_keywords}
 
-      refute_enqueued worker: SearchWorker
+      refute_enqueued(worker: SearchWorker)
 
       assert Repo.all(SearchResult) == []
     end

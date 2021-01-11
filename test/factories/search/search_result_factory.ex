@@ -3,6 +3,12 @@ defmodule GSearcher.SearchResults.SearchResultFactory do
 
   defmacro __using__(_opts) do
     quote do
+      def only_search_term_factory do
+        %SearchResult{
+          search_term: Faker.Lorem.word()
+        }
+      end
+
       def search_result_factory do
         %SearchResult{
           search_term: Faker.Lorem.word(),
