@@ -38,7 +38,7 @@ defmodule GSearcher.SearchResults.SearchWorker do
     end
   end
 
-  # TODO: Actually extract the information in a separate service
+  # TODO: Extract the information in a separate service, Working on this in PR #14
   defp extract_search_result_details(response_body) do
     {:ok,
      %{
