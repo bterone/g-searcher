@@ -38,22 +38,22 @@ defmodule GSearcher.SearchResults.SearchResultTest do
 
       changeset =
         SearchResult.update_search_result_changeset(search_result, %{
-          total_number_results: "",
+          total_number_of_results: "",
           number_of_results_on_page: "",
-          all_urls: [],
+          search_result_urls: [],
           html_cache: "",
           number_of_top_advertisers: "",
-          total_number_of_advertisers: ""
+          number_of_regular_advertisers: ""
         })
 
       refute changeset.valid?
 
       assert errors_on(changeset) == %{
-               total_number_results: ["can't be blank"],
+               total_number_of_results: ["can't be blank"],
                number_of_results_on_page: ["can't be blank"],
                html_cache: ["can't be blank"],
                number_of_top_advertisers: ["can't be blank"],
-               total_number_of_advertisers: ["can't be blank"]
+               number_of_regular_advertisers: ["can't be blank"]
              }
     end
   end

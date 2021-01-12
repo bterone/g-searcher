@@ -51,10 +51,10 @@ defmodule GSearcher.SearchResultsTest do
       assert search_result_in_db.number_of_top_advertisers ==
                search_result_params.number_of_top_advertisers
 
-      assert search_result_in_db.total_number_of_advertisers ==
-               search_result_params.total_number_of_advertisers
+      assert search_result_in_db.number_of_regular_advertisers ==
+               search_result_params.number_of_regular_advertisers
 
-      assert search_result_in_db.total_number_results == search_result_params.total_number_results
+      assert search_result_in_db.total_number_of_results == search_result_params.total_number_of_results
       assert search_result_in_db.html_cache == search_result_params.html_cache
     end
   end

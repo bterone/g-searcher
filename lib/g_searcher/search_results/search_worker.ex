@@ -2,6 +2,7 @@ defmodule GSearcher.SearchResults.SearchWorker do
   use Oban.Worker, queue: :events, max_attempts: 2
 
   alias GSearcher.SearchResults
+  alias GSearcher.SearchResults.SearchResultParser
 
   @base_url "https://www.google.com/search?q="
   @user_agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
@@ -42,11 +43,11 @@ defmodule GSearcher.SearchResults.SearchWorker do
      %{
        number_of_results_on_page: 1,
        number_of_top_advertisers: 0,
-       total_number_of_advertisers: 0,
-       total_number_results: 1,
+       number_of_regular_advertisers: 0,
+       search_result_urls: ["sample"],
        top_advertiser_urls: ["sample"],
-       advertiser_urls: ["sample"],
-       all_urls: ["sample"],
+       regular_advertiser_urls: ["sample"],
+       total_number_of_results: 1,
        html_cache: response_body
      }}
   end
