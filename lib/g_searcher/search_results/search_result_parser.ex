@@ -65,8 +65,10 @@ defmodule GSearcher.SearchResults.SearchResultParser do
       html_tree
       |> Floki.find(@total_count)
       |> Floki.text()
-      |> String.replace(~r/\(.*\)/, "") # Removes any value in-between brackets (Eg: (0.52 seconds))
-      |> String.replace(~r/[^\d]/, "") # Removes any value that is not a digit (Eg: About 958,000 results => 958000)
+      # Removes any value in-between brackets (Eg: (0.52 seconds))
+      |> String.replace(~r/\(.*\)/, "")
+      # Removes any value that is not a digit (Eg: About 958,000 results => 958000)
+      |> String.replace(~r/[^\d]/, "")
       |> String.to_integer()
 
     {:ok, total_count}

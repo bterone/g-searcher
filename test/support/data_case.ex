@@ -27,6 +27,8 @@ defmodule GSearcher.DataCase do
       import GSearcher.Factory
 
       import Mimic
+
+      use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
     end
   end
 

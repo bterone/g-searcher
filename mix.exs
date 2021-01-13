@@ -66,7 +66,8 @@ defmodule GSearcher.MixProject do
       {:ueberauth_google, "~> 0.10.0"},
       {:oban, "~> 2.3"},
       {:httpoison, "~> 1.7"},
-      {:floki, "~> 0.29.0"}
+      {:floki, "~> 0.29.0"},
+      {:exvcr, "~> 0.12.2"}
     ]
   end
 
