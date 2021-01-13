@@ -30,8 +30,6 @@ defmodule GSearcher.SearchResults.SearchWorker do
 
     headers = ["user-agent": @user_agent]
 
-    HTTPoison.start()
-
     case HTTPoison.get("#{@base_url}#{encoded_keyword}", headers) do
       {:ok, %{status_code: 200, body: body}} -> {:ok, body}
       {:error, %{reason: reason}} -> {:error, :http_client_error, reason}
