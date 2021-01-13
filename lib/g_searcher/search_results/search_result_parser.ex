@@ -1,9 +1,11 @@
 defmodule GSearcher.SearchResults.SearchResultParser do
-  @top_ads "#tads > a"
-  @bottom_ads "#bottomads > a"
-  @search_results "#search > a"
+  @top_ads "#tads a"
+  @bottom_ads "#bottomads #tadsb a"
+  @search_results "#search .g div div > a"
   @total_count "#result-stats"
-  @url "href"
+  @url_link "href"
+
+  @google_url "https://www.google.com/"
 
   def parse(all_html) do
     with {:ok, html_tree} <- Floki.parse_document(all_html),
@@ -32,7 +34,8 @@ defmodule GSearcher.SearchResults.SearchResultParser do
     top_advertiser_urls =
       html_tree
       |> Floki.find(@top_ads)
-      |> Floki.attribute(@url)
+      |> Floki.attribute(@url_link)
+      |> ignore_google_urls()
 
     {:ok, top_advertiser_urls}
   end
@@ -41,7 +44,8 @@ defmodule GSearcher.SearchResults.SearchResultParser do
     regular_advertiser_urls =
       html_tree
       |> Floki.find(@bottom_ads)
-      |> Floki.attribute(@url)
+      |> Floki.attribute(@url_link)
+      |> ignore_google_urls()
 
     {:ok, regular_advertiser_urls}
   end
@@ -50,12 +54,28 @@ defmodule GSearcher.SearchResults.SearchResultParser do
     search_result_urls =
       html_tree
       |> Floki.find(@search_results)
-      |> Floki.attribute(@url)
+      |> Floki.attribute(@url_link)
+      |> Enum.reject(fn url -> url == "#" end)
 
     {:ok, search_result_urls}
   end
 
-  defp fetch_total_result_count(_html_tree) do
-    1
+  defp fetch_total_result_count(html_tree) do
+    total_count =
+      html_tree
+      |> Floki.find(@total_count)
+      |> Floki.text()
+      |> String.replace(~r/\(.*\)/, "") # Removes any value in-between brackets (Eg: (0.52 seconds))
+      |> String.replace(~r/[^\d]/, "") # Removes any value that is not a digit (Eg: About 958,000 results => 958000)
+      |> String.to_integer()
+
+    {:ok, total_count}
   end
+
+  defp ignore_google_urls(urls) do
+    Enum.reject(urls, fn url -> google_url?(url) end)
+  end
+
+  defp google_url?(@google_url <> _), do: true
+  defp google_url?(_), do: false
 end

@@ -37,18 +37,7 @@ defmodule GSearcher.SearchResults.SearchWorker do
     end
   end
 
-  # TODO: Extract the information in a separate service, Working on this in PR #14
   defp extract_search_result_details(response_body) do
-    {:ok,
-     %{
-       number_of_results_on_page: 1,
-       number_of_top_advertisers: 0,
-       number_of_regular_advertisers: 0,
-       search_result_urls: ["sample"],
-       top_advertiser_urls: ["sample"],
-       regular_advertiser_urls: ["sample"],
-       total_number_of_results: 1,
-       html_cache: response_body
-     }}
+    SearchResultParser.parse(response_body)
   end
 end
