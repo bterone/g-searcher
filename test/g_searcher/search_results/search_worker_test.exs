@@ -19,7 +19,6 @@ defmodule GSearcher.SearchResults.SearchWorkerTest do
         assert search_result_in_db.id == search_result.id
         assert search_result_in_db.html_cache
       end
-
     end
 
     test "fails job if HTTP client fails to search keyword" do
