@@ -39,6 +39,12 @@ defmodule GSearcher.SearchResults.SearchResultParserTest do
                }
              }
     end
+
+    test "returns error with reason given invalid HTML" do
+      stub(Floki, :parse_document, fn _ -> {:error, "error"} end)
+
+      assert SearchResultParser.parse("Invalid HTML") == {:error, :failed_to_parse_html, "error"}
+    end
   end
 
   defp sample_html do

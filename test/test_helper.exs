@@ -4,6 +4,7 @@
 
 {:ok, _} = Application.ensure_all_started(:wallaby)
 
+Mimic.copy(Floki)
 Mimic.copy(GSearcher.Accounts)
 Mimic.copy(GSearcher.SearchResults)
 Mimic.copy(HTTPoison)
