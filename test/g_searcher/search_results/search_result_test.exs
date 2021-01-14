@@ -23,19 +23,21 @@ defmodule GSearcher.SearchResults.SearchResultTest do
     end
   end
 
-  describe "create_search_result_changeset/2" do
+  describe "update_search_result_changeset/2" do
     test "returns valid changeset given valid params" do
       params = params_for(:search_result)
 
-      changeset = SearchResult.create_search_result_changeset(params)
+      changeset =
+        SearchResult.update_search_result_changeset(%SearchResult{search_term: "Test"}, params)
 
       assert changeset.valid?
     end
 
     test "returns invalid changeset if required params are empty" do
+      search_result = insert(:search_result)
+
       changeset =
-        SearchResult.create_search_result_changeset(%{
-          search_term: "",
+        SearchResult.update_search_result_changeset(search_result, %{
           total_number_results: "",
           number_of_results_on_page: "",
           all_urls: [],
@@ -47,7 +49,6 @@ defmodule GSearcher.SearchResults.SearchResultTest do
       refute changeset.valid?
 
       assert errors_on(changeset) == %{
-               search_term: ["can't be blank"],
                total_number_results: ["can't be blank"],
                number_of_results_on_page: ["can't be blank"],
                html_cache: ["can't be blank"],

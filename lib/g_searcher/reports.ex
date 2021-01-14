@@ -3,7 +3,7 @@ defmodule GSearcher.Reports do
 
   alias Ecto.Multi
   alias GSearcher.{Repo, SearchResults}
-  alias GSearcher.SearchResults.Report
+  alias GSearcher.SearchResults.{Report, SearchWorker}
 
   NimbleCSV.define(CSVParser, separator: "\t", escape: "\"")
 
@@ -64,16 +64,20 @@ defmodule GSearcher.Reports do
            SearchResults.create_search_result(%{search_term: search_term}),
          {:ok, _report_search_result} <-
            SearchResults.associate_search_result_to_report(report_id, keyword_id) do
-      search_term
+      {keyword_id, search_term}
     else
       {:error, _} -> :error
     end
   end
 
   defp handle_report_transaction_response(
-         {:ok, %{report: report, search_keywords: _search_keywords}}
+         {:ok, %{report: report, search_keywords: search_keywords}}
        ) do
-    # TODO: Cast keywords to GenServer
+    search_keywords
+    |> Enum.each(fn {keyword_id, search_term} ->
+      SearchWorker.new(%{id: keyword_id, keyword: search_term})
+      |> Oban.insert()
+    end)
 
     {:ok, report}
   end

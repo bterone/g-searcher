@@ -26,10 +26,9 @@ defmodule GSearcher.SearchResults.SearchResult do
     |> validate_required(:search_term)
   end
 
-  def create_search_result_changeset(search_result \\ %__MODULE__{}, attrs) do
+  def update_search_result_changeset(search_result, attrs) do
     search_result
     |> cast(attrs, [
-      :search_term,
       :number_of_results_on_page,
       :number_of_top_advertisers,
       :total_number_of_advertisers,

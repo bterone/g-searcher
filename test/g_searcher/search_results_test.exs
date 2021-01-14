@@ -1,4 +1,4 @@
-defmodule GSearcher.SearchTest do
+defmodule GSearcher.SearchResultsTest do
   use GSearcher.DataCase
 
   alias GSearcher.SearchResults
@@ -21,6 +21,41 @@ defmodule GSearcher.SearchTest do
       assert errors_on(changeset) == %{
                search_term: ["can't be blank"]
              }
+    end
+  end
+
+  describe "get_search_result/1" do
+    test "returns {:ok, search_result} given a valid ID" do
+      search_result = insert(:search_result)
+
+      assert SearchResults.get_search_result(search_result.id) == {:ok, search_result}
+    end
+
+    test "returns {:error, :not_found} given an invalid ID" do
+      assert SearchResults.get_search_result(0) == {:error, :not_found}
+    end
+  end
+
+  describe "update_search_result/2" do
+    test "updates search result given a valid ID and attributes" do
+      search_result = insert(:search_result)
+      search_result_params = params_for(:search_result, html_cache: "TEST")
+
+      assert {:ok, _} = SearchResults.update_search_result(search_result, search_result_params)
+
+      [search_result_in_db] = Repo.all(SearchResult)
+
+      assert search_result_in_db.number_of_results_on_page ==
+               search_result_params.number_of_results_on_page
+
+      assert search_result_in_db.number_of_top_advertisers ==
+               search_result_params.number_of_top_advertisers
+
+      assert search_result_in_db.total_number_of_advertisers ==
+               search_result_params.total_number_of_advertisers
+
+      assert search_result_in_db.total_number_results == search_result_params.total_number_results
+      assert search_result_in_db.html_cache == search_result_params.html_cache
     end
   end
 
