@@ -8,22 +8,23 @@ defmodule GSearcher.SearchResults.SearchResultParser do
   @google_url "https://www.google.com/"
 
   def parse(all_html) do
-    with {:ok, html_tree} <- Floki.parse_document(all_html),
-         {:ok, top_advertiser_urls} <- fetch_top_advertiser_urls(html_tree),
-         {:ok, regular_advertiser_urls} <- fetch_regular_advertiser_urls(html_tree),
-         {:ok, search_result_urls} <- fetch_search_result_urls(html_tree),
-         {:ok, total_number_of_results} <- fetch_total_result_count(html_tree) do
-      {:ok,
-       %{
-         number_of_results_on_page: Enum.count(search_result_urls),
-         number_of_top_advertisers: Enum.count(top_advertiser_urls),
-         number_of_regular_advertisers: Enum.count(regular_advertiser_urls),
-         search_result_urls: search_result_urls,
-         top_advertiser_urls: top_advertiser_urls,
-         regular_advertiser_urls: regular_advertiser_urls,
-         total_number_of_results: total_number_of_results,
-         html_cache: all_html
-       }}
+    case Floki.parse_document(all_html) do
+      {:ok, html_tree} ->
+        results =
+          [
+            Task.async(fn -> fetch_top_advertiser_urls(html_tree) end),
+            Task.async(fn -> fetch_regular_advertiser_urls(html_tree) end),
+            Task.async(fn -> fetch_search_result_urls(html_tree) end),
+            Task.async(fn -> fetch_total_result_count(html_tree) end)
+          ]
+          |> Task.yield_many()
+          |> Enum.map(fn {_, {:ok, result}} -> result end)
+          |> Enum.reduce(%{}, fn map, acc -> Map.merge(acc, map) end)
+
+        {:ok, Map.merge(results, %{html_cache: all_html})}
+
+      {:error, reason} ->
+        {:error, :failed_to_parse_html, reason}
     end
   end
 
@@ -34,7 +35,10 @@ defmodule GSearcher.SearchResults.SearchResultParser do
       |> Floki.attribute(@url_link)
       |> ignore_google_urls()
 
-    {:ok, top_advertiser_urls}
+    %{
+      top_advertiser_urls: top_advertiser_urls,
+      number_of_top_advertisers: Enum.count(top_advertiser_urls)
+    }
   end
 
   defp fetch_regular_advertiser_urls(html_tree) do
@@ -44,7 +48,10 @@ defmodule GSearcher.SearchResults.SearchResultParser do
       |> Floki.attribute(@url_link)
       |> ignore_google_urls()
 
-    {:ok, regular_advertiser_urls}
+    %{
+      regular_advertiser_urls: regular_advertiser_urls,
+      number_of_regular_advertisers: Enum.count(regular_advertiser_urls)
+    }
   end
 
   defp fetch_search_result_urls(html_tree) do
@@ -54,13 +61,16 @@ defmodule GSearcher.SearchResults.SearchResultParser do
       |> Floki.attribute(@url_link)
       |> Enum.reject(fn url -> url == "#" end)
 
-    {:ok, search_result_urls}
+    %{
+      search_result_urls: search_result_urls,
+      number_of_results_on_page: Enum.count(search_result_urls)
+    }
   end
 
   defp fetch_total_result_count(html_tree) do
     case Floki.find(html_tree, @total_count) do
       [] ->
-        {:ok, 0}
+        %{total_number_of_results: 0}
 
       element ->
         total_count =
@@ -72,7 +82,7 @@ defmodule GSearcher.SearchResults.SearchResultParser do
           |> String.replace(~r/[^\d]/, "")
           |> String.to_integer()
 
-        {:ok, total_count}
+        %{total_number_of_results: total_count}
     end
   end
 

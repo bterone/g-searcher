@@ -21,6 +21,9 @@ defmodule GSearcher.SearchResults.SearchWorker do
       {:error, :not_found} ->
         {:error, "Search Result not found for: ID: #{id}, Keyword: #{keyword}"}
 
+      {:error, :failed_to_parse_html, reason} ->
+        {:error, "Failed to parse HTML with reason: #{inspect(reason)}"}
+
       {:error, %Ecto.Changeset{}} ->
         {:error, "Failed to update keyword: ID: #{id}, Keyword: #{keyword}"}
     end
