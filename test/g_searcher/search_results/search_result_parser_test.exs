@@ -4,7 +4,7 @@ defmodule GSearcher.SearchResults.SearchResultParserTest do
   alias GSearcher.SearchResults.SearchResultParser
 
   describe "parse/1" do
-    test "extracts advertiser information given valid HTML" do
+    test "extracts search result when given valid HTML" do
       search_result_html = sample_html()
 
       assert {
@@ -22,10 +22,10 @@ defmodule GSearcher.SearchResults.SearchResultParserTest do
              } = SearchResultParser.parse(search_result_html)
     end
 
-    test "returns zero results given HTML without ads or results" do
+    test "returns no results when given HTML without ads or results" do
       no_results = no_results_sample_html()
 
-      assert SearchResultParser.parse(no_results) == {
+      assert {
                :ok,
                %{
                  number_of_results_on_page: 0,
@@ -35,12 +35,12 @@ defmodule GSearcher.SearchResults.SearchResultParserTest do
                  top_advertiser_urls: [],
                  regular_advertiser_urls: [],
                  total_number_of_results: 0,
-                 html_cache: no_results
+                 html_cache: ^no_results
                }
-             }
+             } = SearchResultParser.parse(no_results)
     end
 
-    test "returns error with reason given invalid HTML" do
+    test "returns error with reason when given invalid HTML" do
       stub(Floki, :parse_document, fn _ -> {:error, "error"} end)
 
       assert SearchResultParser.parse("Invalid HTML") == {:error, :failed_to_parse_html, "error"}
