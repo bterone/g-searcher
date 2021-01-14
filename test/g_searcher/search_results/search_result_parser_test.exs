@@ -5,6 +5,8 @@ defmodule GSearcher.SearchResults.SearchResultParserTest do
 
   describe "parse/1" do
     test "extracts advertiser information given valid HTML" do
+      search_result_html = sample_html()
+
       assert {
                :ok,
                %{
@@ -15,9 +17,27 @@ defmodule GSearcher.SearchResults.SearchResultParserTest do
                  top_advertiser_urls: [_, _],
                  regular_advertiser_urls: [_],
                  total_number_of_results: 677_000_000,
-                 html_cache: sample_html
+                 html_cache: ^search_result_html
                }
-             } = SearchResultParser.parse(sample_html)
+             } = SearchResultParser.parse(search_result_html)
+    end
+
+    test "returns zero results given HTML without ads or results" do
+      no_results = no_results_sample_html()
+
+      assert SearchResultParser.parse(no_results) == {
+               :ok,
+               %{
+                 number_of_results_on_page: 0,
+                 number_of_top_advertisers: 0,
+                 number_of_regular_advertisers: 0,
+                 search_result_urls: [],
+                 top_advertiser_urls: [],
+                 regular_advertiser_urls: [],
+                 total_number_of_results: 0,
+                 html_cache: no_results
+               }
+             }
     end
   end
 
@@ -41,6 +61,17 @@ defmodule GSearcher.SearchResults.SearchResultParserTest do
             <a href="bot1.com"></a>
           </div>
         </div>
+      </body>
+    </html>
+    """
+  end
+
+  defp no_results_sample_html do
+    """
+    <html>
+      <head></head>
+      <body>
+        <div> No results found </div>
       </body>
     </html>
     """

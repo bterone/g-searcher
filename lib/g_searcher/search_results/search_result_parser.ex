@@ -24,9 +24,6 @@ defmodule GSearcher.SearchResults.SearchResultParser do
          total_number_of_results: total_number_of_results,
          html_cache: all_html
        }}
-    else
-      _ ->
-        {:error, :failed_to_parse_html}
     end
   end
 
@@ -61,21 +58,26 @@ defmodule GSearcher.SearchResults.SearchResultParser do
   end
 
   defp fetch_total_result_count(html_tree) do
-    total_count =
-      html_tree
-      |> Floki.find(@total_count)
-      |> Floki.text()
-      # Removes any value in-between brackets (Eg: (0.52 seconds))
-      |> String.replace(~r/\(.*\)/, "")
-      # Removes any value that is not a digit (Eg: About 958,000 results => 958000)
-      |> String.replace(~r/[^\d]/, "")
-      |> String.to_integer()
+    case Floki.find(html_tree, @total_count) do
+      [] ->
+        {:ok, 0}
 
-    {:ok, total_count}
+      element ->
+        total_count =
+          element
+          |> Floki.text()
+          # Removes any value in-between brackets (Eg: (0.52 seconds))
+          |> String.replace(~r/\(.*\)/, "")
+          # Removes any value that is not a digit (Eg: About 958,000 results => 958000)
+          |> String.replace(~r/[^\d]/, "")
+          |> String.to_integer()
+
+        {:ok, total_count}
+    end
   end
 
   defp ignore_google_urls(urls) do
-    Enum.reject(urls, fn url -> google_url?(url) end)
+    Enum.reject(urls, &google_url?/1)
   end
 
   defp google_url?(@google_url <> _), do: true
