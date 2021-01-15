@@ -2,6 +2,7 @@ defmodule GSearcher.SearchResults.SearchWorker do
   use Oban.Worker, queue: :events, max_attempts: 2
 
   alias GSearcher.SearchResults
+  alias GSearcher.SearchResults.SearchResultParser
 
   @base_url "https://www.google.com/search?q="
   @user_agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
@@ -20,6 +21,9 @@ defmodule GSearcher.SearchResults.SearchWorker do
       {:error, :not_found} ->
         {:error, "Search Result not found for: ID: #{id}, Keyword: #{keyword}"}
 
+      {:error, :failed_to_parse_html, reason} ->
+        {:error, "Failed to parse HTML with reason: #{inspect(reason)}"}
+
       {:error, %Ecto.Changeset{}} ->
         {:error, "Failed to update keyword: ID: #{id}, Keyword: #{keyword}"}
     end
@@ -36,18 +40,7 @@ defmodule GSearcher.SearchResults.SearchWorker do
     end
   end
 
-  # TODO: Extract the information in a separate service, Working on this in PR #14
   defp extract_search_result_details(response_body) do
-    {:ok,
-     %{
-       number_of_results_on_page: 1,
-       number_of_top_advertisers: 0,
-       total_number_of_advertisers: 0,
-       total_number_results: 1,
-       top_advertiser_urls: ["sample"],
-       advertiser_urls: ["sample"],
-       all_urls: ["sample"],
-       html_cache: response_body
-     }}
+    SearchResultParser.parse(response_body)
   end
 end

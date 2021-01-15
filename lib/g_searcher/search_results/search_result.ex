@@ -4,9 +4,9 @@ defmodule GSearcher.SearchResults.SearchResult do
 
   schema "search_results" do
     field :search_term, :string
-    field :total_number_results, :integer
+    field :total_number_of_results, :integer
     field :number_of_results_on_page, :integer
-    field :all_urls, {:array, :string}
+    field :search_result_urls, {:array, :string}
     field :html_cache, :string
 
     # Top positioned advertisers
@@ -14,8 +14,8 @@ defmodule GSearcher.SearchResults.SearchResult do
     field :top_advertiser_urls, {:array, :string}
 
     # All advertisers
-    field :total_number_of_advertisers, :integer
-    field :advertiser_urls, {:array, :string}
+    field :number_of_regular_advertisers, :integer
+    field :regular_advertiser_urls, {:array, :string}
 
     timestamps()
   end
@@ -31,19 +31,19 @@ defmodule GSearcher.SearchResults.SearchResult do
     |> cast(attrs, [
       :number_of_results_on_page,
       :number_of_top_advertisers,
-      :total_number_of_advertisers,
-      :total_number_results,
+      :number_of_regular_advertisers,
+      :total_number_of_results,
       :top_advertiser_urls,
-      :advertiser_urls,
-      :all_urls,
+      :regular_advertiser_urls,
+      :search_result_urls,
       :html_cache
     ])
     |> validate_required([
       :search_term,
       :number_of_results_on_page,
       :number_of_top_advertisers,
-      :total_number_of_advertisers,
-      :total_number_results,
+      :number_of_regular_advertisers,
+      :total_number_of_results,
       :html_cache
     ])
   end
