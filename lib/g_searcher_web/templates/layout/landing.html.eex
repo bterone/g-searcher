@@ -8,26 +8,21 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body class="antialiased bg-body text-body font-body h-screen">
-    <div class="w-full flex flex-wrap">
-
-      <div class="w-full lg:w-1/2 flex flex-col">
-        <div class="w-1/5 lg:text-center mt-8 ml-4">
-          <a class="text-xl text-indigo-600 font-semibold font-heading" href="/">G Searcher</a>
+  <body class="landing">
+      <div class="landing__lead-content">
+        <div class="landing__header">
+          <a class="landing__logo" href="/">G Searcher</a>
         </div>
 
-        <main role="main" class="container mx-auto max-w-lg my-auto">
-          <p class="alert alert--info" role="alert"><%= get_flash(@conn, :info) %></p>
-          <p class="alert alert--danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        <main role="main" class="landing__content">
+          <%= render GSearcherWeb.SharedView, "_flash.html", conn: @conn %>
 
           <%= @inner_content %>
         </main>
       </div>
 
-      <div class="w-1/2 shadow-2xl">
-        <%= img_tag "https://picsum.photos/1080/1440", class: "object-cover w-full h-screen hidden lg:block" %>
+      <div class="landing__media">
+        <%= img_tag "https://picsum.photos/1080/1440", class: "landing__image" %>
       </div>
-
-    </div>
   </body>
 </html>

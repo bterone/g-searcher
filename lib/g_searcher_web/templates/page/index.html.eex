@@ -1,9 +1,5 @@
-<section class="py-12 px-4 text-center">
-  <div class="w-full max-w-2xl mx-auto">
-    <h2 class="text-5xl leading-tight font-semibold font-heading">No business can sell what is already made</h2>
-    <p class="mt-6 mb-8 text-gray-400 leading-relaxed">Competition, Marketing, SEO. G-SearcherⓇ is here to change the way you see your competition. That's us - all the information you need, at your fingertips</p>
-    <%= link to: Routes.authentication_path(@conn, :request, "google"), class: "inline-block py-4 px-8 transition-colors border border-indigo-600 hover:bg-gray-100 rounded shadow" do %>
-      <span class="leading-none text-indigo-600 font-semibold">SIGN IN WITH GOOGLE</span>
-    <% end %>
-  </div>
+<section class="lead-content">
+  <h2 class="lead-content__title">No business can sell what is already made</h2>
+  <p class="lead-content__tagline">Competition, Marketing, SEO. G-SearcherⓇ is here to change the way you see your competition. That's us - all the information you need, at your fingertips</p>
+  <%= link "", to: Routes.authentication_path(@conn, :request, "google"), class: "lead-content__sign-in" %>
 </section>
