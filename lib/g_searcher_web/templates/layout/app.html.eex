@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body class="app">
+  <body class="<%= class_name(@conn) %>">
     <header class="app-header">
       <nav class="app-header__navigation" role="navigation">
         <div class="app-header__logo"><a class="app-header__logo-text" href="/">G Searcher</a></div>
