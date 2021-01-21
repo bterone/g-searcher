@@ -21,6 +21,12 @@ defmodule GSearcher.Reports do
     |> handle_report_transaction_response()
   end
 
+  def list_reports_by_user(user_id) do
+    Report
+    |> where(user_id: ^user_id)
+    |> Repo.all()
+  end
+
   defp save_keywords_from_file(csv_path, report_id) do
     with {:ok, file_stream} <- stream_csv(csv_path),
          {:ok, keyword_list} <- save_keywords(file_stream, report_id) do
