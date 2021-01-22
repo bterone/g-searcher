@@ -12,7 +12,7 @@
       <tr>
         <td><%= report.id %></td>
         <td><%= report.title %></td>
-        <td>Done</td>
+        <td><%= report_status(report) %></td>
         <td>Show</td>
       </tr>
     <% end %>
