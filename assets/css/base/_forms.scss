@@ -1,0 +1,19 @@
+.form {
+  @apply block;
+
+  &__label {
+    @apply block text-gray-700 text-sm font-bold mb-2;
+
+    &--uppercase {
+      @apply uppercase;
+    }
+
+    &--error {
+      @apply inline-block text-red-600 font-normal;
+    }
+  }
+
+  &__input {
+    @apply block appearance-none w-full py-3 px-4 mb-3 leading-tight text-gray-700 bg-gray-50 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none;
+  }
+}

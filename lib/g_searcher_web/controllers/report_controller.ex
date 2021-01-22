@@ -19,6 +19,7 @@ defmodule GSearcherWeb.ReportController do
         conn
         |> put_flash(:error, "Something went wrong.")
         |> put_view(DashboardView)
+        |> replace_path_info_to_dashboard()
         |> render("index.html", report: report_changeset)
 
       {:error, :failed_to_save_keywords} ->
@@ -26,5 +27,9 @@ defmodule GSearcherWeb.ReportController do
         |> put_flash(:error, "Failed to save from file.")
         |> redirect(to: Routes.dashboard_path(conn, :index))
     end
+  end
+
+  defp replace_path_info_to_dashboard(conn) do
+    %{conn | path_info: "dashboard"}
   end
 end

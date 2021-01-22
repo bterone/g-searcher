@@ -1,0 +1,15 @@
+.button {
+  @apply inline-block;
+
+  &__primary {
+    @apply py-4 px-8 mt-6 leading-none text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded shadow;
+  }
+
+  &__link {
+    @apply text-blue-900 hover:text-indigo-600;
+  }
+
+  &__link + &__link {
+    @apply mr-10;
+  }
+}

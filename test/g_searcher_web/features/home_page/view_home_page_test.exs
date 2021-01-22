@@ -6,6 +6,6 @@ defmodule GSearcherWeb.HomePage.ViewHomePageTest do
     |> visit(Routes.page_path(GSearcherWeb.Endpoint, :index))
 
     session
-    |> assert_has(Query.text("Welcome to Phoenix!"))
+    |> assert_has(Query.text("No business can sell what is already made"))
   end
 end

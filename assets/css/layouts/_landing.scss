@@ -1,0 +1,27 @@
+.landing {
+  @apply antialiased font-sans h-screen w-full flex flex-wrap;
+
+  &__lead-content {
+    @apply w-full lg:w-1/2 flex flex-col;
+  }
+
+  &__header {
+    @apply w-1/5 lg:text-center mt-8 ml-4;
+  }
+
+  &__logo {
+    @apply text-xl text-indigo-600 font-semibold;
+  }
+
+  &__content {
+    @apply container mx-auto max-w-lg my-auto;
+  }
+
+  &__media {
+    @apply w-1/2 shadow-2xl;
+  }
+
+  &__image {
+    @apply object-cover w-full h-screen hidden lg:block;
+  }
+}

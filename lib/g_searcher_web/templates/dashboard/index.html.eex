@@ -1,13 +1,3 @@
-<h3>Welcome to your Dashboard</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <h5>Upload your file here</h5>
-    <%= render "_form.html", Map.put(assigns, :action, Routes.report_path(@conn, :create)) %>
-  </tbody>
-</table>
+<section class="report-upload">
+  <%= render "_form.html", Map.put(assigns, :action, Routes.report_path(@conn, :create)) %>
+</section>

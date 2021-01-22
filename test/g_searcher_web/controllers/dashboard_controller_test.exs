@@ -8,7 +8,7 @@ defmodule GSearcherWeb.DashboardControllerTest do
         |> sign_in()
         |> get(Routes.dashboard_path(conn, :index))
 
-      assert html_response(conn, 200) =~ "Welcome to your Dashboard"
+      assert html_response(conn, 200)
     end
 
     test "redirects to homepage with error given user is NOT logged in", %{conn: conn} do
