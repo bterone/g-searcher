@@ -19,6 +19,10 @@ defmodule GSearcherWeb.Router do
     plug GSearcherWeb.Plugs.EnsureAuth
   end
 
+  pipeline :mock_oauth do
+    plug GSearcherWeb.Plugs.Tests.MockOauth
+  end
+
   # coveralls-ignore-stop
 
   scope "/", GSearcherWeb do
@@ -33,6 +37,14 @@ defmodule GSearcherWeb.Router do
     get "/:provider", AuthenticationController, :request
     get "/:provider/callback", AuthenticationController, :callback
     delete "/sign-out", AuthenticationController, :sign_out
+  end
+
+  scope "/test_auth", GSearcherWeb do
+    if Mix.env() == :test do
+      pipe_through [:browser, :mock_oauth]
+
+      get "/:provider/callback", AuthenticationController, :callback
+    end
   end
 
   scope "/", GSearcherWeb do

@@ -1,6 +1,7 @@
 defmodule GSearcher.Helpers.SessionHelper do
-  alias Plug.Conn
   import GSearcher.Factory
+
+  alias Plug.Conn
 
   def assign_user_auth(%Conn{} = conn, user) do
     Conn.assign(conn, :ueberauth_auth, build_ueberauth_payload(user))
