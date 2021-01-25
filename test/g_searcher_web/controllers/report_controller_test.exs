@@ -86,4 +86,30 @@ defmodule GSearcherWeb.ReportControllerTest do
       assert [] = Repo.all(Report)
     end
   end
+
+  describe "show/2" do
+    test "renders report when given a valid report ID that belongs to user", %{conn: conn} do
+      user = insert(:user)
+      report = insert(:report, user: user)
+
+      conn =
+        conn
+        |> sign_in(user)
+        |> get(Routes.report_path(conn, :show, report.id))
+
+      assert html_response(conn, 200) =~ report.title
+    end
+
+    test "renders 404 page when given a report ID that does not belong to user", %{conn: conn} do
+      user = insert(:user)
+      report = insert(:report)
+
+      conn =
+        conn
+        |> sign_in(user)
+        |> get(Routes.report_path(conn, :show, report.id))
+
+      assert html_response(conn, 404) =~ "Page not found"
+    end
+  end
 end

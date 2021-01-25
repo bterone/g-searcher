@@ -3,5 +3,5 @@
 </section>
 
 <section class="report-index">
-  <%= render "_report-table.html", reports: @reports %>
+  <%= render "_report-table.html", reports: @reports, conn: @conn %>
 </section>

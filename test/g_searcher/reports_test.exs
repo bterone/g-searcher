@@ -53,6 +53,22 @@ defmodule GSearcher.ReportsTest do
     end
   end
 
+  describe "get_by/1" do
+    test "returns {:ok, report} when given valid params" do
+      user = insert(:user)
+      _other_user = insert(:user)
+
+      %{id: report_id} = insert(:report, user: user)
+      _other_report = insert(:report)
+
+      assert {:ok, %{id: report_id}} = Reports.get_by(%{id: report_id, user_id: user.id})
+    end
+
+    test "returns {:error, :not_found} when given invalid params" do
+      assert Reports.get_by(%{id: 0}) == {:error, :not_found}
+    end
+  end
+
   describe "list_reports_by_user/1" do
     test "returns a list of reports given a valid user id" do
       user = insert(:user)

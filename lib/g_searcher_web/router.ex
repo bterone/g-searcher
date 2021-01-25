@@ -53,6 +53,8 @@ defmodule GSearcherWeb.Router do
     get "/dashboard", DashboardController, :index
 
     post "/reports", ReportController, :create
+
+    get "/report/:id", ReportController, :show
   end
 
   # Other scopes may use custom stacks.

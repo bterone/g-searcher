@@ -13,7 +13,7 @@
         <td><%= report.id %></td>
         <td><%= report.title %></td>
         <td><%= report_status(report) %></td>
-        <td>Show</td>
+        <td><%= link "Show", to: Routes.report_path(@conn, :show, report.id) %></td>
       </tr>
     <% end %>
   </tbody>

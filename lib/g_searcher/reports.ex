@@ -21,6 +21,15 @@ defmodule GSearcher.Reports do
     |> handle_report_transaction_response()
   end
 
+  def get_by(params) do
+    Report
+    |> Repo.get_by(params)
+    |> case do
+      nil -> {:error, :not_found}
+      report -> {:ok, report}
+    end
+  end
+
   def list_reports_by_user(user_id) do
     Report
     |> where(user_id: ^user_id)
