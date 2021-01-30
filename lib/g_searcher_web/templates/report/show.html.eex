@@ -1,3 +1,111 @@
 <section class="report-summary">
-  <h2 class="report-summary__title"><%= @report.title %></h2>
+  <div class="report-summary__container">
+    <div class="report-summary__row">
+      <div class="card">
+        <div class="card__container">
+          <div class="card__header">
+            <h5 class="card__title">Title</h4>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter"><%= @report.title %></h1>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card__container">
+          <div class="card__header">
+            <h4 class="card__title">Total keywords</h4>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter">5</h1>
+            <span class="card__description">keywords</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card__container">
+          <div class="card__header">
+            <h4 class="card__title">Searched keywords</h4>
+            <span class="card__tag card__tag--searching">Searching</span>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter">2</h1>
+            <span class="card__description">keywords</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card__container">
+          <div class="card__header">
+            <h4 class="card__title">Total Top Advertisers</h4>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter">143</h1>
+            <span class="card__description">advertisers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="report-serach-results">
+  <table class="table table-search-result">
+    <thead class="table__header">
+      <tr class="table__row">
+        <th class="table__column table__column--index">
+          <h2 class="table__title">No.</h2>
+        </th>
+        <th class="table__column table__column--keyword">
+          <h2 class="table__title">Keyword</h2>
+        </th>
+        <th class="table__column table__column--status">
+          <h2 class="table__title">Status</h2>
+        </th>
+        <th class="table__column table__column--top-advertiser-count">
+          <h2 class="table__title">No. of Top Advertisers</h2>
+        </th>
+        <th class="table__column table__column--other-advertiser-count">
+          <h2 class="table__title">No. of Other Advertisers</h2>
+        </th>
+        <th class="table__column table__column--page-results">
+          <h2 class="table__title">Results on Page</h2>
+        </th>
+        <th class="table__column table__column--total-page-results">
+          <h2 class="table__title">Total Search Results</h2>
+        </th>
+        <th class="table__column table__column--cta">
+          <h2 class="table__title">Action</h2>
+        </th>
+      </tr>
+    </thead>
+    <tbody class="table__body">
+      <tr class="table__row">
+        <td class="table__item table__item--index">
+          <p class="table__text">1</p>
+        </td>
+        <td class="table__item table__item--keyword">
+          <p class="table__text">Pogo Jumping</p>
+        </td>
+        <td class="table__item table__item--status">
+          <p class="table__text">Completed</p>
+        </td>
+        <td class="table__item table__item--top-advertiser-count">
+          <p class="table__text">3</p>
+        </td>
+        <td class="table__item table__item--other-advertiser-count">
+          <p class="table__text">1</p>
+        </td>
+        <td class="table__item table__item--page-results">
+          <p class="table__text">22</p>
+        </td>
+        <td class="table__item table__item--total-page-results">
+          <p class="table__text">6,000,000</p>
+        </td>
+        <td class="table__item table__item--cta">
+          <p class="table__text">Show</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </section>

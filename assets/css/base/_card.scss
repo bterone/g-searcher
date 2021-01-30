@@ -1,0 +1,31 @@
+.card {
+  @apply w-full lg:w-1/4 px-4 mb-4 lg:mb-0;
+
+  &__container {
+    @apply h-full border rounded shadow;
+  }
+
+  &__header {
+    @apply flex items-center justify-between py-3 px-4 border-b;
+  }
+
+  &__title {
+    @apply text-lg font-semibold;
+  }
+
+  &__body {
+    @apply flex flex-col p-4;
+  }
+
+  &__counter {
+    @apply text-3xl mb-3 font-semibold;
+  }
+
+  &__tag {
+    @apply py-1 px-3 text-xs text-white font-semibold rounded-full;
+
+    &--searching {
+      @apply bg-red-500;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+// TODO: Scope this to `body.report`, right now body class is `report-<id>`
+.report-summary {
+  &__container {
+    @apply py-8 px-4;
+  }
+
+  &__row {
+    @apply flex flex-wrap -mx-4;
+  }
+}
