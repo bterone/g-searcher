@@ -5,6 +5,9 @@ defmodule GSearcher.Reports do
   alias GSearcher.{Repo, SearchResults}
   alias GSearcher.SearchResults.{Report, ReportSearchResult, SearchWorker}
 
+  @completed "Completed"
+  @searching "Searching"
+
   NimbleCSV.define(CSVParser, separator: "\t", escape: "\"")
 
   def create_report(user_id, title, file_path) do
@@ -47,6 +50,16 @@ defmodule GSearcher.Reports do
     ReportSearchResult
     |> where(report_id: ^report_id)
     |> Repo.aggregate(:count)
+  end
+
+  def report_status(report) do
+    total_keywords = total_report_keywords_count(report.id)
+    total_searched_keywords = total_searched_report_keywords_count(report.id)
+
+    cond do
+      total_searched_keywords < total_keywords -> @searching
+      total_searched_keywords == total_keywords -> @completed
+    end
   end
 
   defp save_keywords_from_file(csv_path, report_id) do
