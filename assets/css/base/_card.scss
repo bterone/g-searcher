@@ -2,7 +2,7 @@
   @apply w-full lg:w-1/4 px-4 mb-4 lg:mb-0;
 
   &__container {
-    @apply h-full border rounded shadow;
+    @apply h-full border rounded-lg shadow;
   }
 
   &__header {
@@ -10,7 +10,7 @@
   }
 
   &__title {
-    @apply text-lg font-semibold;
+    @apply text-base font-semibold text-gray-600;
   }
 
   &__body {
@@ -22,10 +22,6 @@
   }
 
   &__tag {
-    @apply py-1 px-3 text-xs text-white font-semibold rounded-full;
-
-    &--searching {
-      @apply bg-red-500;
-    }
+    @apply py-1 px-3 ml-4 text-xs text-white font-semibold rounded-full;
   }
 }

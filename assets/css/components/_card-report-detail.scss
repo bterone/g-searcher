@@ -1,3 +1,29 @@
 .card-report-detail {
+  $self: card;
 
+  .#{ $self }__container--lead {
+    @apply h-auto border-0 bg-indigo-600 text-white;
+
+    .#{ $self }__title {
+      @apply text-gray-100;
+    }
+
+    .#{ $self }__header {
+      @apply border-0;
+    }
+  }
+
+  .#{ $self }__content {
+    @apply text-lg font-semibold;
+  }
+
+  .#{ $self }__tag {
+    &--completed {
+      @apply bg-green-500;
+    }
+
+    &--searching {
+      @apply bg-red-500;
+    }
+  }
 }
