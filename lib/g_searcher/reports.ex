@@ -3,7 +3,7 @@ defmodule GSearcher.Reports do
 
   alias Ecto.Multi
   alias GSearcher.{Repo, SearchResults}
-  alias GSearcher.SearchResults.{Report, ReportSearchResult, SearchWorker}
+  alias GSearcher.SearchResults.{Report, ReportSearchResult, SearchResult, SearchWorker}
 
   @completed "Completed"
   @searching "Searching"
@@ -60,6 +60,14 @@ defmodule GSearcher.Reports do
       total_searched_keywords < total_keywords -> @searching
       total_searched_keywords == total_keywords -> @completed
     end
+  end
+
+  def total_top_advertisers_count(report_id) do
+    SearchResult
+    |> join(:inner, [sr], rsr in assoc(sr, :report_search_result))
+    |> where([sr, rsr], rsr.report_id == ^report_id and not is_nil(sr.html_cache))
+    |> select([sr], sum(sr.number_of_top_advertisers))
+    |> Repo.one()
   end
 
   defp save_keywords_from_file(csv_path, report_id) do

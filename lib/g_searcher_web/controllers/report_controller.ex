@@ -37,12 +37,14 @@ defmodule GSearcherWeb.ReportController do
          search_results_with_index <- Enum.with_index(search_results, 1),
          total_keyword_count <- Reports.total_report_keywords_count(report_id),
          total_searched_keyword_count <- Reports.total_searched_report_keywords_count(report_id),
+         total_top_advertisers_count <- Reports.total_top_advertisers_count(report_id),
          report_status <- Reports.report_status(report) do
       render(conn, "show.html",
         report: report,
         search_results: search_results_with_index,
         total_keyword_count: total_keyword_count,
         total_searched_keyword_count: total_searched_keyword_count,
+        total_top_advertisers_count: total_top_advertisers_count,
         status: report_status
       )
     else

@@ -42,7 +42,7 @@
             <h5 class="card__title">Total Top Advertisers</h5>
           </div>
           <div class="card__body">
-            <h1 class="card__counter">1</h1>
+            <h1 class="card__counter"><%= formatted_count(@total_top_advertisers_count) %></h1>
             <span class="card__description">advertisers</span>
           </div>
         </div>
