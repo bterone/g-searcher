@@ -34,12 +34,10 @@ defmodule GSearcherWeb.ReportController do
 
     case Reports.get_by(%{id: report_id, user_id: user.id}) do
       {:ok, report} ->
-        conn
-        |> render("show.html", report: report)
+        render(conn, "show.html", report: report)
 
       {:error, :not_found} ->
-        conn
-        |> ErrorHandler.render_error(404)
+        ErrorHandler.render_error(conn, 404)
     end
   end
 

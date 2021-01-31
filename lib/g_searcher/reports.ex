@@ -40,7 +40,6 @@ defmodule GSearcher.Reports do
     ReportSearchResult
     |> join(:inner, [rsr], sr in assoc(rsr, :search_result))
     |> where([rsr, sr], rsr.report_id == ^report_id and not is_nil(sr.html_cache))
-    |> select([rsr, sr], {rsr.search_result_id})
     |> Repo.aggregate(:count)
   end
 
