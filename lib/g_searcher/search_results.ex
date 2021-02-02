@@ -19,6 +19,18 @@ defmodule GSearcher.SearchResults do
     end
   end
 
+  def get_user_search_result(search_result_id, user_id) do
+    SearchResult
+    |> join(:full, [sr], rsr in assoc(sr, :report_search_result))
+    |> join(:full, [rsr], r in assoc(rsr, :reports))
+    |> where([sr, _, r], sr.id == ^search_result_id and r.user_id == ^user_id)
+    |> Repo.one()
+    |> case do
+      nil -> {:error, :not_found}
+      search_result -> {:ok, search_result}
+    end
+  end
+
   def get_search_results_from_report(report_id) do
     SearchResult
     |> join(:full, [sr], rsr in ReportSearchResult, on: sr.id == rsr.search_result_id)

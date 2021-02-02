@@ -11,10 +11,6 @@
 
   &__item {
     @apply flex py-2;
-
-    .button__secondary {
-      @apply py-2 px-4;
-    }
   }
 
   &__text {

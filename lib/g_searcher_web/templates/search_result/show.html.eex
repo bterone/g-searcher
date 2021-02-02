@@ -1,0 +1,1 @@
+<h1><%= @search_result.search_term %></h1>

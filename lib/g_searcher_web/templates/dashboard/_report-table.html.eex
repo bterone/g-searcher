@@ -34,7 +34,7 @@
           <p class="table__text"><%= report.inserted_at %></p>
         </td>
         <td class="table__item table__item--cta">
-          <%= link to: Routes.report_path(@conn, :show, report.id), class: "button__secondary" do %>
+          <%= link to: Routes.report_path(@conn, :show, report.id), class: "button__secondary button__secondary--md" do %>
             <span class="button__span-text">Show</span>
           <% end %>
         </td>

@@ -2,7 +2,7 @@ defmodule GSearcher.SearchResults.SearchResult do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias GSearcher.SearchResults.ReportSearchResult
+  alias GSearcher.SearchResults.{Report, ReportSearchResult}
 
   schema "search_results" do
     field :search_term, :string
@@ -20,6 +20,7 @@ defmodule GSearcher.SearchResults.SearchResult do
     field :regular_advertiser_urls, {:array, :string}
 
     has_many :report_search_result, ReportSearchResult
+    many_to_many :reports, Report, join_through: "reports_search_results"
 
     timestamps()
   end
