@@ -106,7 +106,9 @@
             <p class="table__text"><%= formatted_count(search_result.total_number_of_results) %></p>
           </td>
           <td class="table__item table__item--cta">
-            <p class="table__text">Show</p>
+            <%= link to: Routes.search_result_path(@conn, :show, search_result.id), class: "button__secondary button__secondary--sm" do %>
+              <span class="button__span-text">Show</span>
+            <% end %>
           </td>
         </tr>
       <% end %>
