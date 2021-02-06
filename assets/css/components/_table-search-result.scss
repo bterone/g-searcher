@@ -72,6 +72,10 @@
       @apply justify-end;
 
       flex-basis: 13%;
+
+      .button__secondary {
+        @apply ml-2;
+      }
     }
   }
 

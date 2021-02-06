@@ -1,7 +1,12 @@
 .table-report {
   $self: table;
 
-  min-width: 80%;
+  @apply block px-16 min-w-full;
+
+  .#{ $self }__header,
+  .#{ $self }__body {
+    @apply block w-full;
+  }
 
   .#{ $self }__column {
     &--id {
@@ -45,6 +50,8 @@
     }
 
     &--cta {
+      @apply justify-end;
+
       flex-basis: 10%;
     }
   }

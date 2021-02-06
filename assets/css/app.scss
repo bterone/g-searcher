@@ -12,6 +12,7 @@
 @import "components/card-report-detail";
 @import "components/lead-content";
 @import "components/table-report";
+@import "components/table-search-result-url";
 @import "components/table-search-result";
 
 @import "layouts/app";
@@ -19,6 +20,7 @@
 
 @import "screens/dashboard";
 @import "screens/report";
+@import "screens/search-result";
 
 iframe[hidden] {
   display: none;

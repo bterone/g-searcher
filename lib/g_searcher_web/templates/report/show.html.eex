@@ -103,7 +103,7 @@
             <p class="table__text"><%= formatted_count(search_result.number_of_results_on_page) %></p>
           </td>
           <td class="table__item table__item--total-page-results">
-            <p class="table__text"><%= formatted_count(search_result.total_number_of_results) %></p>
+            <p class="table__text"><%= number_to_human(search_result.total_number_of_results) %></p>
           </td>
           <td class="table__item table__item--cta">
             <%= link to: Routes.search_result_path(@conn, :show, search_result.id), class: "button__secondary button__secondary--sm" do %>
