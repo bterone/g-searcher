@@ -1,1 +1,63 @@
-<h1><%= @search_result.search_term %></h1>
+<section class="search-result-summary">
+  <div class="search-result-summary__container">
+    <div class="search-result-summary__row">
+      <div class="card card-report-detail">
+        <div class="card__container card__container--lead">
+          <div class="card__header">
+            <h5 class="card__title">Search Term</h5>
+          </div>
+          <div class="card__body">
+            <h2 class="card__content"><%= @search_result.search_term %></h1>
+          </div>
+        </div>
+      </div>
+      <div class="card card-report-detail">
+        <div class="card__container">
+          <div class="card__header">
+            <h5 class="card__title">No. of Top Advertisers</h5>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter"><%= @search_result.number_of_top_advertisers %></h1>
+            <span class="card__description">advertisers</span>
+          </div>
+        </div>
+      </div>
+      <div class="card card-report-detail">
+        <div class="card__container">
+          <div class="card__header">
+            <h5 class="card__title">No. of Other Advertisers</h5>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter"><%= @search_result.number_of_regular_advertisers %></h1>
+            <span class="card__description">advertisers</span>
+          </div>
+        </div>
+      </div>
+      <div class="card card-report-detail">
+        <div class="card__container">
+          <div class="card__header">
+            <h5 class="card__title">Total Number of results</h5>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter card__counter--xl"><%= number_to_human(@search_result.total_number_of_results) %></h1>
+            <span class="card__description">results</span>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="search-result-url">
+  <h1 class="search-result-url__header">Top Advertiser URLs</h1>
+  <%= render "_search-result-url-table.html", urls: @search_result.top_advertiser_urls %>
+</section>
+
+<section class="search-result-url">
+  <h1 class="search-result-url__header">Other Advertiser URLs</h1>
+  <%= render "_search-result-url-table.html", urls: @search_result.regular_advertiser_urls %>
+</section>
+
+<section class="search-result-url">
+  <h1 class="search-result-url__header">Search Result URLs</h1>
+  <%= render "_search-result-url-table.html", urls: @search_result.search_result_urls %>
+</section>

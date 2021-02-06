@@ -1,0 +1,39 @@
+.table-search-result-url {
+  $self: table;
+
+  @apply mx-0 min-w-full;
+
+  .#{ $self }__column {
+    &--index {
+      flex-basis: 5%;
+    }
+
+    &--advertiser-url {
+      flex-basis: 85%;
+    }
+
+    &--cta {
+      @apply invisible;
+
+      flex-basis: 10%;
+    }
+  }
+
+  .#{ $self }__item {
+    &--index {
+      flex-basis: 5%;
+    }
+
+    &--advertiser-url {
+      flex-basis: 85%;
+    }
+
+    &--cta {
+      flex-basis: 10%;
+    }
+  }
+
+  .#{ $self }__body .#{ $self }__row {
+    @apply border-b;
+  }
+}

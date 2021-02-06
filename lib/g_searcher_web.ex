@@ -68,6 +68,8 @@ defmodule GSearcherWeb do
 
       import GSearcherWeb.ErrorHelpers
       import GSearcherWeb.Gettext
+      import GSearcherWeb.NumberHelpers
+
       alias GSearcherWeb.Router.Helpers, as: Routes
     end
   end

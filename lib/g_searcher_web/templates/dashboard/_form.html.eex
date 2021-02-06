@@ -7,7 +7,7 @@
   <%= file_input f, :csv %>
   <%= error_tag f, :csv %>
 
-  <div>
+  <div class="form__action">
     <%= submit "Create", class: "button button__primary" %>
   </div>
 <% end %>

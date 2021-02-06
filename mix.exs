@@ -67,7 +67,8 @@ defmodule GSearcher.MixProject do
       {:oban, "~> 2.3"},
       {:httpoison, "~> 1.7"},
       {:floki, "~> 0.29.0"},
-      {:exvcr, "~> 0.12.2"}
+      {:exvcr, "~> 0.12.2"},
+      {:number, "~> 1.0.1"}
     ]
   end
 
