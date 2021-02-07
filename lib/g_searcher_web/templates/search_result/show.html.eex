@@ -47,6 +47,12 @@
     </div>
 </section>
 
+<section class="search-result-actions">
+  <%= link to: Routes.search_result_path(@conn, :result_snapshot, @search_result.id), class: "button__primary button__primary--sm" do %>
+    <span class="button__span-text">HTML</span>
+  <% end %>
+</section>
+
 <section class="search-result-url">
   <h1 class="search-result-url__header">Top Advertiser URLs</h1>
   <%= render "_search-result-url-table.html", urls: @search_result.top_advertiser_urls %>

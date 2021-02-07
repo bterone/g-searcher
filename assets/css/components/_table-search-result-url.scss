@@ -33,6 +33,10 @@
     }
   }
 
+  .#{ $self }__title {
+    @apply pr-8 text-sm text-indigo-600 font-semibold;
+  }
+
   .#{ $self }__body .#{ $self }__row {
     @apply border-b;
   }

@@ -16,3 +16,7 @@
     @apply text-base font-semibold text-gray-600;
   }
 }
+
+.search-result-actions {
+  @apply flex px-4 justify-end;
+}
