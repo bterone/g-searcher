@@ -16,6 +16,7 @@ defmodule GSearcherWeb.SearchResultController do
     end
   end
 
+  # sobelow_skip ["XSS.Raw"]
   def result_snapshot(conn, %{"id" => search_result_id}) do
     user = conn.assigns.current_user
 

@@ -37,7 +37,7 @@ defmodule GSearcher.SearchResults do
     |> where([sr, rsr], rsr.report_id == ^report_id)
     |> Repo.all()
     |> case do
-      nil -> {:error, :not_found}
+      [] -> {:error, :not_found}
       search_results -> {:ok, search_results}
     end
   end

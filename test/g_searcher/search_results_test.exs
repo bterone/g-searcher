@@ -36,6 +36,53 @@ defmodule GSearcher.SearchResultsTest do
     end
   end
 
+  describe "get_user_search_result/2" do
+    test "returns {:ok, search_result} given a valid ID and belongs to user" do
+      user = insert(:user)
+      report = insert(:report, user: user)
+
+      search_result = insert(:search_result)
+
+      _report_search_result =
+        insert(:report_search_result, report: report, search_result: search_result)
+
+      assert SearchResults.get_user_search_result(search_result.id, user.id) ==
+               {:ok, search_result}
+    end
+
+    test "returns {:error, :not_found} given search result does NOT belong to user" do
+      user = insert(:user)
+      search_result = insert(:search_result)
+
+      assert SearchResults.get_user_search_result(search_result.id, user.id) ==
+               {:error, :not_found}
+    end
+
+    test "returns {:error, :not_found} given an invalid ID" do
+      user = insert(:user)
+
+      assert SearchResults.get_user_search_result(0, user.id) == {:error, :not_found}
+    end
+  end
+
+  describe "get_search_results_from_report/2" do
+    test "returns {:ok, search_result} given a valid ID" do
+      report = insert(:report)
+      search_result = insert(:search_result)
+
+      _report_search_result =
+        insert(:report_search_result, report: report, search_result: search_result)
+
+      _invalid_report_result = insert(:report_search_result)
+
+      assert SearchResults.get_search_results_from_report(report.id) == {:ok, [search_result]}
+    end
+
+    test "returns {:error, :not_found} given an invalid ID" do
+      assert SearchResults.get_search_results_from_report(0) == {:error, :not_found}
+    end
+  end
+
   describe "update_search_result/2" do
     test "updates search result given a valid ID and attributes" do
       search_result = insert(:search_result)
