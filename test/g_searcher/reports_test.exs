@@ -114,4 +114,46 @@ defmodule GSearcher.ReportsTest do
       assert Reports.total_report_keywords_count(report.id) == 2
     end
   end
+
+  describe "report_status/1" do
+    test "returns `Searching` if some keywords does NOT have an HTML cache" do
+      report = insert(:report)
+
+      search_result = insert(:search_result, html_cache: nil)
+
+      _report_search_result =
+        insert(:report_search_result, report: report, search_result: search_result)
+
+      assert Reports.report_status(report) == "Searching"
+    end
+
+    test "returns `Completed` if all keywords have an HTML cache" do
+      report = insert(:report)
+
+      search_result = insert(:search_result, html_cache: "<html><body><p>HI</p></body></html>")
+
+      _report_search_result =
+        insert(:report_search_result, report: report, search_result: search_result)
+
+      assert Reports.report_status(report) == "Completed"
+    end
+  end
+
+  describe "total_top_advertisers_count/1" do
+    test "returns number of top advertisers found in a report" do
+      report = insert(:report)
+
+      search_result = insert(:search_result, number_of_top_advertisers: 1)
+
+      _report_search_result =
+        insert(:report_search_result, report: report, search_result: search_result)
+
+      search_result2 = insert(:search_result, number_of_top_advertisers: 2)
+
+      _report_search_result2 =
+        insert(:report_search_result, report: report, search_result: search_result2)
+
+      assert Reports.total_top_advertisers_count(report.id) == 3
+    end
+  end
 end
