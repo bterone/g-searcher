@@ -26,6 +26,10 @@
 
     &--advertiser-url {
       flex-basis: 85%;
+
+      .table__text {
+        @apply max-w-3xl truncate;
+      }
     }
 
     &--cta {
