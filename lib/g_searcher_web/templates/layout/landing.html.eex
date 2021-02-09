@@ -22,7 +22,7 @@
       </div>
 
       <div class="landing__media">
-        <%= img_tag "https://picsum.photos/1080/1440", class: "landing__image" %>
+        <%= img_tag "/images/landing-image.jpg", class: "landing__image" %>
       </div>
   </body>
 </html>
