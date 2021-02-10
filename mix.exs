@@ -40,7 +40,7 @@ defmodule GSearcher.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:wallaby, "~> 0.26.2", [only: :test, runtime: false]},
+      {:wallaby, "~> 0.28.0", [only: :test, runtime: false]},
       {:sobelow, "~> 0.10.4", [only: [:dev, :test], runtime: false]},
       {:mox, "~> 1.0.0", [only: :test]},
       {:mimic, "~> 1.3", only: :test},
@@ -65,7 +65,7 @@ defmodule GSearcher.MixProject do
       {:ueberauth, "~> 0.6.3"},
       {:ueberauth_google, "~> 0.10.0"},
       {:oban, "~> 2.3"},
-      {:httpoison, "~> 1.7"},
+      {:httpoison, "~> 1.8"},
       {:floki, "~> 0.29.0"},
       {:exvcr, "~> 0.12.2"}
     ]

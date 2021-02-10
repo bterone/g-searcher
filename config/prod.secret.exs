@@ -12,9 +12,10 @@ database_url =
     """
 
 config :g_searcher, GSearcher.Repo,
-  # ssl: true,
+  ssl: true,
   url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  password: System.get_env("DB_PASSWORD")
 
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
