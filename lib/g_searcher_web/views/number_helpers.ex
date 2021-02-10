@@ -9,15 +9,17 @@ defmodule GSearcherWeb.NumberHelpers do
   def number_to_human(number) do
     number
     |> Number.Human.number_to_human(precision: 2)
-    |> remove_insignificant_numbers_from_string()
+    |> remove_insignificant_zeroes_from_string()
   end
 
-  defp remove_insignificant_numbers_from_string(humanized_number) do
-    Regex.replace(~r/(\.)(\d*[1-9])?0+\b/, humanized_number, "\\1\\2")
-    |> remove_decimal_point_if_no_decimals()
-  end
-
-  defp remove_decimal_point_if_no_decimals(string) do
-    Regex.replace(~r/(\.)( )/, string, "\\2")
+  defp remove_insignificant_zeroes_from_string(humanized_number) do
+    # Splits at `.00` or insigificant zero in humanized number
+    # Eg:
+    # "100.00 Million" => ["100", " Million"]
+    # "100.50 Million" => ["100.5", " Million"]
+    case String.split(humanized_number, ~r{(\.00)|(?<=\.[1-9])0}) do
+      [whole_number, string_units] -> whole_number <> string_units
+      [number] -> number
+    end
   end
 end
