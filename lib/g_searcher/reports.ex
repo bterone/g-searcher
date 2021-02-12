@@ -3,7 +3,7 @@ defmodule GSearcher.Reports do
 
   alias Ecto.Multi
   alias GSearcher.{Repo, SearchResults}
-  alias GSearcher.SearchResults.{Report, SearchWorker}
+  alias GSearcher.SearchResults.{Report, ReportSearchResult, SearchWorker}
 
   NimbleCSV.define(CSVParser, separator: "\t", escape: "\"")
 
@@ -19,6 +19,34 @@ defmodule GSearcher.Reports do
     end)
     |> Repo.transaction()
     |> handle_report_transaction_response()
+  end
+
+  def get_by(params) do
+    Report
+    |> Repo.get_by(params)
+    |> case do
+      nil -> {:error, :not_found}
+      report -> {:ok, report}
+    end
+  end
+
+  def list_reports_by_user(user_id) do
+    Report
+    |> where(user_id: ^user_id)
+    |> Repo.all()
+  end
+
+  def total_searched_report_keywords_count(report_id) do
+    ReportSearchResult
+    |> join(:inner, [rsr], sr in assoc(rsr, :search_result))
+    |> where([rsr, sr], rsr.report_id == ^report_id and not is_nil(sr.html_cache))
+    |> Repo.aggregate(:count)
+  end
+
+  def total_report_keywords_count(report_id) do
+    ReportSearchResult
+    |> where(report_id: ^report_id)
+    |> Repo.aggregate(:count)
   end
 
   defp save_keywords_from_file(csv_path, report_id) do

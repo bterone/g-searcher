@@ -3,5 +3,6 @@ defmodule GSearcher.Factory do
 
   use GSearcher.Accounts.UserFactory
   use GSearcher.SearchResults.ReportFactory
+  use GSearcher.SearchResults.ReportSearchResultFactory
   use GSearcher.SearchResults.SearchResultFactory
 end

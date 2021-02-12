@@ -1,4 +1,4 @@
-<%= form_for @report, @action, [multipart: true, as: :report, class: "form"], fn f -> %>
+<%= form_for @create_report, @action, [multipart: true, as: :report, class: "form"], fn f -> %>
   <%= label f, :title, class: "form__label" %>
   <%= text_input f, :title, class: "form__input" %>
   <%= error_tag f, :title %>

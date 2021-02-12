@@ -5,7 +5,8 @@ defmodule GSearcher.SearchResults.ReportTest do
 
   describe "changeset/2" do
     test "returns valid changeset given valid params" do
-      report_params = params_for(:report)
+      user = insert(:user)
+      report_params = params_for(:report, user: user)
 
       changeset = Report.create_changeset(report_params)
 

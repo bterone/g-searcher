@@ -2,7 +2,7 @@ defmodule GSearcherWeb.ReportController do
   use GSearcherWeb, :controller
 
   alias GSearcher.Reports
-  alias GSearcherWeb.DashboardView
+  alias GSearcherWeb.{DashboardController, DashboardView, ErrorHandler}
   alias GSearcherWeb.Validators.{CreateReportParams, ParamValidator}
 
   def create(conn, %{"report" => report_params}) do
@@ -20,12 +20,24 @@ defmodule GSearcherWeb.ReportController do
         |> put_flash(:error, "Something went wrong.")
         |> put_view(DashboardView)
         |> replace_path_info_to_dashboard()
-        |> render("index.html", report: report_changeset)
+        |> DashboardController.index(%{create_report: report_changeset})
 
       {:error, :failed_to_save_keywords} ->
         conn
         |> put_flash(:error, "Failed to save from file.")
         |> redirect(to: Routes.dashboard_path(conn, :index))
+    end
+  end
+
+  def show(conn, %{"id" => report_id}) do
+    user = conn.assigns.current_user
+
+    case Reports.get_by(%{id: report_id, user_id: user.id}) do
+      {:ok, report} ->
+        render(conn, "show.html", report: report)
+
+      {:error, :not_found} ->
+        ErrorHandler.render_error(conn, 404)
     end
   end
 

@@ -52,4 +52,66 @@ defmodule GSearcher.ReportsTest do
       assert Repo.all(SearchResult) == []
     end
   end
+
+  describe "get_by/1" do
+    test "returns {:ok, report} when given valid params" do
+      user = insert(:user)
+      _other_user = insert(:user)
+
+      %{id: report_id} = insert(:report, user: user)
+      _other_report = insert(:report)
+
+      assert {:ok, %{id: report_id}} = Reports.get_by(%{id: report_id, user_id: user.id})
+    end
+
+    test "returns {:error, :not_found} when given invalid params" do
+      assert Reports.get_by(%{id: 0}) == {:error, :not_found}
+    end
+  end
+
+  describe "list_reports_by_user/1" do
+    test "returns a list of reports given a valid user id" do
+      user = insert(:user)
+      other_user = insert(:user)
+
+      %{id: report_id} = insert(:report, user: user)
+      _report = insert(:report, user: other_user)
+
+      assert [%{id: ^report_id}] = Reports.list_reports_by_user(user.id)
+    end
+
+    test "returns an empty list given user has no reports" do
+      user = insert(:user)
+
+      assert Reports.list_reports_by_user(user.id) == []
+    end
+  end
+
+  describe "total_searched_report_keywords_count/1" do
+    test "returns a count of keywords of all searched results" do
+      report = insert(:report)
+
+      search_term = insert(:only_search_term)
+
+      insert(:report_search_result, report: report)
+      insert(:report_search_result, report: report, search_result: search_term)
+      insert(:report_search_result)
+
+      assert Reports.total_searched_report_keywords_count(report.id) == 1
+    end
+  end
+
+  describe "total_report_keywords_count/1" do
+    test "returns a count of all keywords in report" do
+      report = insert(:report)
+
+      search_term = insert(:only_search_term)
+
+      insert(:report_search_result, report: report)
+      insert(:report_search_result, report: report, search_result: search_term)
+      insert(:report_search_result)
+
+      assert Reports.total_report_keywords_count(report.id) == 2
+    end
+  end
 end
