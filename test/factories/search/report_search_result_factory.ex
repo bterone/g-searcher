@@ -5,8 +5,8 @@ defmodule GSearcher.SearchResults.ReportSearchResultFactory do
     quote do
       def report_search_result_factory do
         %ReportSearchResult{
-          report: insert(:report),
-          search_result: insert(:search_result)
+          report: build(:report),
+          search_result: build(:search_result)
         }
       end
     end

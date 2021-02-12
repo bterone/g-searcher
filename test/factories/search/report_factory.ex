@@ -6,7 +6,7 @@ defmodule GSearcher.SearchResults.ReportFactory do
       def report_factory do
         %Report{
           title: Faker.Lorem.word(),
-          user: insert(:user),
+          user: build(:user),
           csv_path: "test/support/fixtures/test.csv"
         }
       end
