@@ -55,6 +55,9 @@ defmodule GSearcherWeb.Router do
     post "/reports", ReportController, :create
 
     get "/report/:id", ReportController, :show
+
+    get "/search-result/:id", SearchResultController, :show
+    get "/search-result/:id/result_snapshot", SearchResultController, :result_snapshot
   end
 
   # Other scopes may use custom stacks.

@@ -2,6 +2,8 @@ defmodule GSearcher.SearchResults.SearchResult do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias GSearcher.SearchResults.{Report, ReportSearchResult}
+
   schema "search_results" do
     field :search_term, :string
     field :total_number_of_results, :integer
@@ -16,6 +18,9 @@ defmodule GSearcher.SearchResults.SearchResult do
     # All advertisers
     field :number_of_regular_advertisers, :integer
     field :regular_advertiser_urls, {:array, :string}
+
+    has_many :report_search_result, ReportSearchResult
+    many_to_many :reports, Report, join_through: "reports_search_results"
 
     timestamps()
   end

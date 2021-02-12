@@ -4,17 +4,23 @@
 @import "tailwindcss/utilities";
 
 @import "base/buttons";
+@import "base/card";
 @import "base/forms";
 @import "base/tables";
 
 @import "components/alert";
+@import "components/card-report-detail";
 @import "components/lead-content";
 @import "components/table-report";
+@import "components/table-search-result-url";
+@import "components/table-search-result";
 
 @import "layouts/app";
 @import "layouts/landing";
 
 @import "screens/dashboard";
+@import "screens/report";
+@import "screens/search-result";
 
 iframe[hidden] {
   display: none;

@@ -92,6 +92,11 @@ defmodule GSearcherWeb.ReportControllerTest do
       user = insert(:user)
       report = insert(:report, user: user)
 
+      search_result = insert(:search_result)
+
+      _report_search_result =
+        insert(:report_search_result, search_result: search_result, report: report)
+
       conn =
         conn
         |> sign_in(user)

@@ -10,7 +10,7 @@
   }
 
   &__logo {
-    @apply w-1/5 lg:text-center;
+    @apply ml-16 w-36;
   }
 
   &__logo-text {
@@ -18,7 +18,7 @@
   }
 
   &__navigation-pane {
-    @apply block w-2/5 text-right;
+    @apply mr-16 block w-2/5 text-right;
   }
 
   &__navigation-link {

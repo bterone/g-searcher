@@ -1,0 +1,22 @@
+// TODO: Scope this to `body.search-result`, right now body class is `search-result-<id>`
+.search-result-summary {
+  &__container {
+    @apply py-8 px-4;
+  }
+
+  &__row {
+    @apply flex flex-wrap -mx-4;
+  }
+}
+
+.search-result-url {
+  @apply w-3/4 mt-6 mx-auto;
+
+  &__header {
+    @apply text-base font-semibold text-gray-600;
+  }
+}
+
+.search-result-actions {
+  @apply flex px-4 justify-end;
+}
