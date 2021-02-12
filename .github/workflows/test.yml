@@ -1,5 +1,10 @@
 name: "Tests"
-on: pull_request
+on: 
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
 
 env:
   OTP_VERSION: "23.0.2"
@@ -30,6 +35,7 @@ jobs:
         with:
           otp-version: ${{ env.OTP_VERSION }}
           elixir-version: ${{ env.ELIXIR_VERSION }}
+          experimental-otp: true
 
       - name: Cache Elixir build
         uses: actions/cache@v2

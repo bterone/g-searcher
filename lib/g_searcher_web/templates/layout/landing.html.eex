@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>GSearcher</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body class="landing">
+      <div class="landing__lead-content">
+        <div class="landing__header">
+          <a class="landing__logo" href="/">G Searcher</a>
+        </div>
+
+        <main role="main" class="landing__content">
+          <%= render GSearcherWeb.SharedView, "_flash.html", conn: @conn %>
+
+          <%= @inner_content %>
+        </main>
+      </div>
+
+      <div class="landing__media">
+        <%= img_tag "/images/landing-image.jpg", class: "landing__image" %>
+      </div>
+  </body>
+</html>

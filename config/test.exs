@@ -19,12 +19,14 @@ config :g_searcher, GSearcherWeb.Endpoint,
   server: true
 
 config :g_searcher, :sql_sandbox, true
+config :g_searcher, Oban, crontab: false, queues: false, plugins: false
 
 config :wallaby,
   otp_app: :g_searcher,
   chromedriver: [headless: System.get_env("CHROME_HEADLESS", "true") === "true"],
   screenshot_dir: "tmp/wallaby_screenshots",
-  screenshot_on_failure: true
+  screenshot_on_failure: true,
+  hackney_options: [timeout: 50_000, recv_timeout: 50_000]
 
 # Print only warnings and errors during test
 config :logger, level: :warn

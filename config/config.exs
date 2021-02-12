@@ -18,6 +18,19 @@ config :g_searcher, GSearcherWeb.Endpoint,
   pubsub_server: GSearcher.PubSub,
   live_view: [signing_salt: "WiEvKDKO"]
 
+config :g_searcher, Oban,
+  repo: GSearcher.Repo,
+  plugins: [Oban.Plugins.Pruner],
+  queues: [
+    default: 5,
+    events: [limit: 5, dispatch_cooldown: :timer.seconds(2)]
+  ]
+
+config :ueberauth, Ueberauth,
+  providers: [
+    google: {Ueberauth.Strategy.Google, []}
+  ]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

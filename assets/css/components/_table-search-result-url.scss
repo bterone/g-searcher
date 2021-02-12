@@ -1,0 +1,42 @@
+.table-search-result-url {
+  $self: table;
+
+  @apply mx-0 min-w-full;
+
+  .#{ $self }__column,
+  .#{ $self }__item {
+    &--index {
+      flex-basis: 5%;
+    }
+
+    &--advertiser-url {
+      flex-basis: 85%;
+    }
+
+    &--cta {
+      flex-basis: 10%;
+    }
+  }
+
+  .#{ $self }__column {
+    &--cta {
+      @apply invisible;
+    }
+  }
+
+  .#{ $self }__item {
+    &--advertiser-url {
+      .table__text {
+        @apply max-w-3xl truncate;
+      }
+    }
+  }
+
+  .#{ $self }__title {
+    @apply pr-8 text-sm text-indigo-600 font-semibold;
+  }
+
+  .#{ $self }__body .#{ $self }__row {
+    @apply border-b;
+  }
+}

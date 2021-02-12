@@ -12,9 +12,10 @@ database_url =
     """
 
 config :g_searcher, GSearcher.Repo,
-  # ssl: true,
+  ssl: true,
   url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  password: System.get_env("DB_PASSWORD")
 
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
@@ -29,6 +30,10 @@ config :g_searcher, GSearcherWeb.Endpoint,
     transport_options: [socket_opts: [:inet6]]
   ],
   secret_key_base: secret_key_base
+
+config :ueberauth, Ueberauth.Strategy.Google.OAuth,
+  client_id: System.get_env("GOOGLE_CLIENT_ID"),
+  client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
 
 # ## Using releases (Elixir v1.9+)
 #

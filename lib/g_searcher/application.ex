@@ -14,9 +14,10 @@ defmodule GSearcher.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: GSearcher.PubSub},
       # Start the Endpoint (http/https)
-      GSearcherWeb.Endpoint
+      GSearcherWeb.Endpoint,
       # Start a worker by calling: GSearcher.Worker.start_link(arg)
       # {GSearcher.Worker, arg}
+      {Oban, oban_config()}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -30,5 +31,9 @@ defmodule GSearcher.Application do
   def config_change(changed, _new, removed) do
     GSearcherWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp oban_config do
+    Application.get_env(:g_searcher, Oban)
   end
 end

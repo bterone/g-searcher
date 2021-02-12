@@ -1,0 +1,35 @@
+.app {
+  @apply antialiased font-sans;
+}
+
+.app-header {
+  @apply container mx-auto px-4;
+
+  &__navigation {
+    @apply flex flex-wrap items-center justify-between p-4;
+  }
+
+  &__logo {
+    @apply ml-16 w-36;
+  }
+
+  &__logo-text {
+    @apply text-xl text-indigo-600 font-semibold;
+  }
+
+  &__navigation-pane {
+    @apply mr-16 block w-2/5 text-right;
+  }
+
+  &__navigation-link {
+    @apply inline-block text-blue-900 hover:text-indigo-600;
+  }
+
+  &__navigation-link + &__navigation-link {
+    @apply ml-10;
+  }
+}
+
+.app-content {
+  @apply container mx-auto px-8;
+}

@@ -7,11 +7,20 @@ defmodule GSearcherWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug GSearcherWeb.Plugs.SetCurrentUser
   end
 
   # coveralls-ignore-start
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :authentication do
+    plug GSearcherWeb.Plugs.EnsureAuth
+  end
+
+  pipeline :mock_oauth do
+    plug GSearcherWeb.Plugs.Tests.MockOauth
   end
 
   # coveralls-ignore-stop
@@ -20,6 +29,35 @@ defmodule GSearcherWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+  end
+
+  scope "/auth", GSearcherWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthenticationController, :request
+    get "/:provider/callback", AuthenticationController, :callback
+    delete "/sign-out", AuthenticationController, :sign_out
+  end
+
+  scope "/test_auth", GSearcherWeb do
+    if Mix.env() == :test do
+      pipe_through [:browser, :mock_oauth]
+
+      get "/:provider/callback", AuthenticationController, :callback
+    end
+  end
+
+  scope "/", GSearcherWeb do
+    pipe_through [:browser, :authentication]
+
+    get "/dashboard", DashboardController, :index
+
+    post "/reports", ReportController, :create
+
+    get "/report/:id", ReportController, :show
+
+    get "/search-result/:id", SearchResultController, :show
+    get "/search-result/:id/result_snapshot", SearchResultController, :result_snapshot
   end
 
   # Other scopes may use custom stacks.
@@ -40,7 +78,7 @@ defmodule GSearcherWeb.Router do
     scope "/" do
       pipe_through :browser
       # coveralls-ignore-start
-      live_dashboard "/dashboard", metrics: GSearcherWeb.Telemetry
+      live_dashboard "/telemtry", metrics: GSearcherWeb.Telemetry
       # coveralls-ignore-stop
     end
   end

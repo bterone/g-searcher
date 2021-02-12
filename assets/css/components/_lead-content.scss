@@ -1,0 +1,28 @@
+.lead-content {
+  @apply py-12 text-center w-full max-w-2xl mx-auto;
+
+  &__title {
+    @apply text-5xl leading-tight font-semibold;
+  }
+
+  &__tagline {
+    @apply mt-6 mb-8 text-gray-400 leading-relaxed;
+  }
+
+  &__sign-in {
+    @apply block mx-auto relative right-2;
+
+    width: 191px;
+    height: 46px;
+
+    background-image: url("/images/btn_google_signin_normal.png");
+
+    &:hover {
+      background-image: url("/images/btn_google_signin_focus.png");
+    }
+
+    &:active {
+      background-image: url("/images/btn_google_signin_pressed.png");
+    }
+  }
+}

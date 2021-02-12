@@ -1,0 +1,56 @@
+<section class="report-summary">
+  <div class="report-summary__container">
+    <div class="report-summary__row">
+      <div class="card card-report-detail">
+        <div class="card__container card__container--lead">
+          <div class="card__header">
+            <h5 class="card__title">Title</h5>
+          </div>
+          <div class="card__body">
+            <h2 class="card__content"><%= @report.title %></h1>
+          </div>
+        </div>
+      </div>
+      <div class="card card-report-detail">
+        <div class="card__container">
+          <div class="card__header">
+            <h5 class="card__title">Total keywords</h5>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter"><%= @total_keyword_count %></h1>
+            <span class="card__description">keywords</span>
+          </div>
+        </div>
+      </div>
+      <div class="card card-report-detail">
+        <div class="card__container">
+          <div class="card__header">
+            <h5 class="card__title">Searched keywords</h5>
+            <span class="card__tag card__tag--<%= modifer_class(@status) %>">
+              <%= @status %>
+            </span>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter"><%= @total_searched_keyword_count %></h1>
+            <span class="card__description">keywords</span>
+          </div>
+        </div>
+      </div>
+      <div class="card card-report-detail">
+        <div class="card__container">
+          <div class="card__header">
+            <h5 class="card__title">Total Top Advertisers</h5>
+          </div>
+          <div class="card__body">
+            <h1 class="card__counter"><%= formatted_count(@total_top_advertisers_count) %></h1>
+            <span class="card__description">advertisers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="report-search-results">
+  <%= render "_search-result-table.html", search_results: @search_results, conn: @conn %>
+</section>

@@ -1,0 +1,1 @@
+<%= Phoenix.HTML.raw(@search_result_html) %>
