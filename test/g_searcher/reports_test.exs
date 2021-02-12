@@ -61,7 +61,18 @@ defmodule GSearcher.ReportsTest do
       %{id: report_id} = insert(:report, user: user)
       _other_report = insert(:report)
 
-      assert {:ok, %{id: report_id}} = Reports.get_by(%{id: report_id, user_id: user.id})
+      assert {:ok, %{id: ^report_id}} = Reports.get_by(%{id: report_id, user_id: user.id})
+    end
+
+    test "returns {:ok, report} with search result preloaded" do
+      %{id: report_id} = report = insert(:report)
+      %{id: search_result_id} = search_result = insert(:search_result)
+
+      _report_search_result =
+        insert(:report_search_result, report: report, search_result: search_result)
+
+      assert {:ok, %{id: ^report_id, search_results: [%{id: ^search_result_id}]}} =
+               Reports.get_by(%{id: report_id})
     end
 
     test "returns {:error, :not_found} when given invalid params" do

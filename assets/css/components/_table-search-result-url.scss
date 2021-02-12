@@ -3,22 +3,7 @@
 
   @apply mx-0 min-w-full;
 
-  .#{ $self }__column {
-    &--index {
-      flex-basis: 5%;
-    }
-
-    &--advertiser-url {
-      flex-basis: 85%;
-    }
-
-    &--cta {
-      @apply invisible;
-
-      flex-basis: 10%;
-    }
-  }
-
+  .#{ $self }__column,
   .#{ $self }__item {
     &--index {
       flex-basis: 5%;
@@ -26,14 +11,24 @@
 
     &--advertiser-url {
       flex-basis: 85%;
-
-      .table__text {
-        @apply max-w-3xl truncate;
-      }
     }
 
     &--cta {
       flex-basis: 10%;
+    }
+  }
+
+  .#{ $self }__column {
+    &--cta {
+      @apply invisible;
+    }
+  }
+
+  .#{ $self }__item {
+    &--advertiser-url {
+      .table__text {
+        @apply max-w-3xl truncate;
+      }
     }
   }
 

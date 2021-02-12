@@ -26,6 +26,7 @@ defmodule GSearcher.Reports do
 
   def get_by(params) do
     Report
+    |> preload(:search_results)
     |> Repo.get_by(params)
     |> case do
       nil -> {:error, :not_found}

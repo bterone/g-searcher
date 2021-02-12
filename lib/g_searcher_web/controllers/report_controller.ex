@@ -1,7 +1,7 @@
 defmodule GSearcherWeb.ReportController do
   use GSearcherWeb, :controller
 
-  alias GSearcher.{Reports, SearchResults}
+  alias GSearcher.Reports
   alias GSearcherWeb.{DashboardController, DashboardView, ErrorHandler}
   alias GSearcherWeb.Validators.{CreateReportParams, ParamValidator}
 
@@ -32,22 +32,10 @@ defmodule GSearcherWeb.ReportController do
   def show(conn, %{"id" => report_id}) do
     user = conn.assigns.current_user
 
-    with {:ok, report} <- Reports.get_by(%{id: report_id, user_id: user.id}),
-         {:ok, search_results} <- SearchResults.get_search_results_from_report(report_id),
-         search_results_with_index <- Enum.with_index(search_results, 1),
-         total_keyword_count <- Reports.total_report_keywords_count(report_id),
-         total_searched_keyword_count <- Reports.total_searched_report_keywords_count(report_id),
-         total_top_advertisers_count <- Reports.total_top_advertisers_count(report_id),
-         report_status <- Reports.report_status(report) do
-      render(conn, "show.html",
-        report: report,
-        search_results: search_results_with_index,
-        total_keyword_count: total_keyword_count,
-        total_searched_keyword_count: total_searched_keyword_count,
-        total_top_advertisers_count: total_top_advertisers_count,
-        status: report_status
-      )
-    else
+    case Reports.get_by(%{id: report_id, user_id: user.id}) do
+      {:ok, report} ->
+        render(conn, "show.html", build_report_attributes(report))
+
       {:error, :not_found} ->
         ErrorHandler.render_error(conn, 404)
     end
@@ -55,5 +43,16 @@ defmodule GSearcherWeb.ReportController do
 
   defp replace_path_info_to_dashboard(conn) do
     %{conn | path_info: "dashboard"}
+  end
+
+  defp build_report_attributes(report) do
+    [
+      report: report,
+      search_results: Enum.with_index(report.search_results, 1),
+      total_keyword_count: Reports.total_report_keywords_count(report.id),
+      total_searched_keyword_count: Reports.total_searched_report_keywords_count(report.id),
+      total_top_advertisers_count: Reports.total_top_advertisers_count(report.id),
+      status: Reports.report_status(report)
+    ]
   end
 end

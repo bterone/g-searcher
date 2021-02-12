@@ -4,7 +4,7 @@ defmodule GSearcherWeb.ReportView do
   @completed "Completed"
   @searching "Searching"
 
-  def status(%{html_cache: html}) when is_binary(html),
+  def status(%{html_cache: html}) when not is_nil(html),
     do: @completed
 
   def status(_), do: @searching

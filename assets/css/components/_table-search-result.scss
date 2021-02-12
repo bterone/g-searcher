@@ -3,42 +3,7 @@
 
   @apply mx-0 min-w-full;
 
-  .#{ $self }__column {
-    &--index {
-      flex-basis: 4%;
-    }
-
-    &--keyword {
-      flex-basis: 20%;
-    }
-
-    &--status {
-      flex-basis: 13%;
-    }
-
-    &--top-advertiser-count {
-      flex-basis: 12%;
-    }
-
-    &--other-advertiser-count {
-      flex-basis: 12%;
-    }
-
-    &--page-results {
-      flex-basis: 12%;
-    }
-
-    &--total-page-results {
-      flex-basis: 14%;
-    }
-
-    &--cta {
-      @apply invisible;
-
-      flex-basis: 13%;
-    }
-  }
-
+  .#{ $self }__column,
   .#{ $self }__item {
     &--index {
       flex-basis: 4%;
@@ -69,9 +34,19 @@
     }
 
     &--cta {
-      @apply justify-end;
-
       flex-basis: 13%;
+    }
+  }
+
+  .#{ $self }__column {
+    &--cta {
+      @apply invisible;
+    }
+  }
+
+  .#{ $self }__item {
+    &--cta {
+      @apply justify-end;
 
       .button__secondary {
         @apply ml-2;

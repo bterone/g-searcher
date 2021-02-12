@@ -2,7 +2,7 @@ defmodule GSearcherWeb.SearchResultControllerTest do
   use GSearcherWeb.ConnCase
 
   describe "show/2" do
-    test "renders search result given user is logged in and belongs to user", %{conn: conn} do
+    test "renders search result given search result belongs to user", %{conn: conn} do
       user = insert(:user)
       report = insert(:report, user: user)
 
