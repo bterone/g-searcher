@@ -1,0 +1,23 @@
+.table {
+  @apply px-8 pt-3 mx-auto;
+
+  &__title {
+    @apply text-lg text-indigo-600 font-semibold;
+  }
+
+  &__row {
+    @apply flex text-left;
+  }
+
+  &__item {
+    @apply flex py-2;
+
+    .button__secondary {
+      @apply py-2 px-4;
+    }
+  }
+
+  &__text {
+    @apply self-center;
+  }
+}

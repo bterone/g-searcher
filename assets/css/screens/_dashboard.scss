@@ -1,5 +1,9 @@
 body.dashboard {
   .report-upload {
     @apply mx-auto max-w-lg mb-6;
-  }  
+  }
+
+  .report-index {
+    @apply mt-20;
+  }
 }

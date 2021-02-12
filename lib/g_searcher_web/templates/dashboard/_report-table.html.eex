@@ -1,19 +1,43 @@
-<table class="table-report">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Title</th>
-      <th>Status</th>
-      <th></th>
+<table class="table table-report">
+  <thead class="table__header">
+    <tr class="table__row">
+      <th class="table__column table__column--id">
+        <h2 class="table__title">ID</h2>
+      </th>
+      <th class="table__column table__column--report-title">
+        <h2 class="table__title">Report Title</h2>
+      </th>
+      <th class="table__column table__column--status">
+        <h2 class="table__title">Status</h2>
+      </th>
+      <th class="table__column table__column--created-at">
+        <h2 class="table__title">Created At</h2>
+      </th>
+      <th class="table__column table__column--cta">
+        <h2 class="table__title">Action</h2>
+      </th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="table__body">
     <%= for report <- @reports do %>
-      <tr>
-        <td><%= report.id %></td>
-        <td><%= report.title %></td>
-        <td><%= report_status(report) %></td>
-        <td><%= link "Show", to: Routes.report_path(@conn, :show, report.id) %></td>
+      <tr class="table__row">
+        <td class="table__item table__item--id">
+          <p class="table__text"><%= report.id %></p>
+        </td>
+        <td class="table__item table__item--report-title">
+          <p class="table__text"><%= report.title %></p>
+        </td>
+        <td class="table__item table__item--status">
+          <p class="table__text"><%= report_status(report) %></p>
+        </td>
+        <td class="table__item table__item--created-at">
+          <p class="table__text"><%= report.inserted_at %></p>
+        </td>
+        <td class="table__item table__item--cta">
+          <%= link to: Routes.report_path(@conn, :show, report.id), class: "button__secondary" do %>
+            <span class="button__span-text">Show</span>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

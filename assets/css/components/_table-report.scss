@@ -1,0 +1,51 @@
+.table-report {
+  $self: table;
+
+  min-width: 80%;
+
+  .#{ $self }__column {
+    &--id {
+      flex-basis: 10%;
+    }
+
+    &--report-title {
+      @apply flex-grow;
+    }
+
+    &--status {
+      flex-basis: 15%;
+    }
+
+    &--created-at {
+      flex-basis: 25%
+    }
+
+    &--cta {
+      @apply invisible;
+
+      flex-basis: 10%;
+    }
+  }
+
+  .#{ $self }__item {
+    &--id {
+      flex-basis: 10%;
+    }
+
+    &--report-title {
+      @apply flex-grow;
+    }
+
+    &--status {
+      flex-basis: 15%;
+    }
+
+    &--created-at {
+      flex-basis: 25%
+    }
+
+    &--cta {
+      flex-basis: 10%;
+    }
+  }
+}
