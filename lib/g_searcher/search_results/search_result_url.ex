@@ -1,4 +1,4 @@
-defmodule GSearcher.SearchResults.SearchResultUrl do
+defmodule GSearcher.SearchResults.SearchResultURL do
   use Ecto.Schema
   import Ecto.Changeset
 

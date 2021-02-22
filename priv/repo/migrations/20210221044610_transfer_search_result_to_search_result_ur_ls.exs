@@ -5,7 +5,7 @@ defmodule GSearcher.Repo.Migrations.TransferSearchResultToSearchResultURLs do
 
   alias Ecto.Changeset
   alias GSearcher.Repo
-  alias GSearcher.SearchResults.{SearchResult, SearchResultUrl}
+  alias GSearcher.SearchResults.{SearchResult, SearchResultURL}
 
   def up do
     transfer_to_search_result_urls()
@@ -16,19 +16,19 @@ defmodule GSearcher.Repo.Migrations.TransferSearchResultToSearchResultURLs do
 
   defp transfer_to_search_result_urls do
     Enum.each(all_top_advertiser_urls(), fn %{id: id, url: search_result_url} ->
-      %SearchResultUrl{}
+      %SearchResultURL{}
       |> Changeset.change(%{search_result_id: id, url: search_result_url, is_top_ad: true})
       |> Repo.insert()
     end)
 
     Enum.each(all_regular_advertiser_urls(), fn %{id: id, url: search_result_url} ->
-      %SearchResultUrl{}
+      %SearchResultURL{}
       |> Changeset.change(%{search_result_id: id, url: search_result_url, is_regular_ad: true})
       |> Repo.insert()
     end)
 
     Enum.each(all_search_result_urls(), fn %{id: id, url: search_result_url} ->
-      %SearchResultUrl{}
+      %SearchResultURL{}
       |> Changeset.change(%{search_result_id: id, url: search_result_url})
       |> Repo.insert()
     end)
