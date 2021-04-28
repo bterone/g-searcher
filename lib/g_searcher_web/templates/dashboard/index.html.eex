@@ -1,7 +1,4 @@
-<section class="report-upload">
-  <%= render "_form.html", Map.put(assigns, :action, Routes.report_path(@conn, :create)) %>
-</section>
-
-<section class="report-index">
+<section class="reports-index">
+  <%= render "_upload-report.html", Map.put(assigns, :action, Routes.report_path(@conn, :create)) %>
   <%= render "_report-table.html", reports: @reports, conn: @conn %>
 </section>

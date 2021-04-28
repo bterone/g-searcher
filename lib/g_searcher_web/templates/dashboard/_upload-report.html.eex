@@ -1,0 +1,16 @@
+<button type="button" class="button__primary button__primary--sm form-report__button">
+  Upload
+</button>
+<%= form_for @create_report, @action, [multipart: true, as: :report, class: "form-report"], fn f -> %>
+  <%= label f, :title, class: "form-report__label" %>
+  <%= text_input f, :title, class: "form-report__input" %>
+  <%= error_tag f, :title %>
+
+  <%= label f, :csv, class: "form-report__label form-report__label--uppercase" %>
+  <%= file_input f, :csv %>
+  <%= error_tag f, :csv %>
+
+  <div class="form-report__action">
+    <%= submit "Create", class: "button button__primary" %>
+  </div>
+<% end %>
