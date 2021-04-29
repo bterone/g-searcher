@@ -1,5 +1,5 @@
 <div class="upload-report">
-  <button type="button" class="button__primary button__primary--sm form-report__button" id="uploadReport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <button type="button" class="button__primary button__primary--md form-report__button" id="uploadReport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Upload
   </button>
   <%= form_for @create_report, @action, [multipart: true, as: :report, class: "form-report dropdown-menu", aria_labelled_by: "uploadReport"], fn f -> %>
