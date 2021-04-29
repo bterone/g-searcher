@@ -1,9 +1,9 @@
-import Dropdown from '../../components/Dropdown'
+import Dropdown from '../../components/Dropdown';
 
 const SELECTOR = {
   screen: 'body.dashboard',
-  uploadReportButton: '#uploadReport',
-}
+  uploadReportButton: '#uploadReport'
+};
 
 class DashboardScreen {
   /**
@@ -18,13 +18,13 @@ class DashboardScreen {
   /**
    * Component bootstrapping actions.
    */
-   _setup() {
-    this.uploadDropdown = new Dropdown(this.uploadReportButton)
-   }
+  _setup() {
+    this.uploadDropdown = new Dropdown(this.uploadReportButton);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const isDashboardScreen = document.querySelector(SELECTOR.screen) !== null
+  const isDashboardScreen = document.querySelector(SELECTOR.screen) !== null;
 
   if (isDashboardScreen) {
     new DashboardScreen();

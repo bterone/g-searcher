@@ -40,8 +40,8 @@ module.exports = (env, options) => {
             MiniCssExtractPlugin.loader,
             'css-loader',
             'postcss-loader',
-            'sass-loader',
-          ],
+            'sass-loader'
+          ]
         }
       ]
     },
@@ -50,5 +50,5 @@ module.exports = (env, options) => {
       new CopyWebpackPlugin([{ from: 'static/', to: '../' }])
     ]
       .concat(devMode ? [new HardSourceWebpackPlugin()] : [])
-  }
+  };
 };

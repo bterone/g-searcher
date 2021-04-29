@@ -1,4 +1,4 @@
-import { Dropdown as BootstrapDropdown } from '../../vendor/bootstrap'
+import { Dropdown as BootstrapDropdown } from '../../vendor/bootstrap';
 
 class Dropdown {
   /**
@@ -15,7 +15,7 @@ class Dropdown {
   /**
    * Component bootstrapping actions.
    */
-   _setup() {
+  _setup() {
     this.dropdown = new BootstrapDropdown(this.elementRef);
   }
 }
