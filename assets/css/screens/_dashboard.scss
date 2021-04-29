@@ -5,5 +5,9 @@ body.dashboard {
 
   .reports-index {
     @apply mt-20;
+
+    &__header {
+      @apply flex justify-end pr-16;
+    }
   }
 }

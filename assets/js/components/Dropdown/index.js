@@ -16,7 +16,7 @@ class Dropdown {
    * Component bootstrapping actions.
    */
   _setup() {
-    this.dropdown = new BootstrapDropdown(this.elementRef);
+    this.dropdown = new BootstrapDropdown(this.elementRef, true);
   }
 }
 
