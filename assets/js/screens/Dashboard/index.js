@@ -2,7 +2,7 @@ import Dropdown from '../../components/Dropdown';
 
 const SELECTOR = {
   screen: 'body.dashboard',
-  uploadReportButton: '#uploadReport'
+  uploadReportButton: '.upload-report .form-report__button'
 };
 
 class DashboardScreen {
