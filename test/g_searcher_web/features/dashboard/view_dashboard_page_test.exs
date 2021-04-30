@@ -6,7 +6,7 @@ defmodule GSearcherWeb.HomePage.ViewDashboardPageTest do
     form_report_csv: "input#report_csv",
     form_report_submit: ".form-report__action button",
     report_upload: ".upload-report",
-    report_list: ".reports-index",
+    report_list: ".report-list",
     report_titles: ".table__item--report-title p",
     success_notification: ".alert--info",
     upload_report_button: ".form-report__button"
