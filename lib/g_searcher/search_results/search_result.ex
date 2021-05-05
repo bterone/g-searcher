@@ -37,9 +37,6 @@ defmodule GSearcher.SearchResults.SearchResult do
       :number_of_top_advertisers,
       :number_of_regular_advertisers,
       :total_number_of_results,
-      :top_advertiser_urls,
-      :regular_advertiser_urls,
-      :search_result_urls,
       :html_cache
     ])
     |> validate_required([

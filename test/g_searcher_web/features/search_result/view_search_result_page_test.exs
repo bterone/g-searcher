@@ -29,7 +29,8 @@ defmodule GSearcherWeb.HomePage.ViewSearchResultPageTest do
     user = insert(:user)
 
     report = insert(:report, user: user)
-    search_result = insert(:search_result, top_advertiser_urls: ["www.website.com"])
+    search_result_url = build(:search_result_url, url: "www.website.com", is_top_ad: true)
+    search_result = insert(:search_result, search_result_urls: [search_result_url])
 
     _report_search_result =
       insert(:report_search_result, report: report, search_result: search_result)

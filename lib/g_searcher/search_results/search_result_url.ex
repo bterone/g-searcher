@@ -1,6 +1,5 @@
 defmodule GSearcher.SearchResults.SearchResultURL do
   use Ecto.Schema
-  import Ecto.Changeset
 
   alias GSearcher.SearchResults.SearchResult
 
