@@ -20,6 +20,7 @@ defmodule GSearcher.SearchResults.SearchResultURL do
     search_result_url
     |> cast(attrs, [:title, :url, :is_top_ad, :is_regular_ad, :search_result_id])
     |> validate_required([:title, :url, :search_result_id])
+    |> assoc_constraint(:search_result)
     |> validate_top_or_regular_ad()
   end
 
@@ -28,7 +29,7 @@ defmodule GSearcher.SearchResults.SearchResultURL do
 
     validate_change(changeset, :is_regular_ad, fn _, is_regular_ad ->
       if is_regular_ad && is_top_ad do
-        [is_regular_ad: "cannot be both top and regular ad"]
+        [is_regular_ad: "can't be both top and regular ad"]
       else
         []
       end

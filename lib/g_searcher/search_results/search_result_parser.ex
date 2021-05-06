@@ -118,5 +118,5 @@ defmodule GSearcher.SearchResults.SearchResultParser do
   end
 
   defp google_url?(@google_url <> _), do: true
-  defp google_url?(_), do: false
+  defp google_url?(url) when is_binary(url), do: false
 end
