@@ -26,7 +26,8 @@ defmodule GSearcher.SearchResults.SearchWorker do
         {:error, "Failed to parse HTML with reason: #{inspect(reason)}"}
 
       {:error, step, changeset, _} ->
-        {:error, "Failed to save search_result at step: #{inspect(step)}, changeset: #{inspect(changeset)}"}
+        {:error,
+         "Failed to save search_result at step: #{inspect(step)}, changeset: #{inspect(changeset)}"}
     end
   end
 

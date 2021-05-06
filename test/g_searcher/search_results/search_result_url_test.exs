@@ -19,21 +19,28 @@ defmodule GSearcher.SearchResults.SearchResultURLTest do
       changeset = SearchResultURL.create_changeset(params)
 
       assert errors_on(changeset) == %{
-        title: ["can't be blank"],
-        url: ["can't be blank"],
-        search_result_id: ["can't be blank"]
-      }
+               title: ["can't be blank"],
+               url: ["can't be blank"],
+               search_result_id: ["can't be blank"]
+             }
     end
 
     test "returns invalid changeset if url is both top and regular ad" do
       %{id: search_result_id} = insert(:search_result)
-      params = %{title: "Test", url: "test.com", search_result_id: search_result_id, is_top_ad: true, is_regular_ad: true}
+
+      params = %{
+        title: "Test",
+        url: "test.com",
+        search_result_id: search_result_id,
+        is_top_ad: true,
+        is_regular_ad: true
+      }
 
       changeset = SearchResultURL.create_changeset(params)
 
       assert errors_on(changeset) == %{
-        is_regular_ad: ["can't be both top and regular ad"]
-      }
+               is_regular_ad: ["can't be both top and regular ad"]
+             }
     end
   end
 end
