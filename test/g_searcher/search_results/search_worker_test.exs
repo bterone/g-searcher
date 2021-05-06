@@ -3,7 +3,7 @@ defmodule GSearcher.SearchResults.SearchWorkerTest do
   use Oban.Testing, repo: GSearcher.Repo
 
   alias GSearcher.{Repo, SearchResults}
-  alias GSearcher.SearchResults.{SearchResult, SearchWorker}
+  alias GSearcher.SearchResults.{SearchResult, SearchResultURL, SearchWorker}
 
   describe "perform/1" do
     test "updates search_result after successfully searching keyword" do
@@ -13,11 +13,13 @@ defmodule GSearcher.SearchResults.SearchWorkerTest do
         SearchWorker.new(%{id: search_result.id, keyword: search_result.search_term})
         |> Oban.insert()
 
-        assert %{success: 1, failure: 0} == Oban.drain_queue(queue: :events)
+        assert %{success: 1, failure: 0} == Oban.drain_queue(queue: :events, with_safety: false)
 
         [search_result_in_db] = Repo.all(SearchResult)
         assert search_result_in_db.id == search_result.id
         assert search_result_in_db.html_cache
+
+        refute Repo.all(SearchResultURL) == []
       end
     end
 

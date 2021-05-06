@@ -1,12 +1,27 @@
 defmodule GSearcher.SearchResults.SearchResultParser do
-  @top_ads "#tads a"
-  @bottom_ads "#bottomads #tadsb a"
-  @search_results "#search .g div div > a"
   @total_count "#result-stats"
+
+  @top_ads %{link: "#tads a", title: "[role=heading]"}
+  @search_results %{link: "#search .g div div > a", title: "h3"}
+  @bottom_ads %{link: "#bottomads #tadsb a", title: "[role=heading]"}
+
   @url_link "href"
 
   @google_url "https://www.google.com/"
 
+  @spec parse(String.t()) ::
+          {:ok,
+           %{
+             top_advertiser_urls: [%{title: String.t(), url: String.t()}],
+             regular_advertiser_urls: [%{title: String.t(), url: String.t()}],
+             search_result_urls: [%{title: String.t(), url: String.t()}],
+             number_of_top_advertisers: integer(),
+             number_of_regular_advertisers: integer(),
+             number_of_results_on_page: integer(),
+             total_number_of_results: integer(),
+             html_cache: String.t()
+           }}
+          | {:error, :failed_to_parse_html, String.t()}
   def parse(all_html) do
     case Floki.parse_document(all_html) do
       {:ok, html_tree} ->
@@ -31,8 +46,7 @@ defmodule GSearcher.SearchResults.SearchResultParser do
   defp fetch_top_advertiser_urls(html_tree) do
     top_advertiser_urls =
       html_tree
-      |> Floki.find(@top_ads)
-      |> Floki.attribute(@url_link)
+      |> build_result_params(@top_ads, %{is_top_ad: true})
       |> ignore_google_urls()
 
     %{
@@ -44,8 +58,7 @@ defmodule GSearcher.SearchResults.SearchResultParser do
   defp fetch_regular_advertiser_urls(html_tree) do
     regular_advertiser_urls =
       html_tree
-      |> Floki.find(@bottom_ads)
-      |> Floki.attribute(@url_link)
+      |> build_result_params(@bottom_ads, %{is_regular_ad: true})
       |> ignore_google_urls()
 
     %{
@@ -57,8 +70,7 @@ defmodule GSearcher.SearchResults.SearchResultParser do
   defp fetch_search_result_urls(html_tree) do
     search_result_urls =
       html_tree
-      |> Floki.find(@search_results)
-      |> Floki.attribute(@url_link)
+      |> build_result_params(@search_results)
       |> Enum.reject(fn url -> url == "#" end)
 
     %{
@@ -86,8 +98,23 @@ defmodule GSearcher.SearchResults.SearchResultParser do
     end
   end
 
+  defp build_result_params(html_tree, selector, optional_params \\ %{}) do
+    html_tree
+    |> Floki.find(selector.link)
+    |> Enum.map(fn {_, _, child_nodes} = items ->
+      [url] = Floki.attribute(items, @url_link)
+
+      title =
+        child_nodes
+        |> Floki.find(selector.title)
+        |> Floki.text()
+
+      Map.merge(%{title: title, url: url}, optional_params)
+    end)
+  end
+
   defp ignore_google_urls(urls) do
-    Enum.reject(urls, &google_url?/1)
+    Enum.reject(urls, fn %{title: _, url: url} -> google_url?(url) end)
   end
 
   defp google_url?(@google_url <> _), do: true

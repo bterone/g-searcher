@@ -2,7 +2,7 @@ defmodule GSearcher.SearchResults do
   import Ecto.Query, warn: false
 
   alias GSearcher.Repo
-  alias GSearcher.SearchResults.{ReportSearchResult, SearchResult}
+  alias GSearcher.SearchResults.{ReportSearchResult, SearchResult, SearchResultURL}
 
   def create_search_result(attrs) do
     %SearchResult{}
@@ -46,6 +46,20 @@ defmodule GSearcher.SearchResults do
     search_result
     |> SearchResult.update_search_result_changeset(params)
     |> Repo.update()
+  end
+
+  def create_search_result_url(%SearchResult{id: id}, result_urls) when is_list(result_urls) do
+    Enum.each(result_urls, fn result_url ->
+      create_search_result_url(Map.merge(result_url, %{search_result_id: id}))
+    end)
+
+    {:ok, :saved_search_results}
+  end
+
+  def create_search_result_url(params) do
+    %SearchResultURL{}
+    |> SearchResultURL.create_changeset(params)
+    |> Repo.insert()
   end
 
   def associate_search_result_to_report(report_id, search_result_id) do
