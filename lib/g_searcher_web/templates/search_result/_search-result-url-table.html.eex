@@ -1,34 +1,37 @@
 <table class="table table-search-result-url">
-    <thead class="table__header">
+  <thead class="table__header">
+    <tr class="table__row">
+      <th class="table__column table__column--index">
+        <h2 class="table__title">No.</h2>
+      </th>
+
+      <th class="table__column table__column--advertiser-url">
+        <h2 class="table__title">URLs</h2>
+      </th>
+
+      <th class="table__column table__column--cta">
+        <h2 class="table__title">Action</h2>
+      </th>
+    </tr>
+  </thead>
+  <tbody class="table__body">
+    <%= for {search_result_url, index} <- Enum.with_index(@urls, 1) do %>
       <tr class="table__row">
-        <th class="table__column table__column--index">
-          <h2 class="table__title">No.</h2>
-        </th>
-
-        <th class="table__column table__column--advertiser-url">
-          <h2 class="table__title">URLs</h2>
-        </th>
-
-        <th class="table__column table__column--cta">
-          <h2 class="table__title">Action</h2>
-        </th>
+        <td class="table__item table__item--index">
+          <p class="table__text"><%= index %></p>
+        </td>
+        <td class="table__item table__item--title">
+          <p class="table__text"><%= search_result_url.title %></p>
+        </td>
+        <td class="table__item table__item--advertiser-url">
+          <p class="table__text"><%= search_result_url.url %></p>
+        </td>
+        <td class="table__item table__item--cta">
+          <%= link to: search_result_url.url, class: "button__secondary button__secondary--sm" do %>
+            <span class="button__span-text">Show</span>
+          <% end %>
+        </td>
       </tr>
-    </thead>
-    <tbody class="table__body">
-      <%= for {search_result_url, index} <- Enum.with_index(@urls, 1) do %>
-        <tr class="table__row">
-          <td class="table__item table__item--index">
-            <p class="table__text"><%= index %></p>
-          </td>
-          <td class="table__item table__item--advertiser-url">
-            <p class="table__text"><%= search_result_url.url %></p>
-          </td>
-          <td class="table__item table__item--cta">
-            <%= link to: search_result_url.url, class: "button__secondary button__secondary--sm" do %>
-              <span class="button__span-text">Show</span>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <% end %>
+  </tbody>
+</table>
