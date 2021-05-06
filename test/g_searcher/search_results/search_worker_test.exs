@@ -19,7 +19,7 @@ defmodule GSearcher.SearchResults.SearchWorkerTest do
         assert search_result_in_db.id == search_result.id
         assert search_result_in_db.html_cache
 
-        refute Repo.all(SearchResultURL) == []
+        assert Repo.all(SearchResultURL) != []
       end
     end
 
