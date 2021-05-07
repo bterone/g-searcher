@@ -1,5 +1,5 @@
 .table {
-  @apply px-8 pt-3 mx-auto;
+  @apply w-full px-8 pt-3 mx-auto table-fixed;
 
   &__title {
     @apply text-lg text-indigo-600 font-semibold;

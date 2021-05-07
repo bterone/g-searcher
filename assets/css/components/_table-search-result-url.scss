@@ -9,8 +9,18 @@
       flex-basis: 5%;
     }
 
+    &--title,
     &--advertiser-url {
-      flex-basis: 85%;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    &--title {
+      flex-basis: 40%;
+    }
+
+    &--advertiser-url {
+      flex-basis: 45%;
     }
 
     &--cta {
@@ -25,15 +35,20 @@
   }
 
   .#{ $self }__item {
+    &--title,
     &--advertiser-url {
       .table__text {
-        @apply max-w-3xl truncate;
+        @apply w-full mr-8 overflow-x-hidden overflow-ellipsis;
       }
+    }
+
+    &--cta {
+      @apply justify-end;
     }
   }
 
   .#{ $self }__title {
-    @apply pr-8 text-sm text-indigo-600 font-semibold;
+    @apply text-sm text-indigo-600 font-semibold;
   }
 
   .#{ $self }__body .#{ $self }__row {

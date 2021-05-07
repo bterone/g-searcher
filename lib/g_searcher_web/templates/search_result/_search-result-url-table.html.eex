@@ -5,6 +5,10 @@
         <h2 class="table__title">No.</h2>
       </th>
 
+      <th class="table__column table__column--title">
+        <h2 class="table__title">Title</h2>
+      </th>
+
       <th class="table__column table__column--advertiser-url">
         <h2 class="table__title">URLs</h2>
       </th>
