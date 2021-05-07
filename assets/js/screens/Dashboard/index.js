@@ -1,4 +1,4 @@
-import Dropdown from '../../components/Dropdown';
+import { Dropdown as BootstrapDropdown } from '../../vendor/bootstrap';
 
 const SELECTOR = {
   screen: 'body.dashboard',
@@ -19,7 +19,7 @@ class DashboardScreen {
    * Component bootstrapping actions.
    */
   _setup() {
-    this.uploadDropdown = new Dropdown(this.uploadReportButton);
+    this.uploadDropdown = new BootstrapDropdown(this.uploadReportButton, true);
   }
 }
 
