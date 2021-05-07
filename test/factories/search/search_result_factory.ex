@@ -16,8 +16,7 @@ defmodule GSearcher.SearchResults.SearchResultFactory do
           number_of_results_on_page: :rand.uniform(20),
           html_cache: "<html><head></head><body>TEST</body></html>",
           number_of_top_advertisers: :rand.uniform(10),
-          number_of_regular_advertisers: :rand.uniform(20),
-          search_result_urls: [build(:search_result_url)]
+          number_of_regular_advertisers: :rand.uniform(20)
         }
       end
     end
