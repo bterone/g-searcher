@@ -26,7 +26,7 @@ defmodule GSearcher.SearchResultsTest do
 
   describe "get_search_result/1" do
     test "returns {:ok, search_result} given a valid ID" do
-      search_result = insert(:search_result) |> forget(:search_result_urls)
+      search_result = insert(:search_result) |> forget_associations()
 
       assert SearchResults.get_search_result(search_result.id) == {:ok, search_result}
     end
@@ -41,7 +41,7 @@ defmodule GSearcher.SearchResultsTest do
       user = insert(:user)
       report = insert(:report, user: user)
 
-      search_result = insert(:search_result) |> forget(:search_result_urls)
+      search_result = insert(:search_result) |> forget_associations()
 
       _report_search_result =
         insert(:report_search_result, report: report, search_result: search_result)
@@ -68,7 +68,7 @@ defmodule GSearcher.SearchResultsTest do
   describe "get_search_results_from_report/2" do
     test "returns {:ok, search_result} given a valid ID" do
       report = insert(:report)
-      search_result = insert(:search_result) |> forget(:search_result_urls)
+      search_result = insert(:search_result) |> forget_associations()
 
       _report_search_result =
         insert(:report_search_result, report: report, search_result: search_result)

@@ -8,7 +8,7 @@ defmodule GSearcher.SearchResultURLsTest do
       search_result = insert(:search_result)
 
       search_result_url =
-        insert(:search_result_url, search_result: search_result) |> forget(:search_result, :one)
+        insert(:search_result_url, search_result: search_result) |> forget_associations()
 
       _random_url = insert(:search_result_url)
 
