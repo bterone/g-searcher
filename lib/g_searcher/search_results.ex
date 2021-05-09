@@ -1,4 +1,6 @@
 defmodule GSearcher.SearchResults do
+  require Logger
+
   import Ecto.Query, warn: false
 
   alias GSearcher.Repo
@@ -49,11 +51,21 @@ defmodule GSearcher.SearchResults do
   end
 
   def create_search_result_url(%SearchResult{id: id}, result_urls) when is_list(result_urls) do
-    Enum.each(result_urls, fn result_url ->
-      create_search_result_url(Map.merge(result_url, %{search_result_id: id}))
-    end)
+    result_urls
+    |> Enum.map(fn result_url ->
+      {_, result} = create_search_result_url(Map.merge(result_url, %{search_result_id: id}))
 
-    {:ok, :saved_search_results}
+      result
+    end)
+    |> Enum.take_while(&is_changeset?/1)
+    |> case do
+      [] ->
+        {:ok, :saved_all_urls}
+
+      changesets ->
+        Logger.error("partially_saved_urls: Some URLs could not be saved: #{inspect(changesets)}")
+        {:ok, :partially_saved_urls}
+    end
   end
 
   def create_search_result_url(params) do
@@ -67,4 +79,7 @@ defmodule GSearcher.SearchResults do
     |> ReportSearchResult.changeset(%{report_id: report_id, search_result_id: search_result_id})
     |> Repo.insert()
   end
+
+  defp is_changeset?(%Ecto.Changeset{}), do: true
+  defp is_changeset?(_), do: false
 end

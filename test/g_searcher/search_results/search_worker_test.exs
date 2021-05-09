@@ -13,7 +13,7 @@ defmodule GSearcher.SearchResults.SearchWorkerTest do
         SearchWorker.new(%{id: search_result.id, keyword: search_result.search_term})
         |> Oban.insert()
 
-        assert %{success: 1, failure: 0} == Oban.drain_queue(queue: :events, with_safety: false)
+        assert Oban.drain_queue(queue: :events, with_safety: false) == %{success: 1, failure: 0}
 
         [search_result_in_db] = Repo.all(SearchResult)
         assert search_result_in_db.id == search_result.id
@@ -31,7 +31,7 @@ defmodule GSearcher.SearchResults.SearchWorkerTest do
       SearchWorker.new(%{id: search_result.id, keyword: search_result.search_term})
       |> Oban.insert()
 
-      assert %{success: 0, failure: 1} == Oban.drain_queue(queue: :events)
+      assert Oban.drain_queue(queue: :events) == %{success: 0, failure: 1}
     end
 
     test "fails job if search result fails to update" do
@@ -45,7 +45,7 @@ defmodule GSearcher.SearchResults.SearchWorkerTest do
         SearchWorker.new(%{id: search_result.id, keyword: search_result.search_term})
         |> Oban.insert()
 
-        assert %{success: 0, failure: 1} == Oban.drain_queue(queue: :events)
+        assert Oban.drain_queue(queue: :events) == %{success: 0, failure: 1}
 
         verify!()
       end
@@ -57,7 +57,7 @@ defmodule GSearcher.SearchResults.SearchWorkerTest do
       SearchWorker.new(%{id: 0, keyword: "SOMETHING RANDOM"})
       |> Oban.insert()
 
-      assert %{success: 0, failure: 1} == Oban.drain_queue(queue: :events)
+      assert Oban.drain_queue(queue: :events) == %{success: 0, failure: 1}
 
       verify!()
     end

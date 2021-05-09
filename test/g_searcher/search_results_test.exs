@@ -1,6 +1,8 @@
 defmodule GSearcher.SearchResultsTest do
   use GSearcher.DataCase
 
+  import ExUnit.CaptureLog
+
   alias GSearcher.SearchResults
   alias GSearcher.SearchResults.{ReportSearchResult, SearchResult, SearchResultURL}
 
@@ -124,6 +126,20 @@ defmodule GSearcher.SearchResultsTest do
 
       assert url_in_db_2.title == params_2.title
       assert url_in_db_2.url == params_2.url
+    end
+
+    test "creates search_result_urls given a list of invalid search result urls" do
+      search_result = insert(:search_result)
+      result_url_params = params_for(:search_result_url, search_result: search_result)
+
+      stub(SearchResultURL, :create_changeset, fn _, _ -> %Ecto.Changeset{valid?: false} end)
+
+      assert capture_log(fn ->
+               assert SearchResults.create_search_result_url(search_result, [result_url_params]) ==
+                        {:ok, :partially_saved_urls}
+             end) =~ "partially_saved_urls: Some URLs could not be saved"
+
+      assert Repo.all(SearchResultURL) == []
     end
   end
 
