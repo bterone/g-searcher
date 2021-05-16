@@ -3,6 +3,7 @@
     <div class="app-header__logo"><a class="app-header__logo-text" href="/">G Searcher</a></div>
     <div class="app-header__search-bar">
       <%= form_for @conn, Routes.search_result_path(@conn, :index), [method: :get], fn f -> %>
+        <%# TODO: Style this input in #19 %>
         <%= search_input f, :query, [class: "app-header__search-input ring ring-gray-300"] %>
         <%= submit "Search", class: "app-header__search-button" %>
       <% end %>
