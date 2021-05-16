@@ -1,0 +1,5 @@
+<ul>
+  <%= for search_result <- @search_results do %>
+    <li><%= search_result.search_term %></li>
+  <% end %>
+</ul>

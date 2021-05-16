@@ -50,6 +50,15 @@ defmodule GSearcher.SearchResults do
     |> Repo.update()
   end
 
+  def list_search_results_by_user_id(user_id, query) do
+    SearchResult
+    |> join(:full, [sr], rsr in assoc(sr, :report_search_result))
+    |> join(:full, [rsr], r in assoc(rsr, :reports))
+    |> where([_, _, r], r.user_id == ^user_id)
+    |> where([sr, _, _], like(sr.search_term, ^"%#{escape_percentage_sign(query)}%"))
+    |> Repo.all()
+  end
+
   def create_search_result_url(%SearchResult{id: id}, result_urls) when is_list(result_urls) do
     result_urls
     |> Enum.map(fn result_url ->
@@ -82,4 +91,7 @@ defmodule GSearcher.SearchResults do
 
   defp is_changeset?(%Ecto.Changeset{}), do: true
   defp is_changeset?(_), do: false
+
+  # TODO: Move to search_helper to sanitize user input in #41
+  defp escape_percentage_sign(query), do: String.replace(query, "%", "\\%")
 end

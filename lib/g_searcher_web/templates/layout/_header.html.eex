@@ -1,0 +1,19 @@
+<header class="app-header">
+  <nav class="app-header__navigation" role="navigation">
+    <div class="app-header__logo"><a class="app-header__logo-text" href="/">G Searcher</a></div>
+    <div class="app-header__search-bar">
+      <%= form_for @conn, Routes.search_result_path(@conn, :index), [method: :get], fn f -> %>
+        <%= search_input f, :query, [class: "ring ring-gray-300"] %>
+        <%= submit "Search" %>
+      <% end %>
+    </div>
+    <div class="app-header__navigation-pane">
+      <%= if @conn.assigns.user_signed_in? do %>
+        <%= link "Dashboard", to: Routes.dashboard_path(@conn, :index), class: "app-header__navigation-link" %>
+        <%= link "Sign Out", to: Routes.authentication_path(@conn, :sign_out), method: :delete, class: "app-header__navigation-link" %>
+      <% else %>
+        <%= link "Sign In", to: Routes.authentication_path(@conn, :request, "google"), class: "app-header__navigation-link" %>
+      <% end %>
+    </div>
+  </nav>
+</header>
