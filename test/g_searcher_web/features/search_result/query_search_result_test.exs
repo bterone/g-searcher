@@ -1,6 +1,7 @@
 defmodule GSearcherWeb.SearchResult.QuerySearchResultTest do
   use GSearcherWeb.FeatureCase
 
+  # TODO: Modify search_result_list selector in #19
   @selectors %{
     search_button: ".app-header__search-button",
     search_input: ".app-header__search-input",

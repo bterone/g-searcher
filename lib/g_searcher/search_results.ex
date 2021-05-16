@@ -44,19 +44,19 @@ defmodule GSearcher.SearchResults do
     end
   end
 
-  def update_search_result(search_result, params) do
-    search_result
-    |> SearchResult.update_search_result_changeset(params)
-    |> Repo.update()
-  end
-
-  def list_search_results_by_user_id(user_id, query) do
+  def list_search_results_by_user_id(user_id, query \\ "") do
     SearchResult
     |> join(:full, [sr], rsr in assoc(sr, :report_search_result))
     |> join(:full, [rsr], r in assoc(rsr, :reports))
     |> where([_, _, r], r.user_id == ^user_id)
     |> where([sr, _, _], like(sr.search_term, ^"%#{escape_percentage_sign(query)}%"))
     |> Repo.all()
+  end
+
+  def update_search_result(search_result, params) do
+    search_result
+    |> SearchResult.update_search_result_changeset(params)
+    |> Repo.update()
   end
 
   def create_search_result_url(%SearchResult{id: id}, result_urls) when is_list(result_urls) do
