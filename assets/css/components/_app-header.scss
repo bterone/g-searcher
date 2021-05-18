@@ -1,0 +1,43 @@
+.app-header {
+  @apply container mx-auto px-4;
+
+  &__navigation {
+    @apply flex flex-wrap items-center justify-between p-4;
+  }
+
+  &__logo {
+    @apply ml-16 w-36;
+  }
+
+  &__logo-text {
+    @apply text-xl text-indigo-600 font-semibold;
+  }
+
+  &__navigation-pane {
+    @apply mr-16 flex w-2/5 justify-end items-center;
+  }
+
+  &__navigation-link {
+    @apply inline-block text-blue-900 hover:text-indigo-600;
+  }
+
+  &__navigation-link + &__navigation-link {
+    @apply ml-10;
+  }
+
+  &__search-bar {
+    @apply relative mr-10 text-gray-600;
+  }
+
+  &__search-input {
+    @apply border-2 border-gray-300 bg-white h-10 pl-5 pr-8 rounded-lg text-sm focus:border-indigo-600 hover:border-indigo-400 outline-none;
+  }
+
+  &__search-button {
+    @apply absolute right-0 top-0 mt-3 mr-4;
+  }
+
+  &__search-icon {
+    @apply text-gray-600 h-4 w-4 fill-current;
+  }
+}
