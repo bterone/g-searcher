@@ -3,7 +3,11 @@ body.dashboard {
     @apply mx-auto max-w-lg mb-6;
   }
 
-  .report-index {
+  .report-list {
     @apply mt-20;
+
+    &__header {
+      @apply flex justify-end pr-16;
+    }
   }
 }
