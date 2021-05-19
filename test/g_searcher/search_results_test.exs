@@ -1,8 +1,10 @@
 defmodule GSearcher.SearchResultsTest do
   use GSearcher.DataCase
 
+  import ExUnit.CaptureLog
+
   alias GSearcher.SearchResults
-  alias GSearcher.SearchResults.{ReportSearchResult, SearchResult}
+  alias GSearcher.SearchResults.{ReportSearchResult, SearchResult, SearchResultURL}
 
   describe "create_search_result/1" do
     test "creates search result given valid attributes" do
@@ -26,7 +28,7 @@ defmodule GSearcher.SearchResultsTest do
 
   describe "get_search_result/1" do
     test "returns {:ok, search_result} given a valid ID" do
-      search_result = insert(:search_result)
+      search_result = insert(:search_result) |> forget_associations()
 
       assert SearchResults.get_search_result(search_result.id) == {:ok, search_result}
     end
@@ -41,7 +43,7 @@ defmodule GSearcher.SearchResultsTest do
       user = insert(:user)
       report = insert(:report, user: user)
 
-      search_result = insert(:search_result)
+      search_result = insert(:search_result) |> forget_associations()
 
       _report_search_result =
         insert(:report_search_result, report: report, search_result: search_result)
@@ -68,7 +70,7 @@ defmodule GSearcher.SearchResultsTest do
   describe "get_search_results_from_report/2" do
     test "returns {:ok, search_result} given a valid ID" do
       report = insert(:report)
-      search_result = insert(:search_result)
+      search_result = insert(:search_result) |> forget_associations()
 
       _report_search_result =
         insert(:report_search_result, report: report, search_result: search_result)
@@ -105,6 +107,53 @@ defmodule GSearcher.SearchResultsTest do
                search_result_params.total_number_of_results
 
       assert search_result_in_db.html_cache == search_result_params.html_cache
+    end
+  end
+
+  describe "create_search_result_url/2" do
+    test "creates search_result_urls given a search result and list of search_result_urls" do
+      search_result = insert(:search_result)
+      params_1 = params_for(:search_result_url, search_result: search_result)
+      params_2 = params_for(:search_result_url, search_result: search_result)
+
+      assert {:ok, _} =
+               SearchResults.create_search_result_url(search_result, [params_1, params_2])
+
+      [url_in_db_1, url_in_db_2] = Repo.all(SearchResultURL)
+
+      assert url_in_db_1.title == params_1.title
+      assert url_in_db_1.url == params_1.url
+
+      assert url_in_db_2.title == params_2.title
+      assert url_in_db_2.url == params_2.url
+    end
+
+    test "creates search_result_urls given a list of invalid search result urls" do
+      search_result = insert(:search_result)
+      result_url_params = params_for(:search_result_url, search_result: search_result)
+
+      stub(SearchResultURL, :create_changeset, fn _, _ -> %Ecto.Changeset{valid?: false} end)
+
+      assert capture_log(fn ->
+               assert SearchResults.create_search_result_url(search_result, [result_url_params]) ==
+                        {:ok, :partially_saved_urls}
+             end) =~ "partially_saved_urls: Some URLs could not be saved"
+
+      assert Repo.all(SearchResultURL) == []
+    end
+  end
+
+  describe "create_search_result_url/1" do
+    test "creates search_result_url given valid attributes" do
+      search_result = insert(:search_result)
+      search_result_url_params = params_for(:search_result_url, search_result: search_result)
+
+      assert {:ok, _} = SearchResults.create_search_result_url(search_result_url_params)
+
+      [url_in_db] = Repo.all(SearchResultURL)
+
+      assert url_in_db.title == search_result_url_params.title
+      assert url_in_db.url == search_result_url_params.url
     end
   end
 

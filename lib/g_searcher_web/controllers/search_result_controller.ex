@@ -1,16 +1,19 @@
 defmodule GSearcherWeb.SearchResultController do
   use GSearcherWeb, :controller
 
-  alias GSearcher.SearchResults
+  alias GSearcher.{SearchResults, SearchResultURLs}
   alias GSearcherWeb.ErrorHandler
 
   def show(conn, %{"id" => search_result_id}) do
     user = conn.assigns.current_user
 
-    case SearchResults.get_user_search_result(search_result_id, user.id) do
-      {:ok, search_result} ->
-        render(conn, "show.html", search_result: search_result)
-
+    with {:ok, search_result} <- SearchResults.get_user_search_result(search_result_id, user.id),
+         {:ok, search_result_urls} <- SearchResultURLs.get_by_search_result_id(search_result_id) do
+      render(conn, "show.html",
+        search_result: search_result,
+        search_result_urls: search_result_urls
+      )
+    else
       {:error, :not_found} ->
         ErrorHandler.render_error(conn, 404)
     end
