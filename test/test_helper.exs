@@ -7,6 +7,7 @@
 Mimic.copy(Floki)
 Mimic.copy(GSearcher.Accounts)
 Mimic.copy(GSearcher.SearchResults)
+Mimic.copy(GSearcher.SearchResults.SearchResultURL)
 Mimic.copy(HTTPoison)
 
 ExUnit.start()

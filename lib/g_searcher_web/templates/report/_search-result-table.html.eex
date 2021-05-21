@@ -52,10 +52,10 @@
           <p class="table__text"><%= number_to_human(search_result.total_number_of_results) %></p>
         </td>
         <td class="table__item table__item--cta">
-          <%= link to: Routes.search_result_path(@conn, :result_snapshot, search_result.id), class: "button__primary button__primary--sm" do %>
+          <%= link to: Routes.search_result_path(@conn, :result_snapshot, search_result.id), class: "button__secondary button__secondary--sm" do %>
             <span class="button__span-text">HTML</span>
           <% end %>
-          <%= link to: Routes.search_result_path(@conn, :show, search_result.id), class: "button__secondary button__secondary--sm" do %>
+          <%= link to: Routes.search_result_path(@conn, :show, search_result.id), class: "button__primary button__primary--sm" do %>
             <span class="button__span-text">Show</span>
           <% end %>
         </td>

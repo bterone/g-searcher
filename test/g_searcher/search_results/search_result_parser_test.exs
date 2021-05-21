@@ -13,9 +13,9 @@ defmodule GSearcher.SearchResults.SearchResultParserTest do
                  number_of_results_on_page: 3,
                  number_of_top_advertisers: 2,
                  number_of_regular_advertisers: 1,
-                 search_result_urls: [_, _, _],
-                 top_advertiser_urls: [_, _],
-                 regular_advertiser_urls: [_],
+                 search_result_urls: [%{title: "SEARCH RESULT", url: _}, _, _],
+                 top_advertiser_urls: [%{title: "TOP AD", url: _}, _],
+                 regular_advertiser_urls: [%{title: "BOTTOM AD", url: "bot1.com"}],
                  total_number_of_results: 677_000_000,
                  html_cache: ^search_result_html
                }
@@ -54,17 +54,38 @@ defmodule GSearcher.SearchResults.SearchResultParserTest do
       <body>
         <span id="result-stats">About 677,000,000 results (0.99 seconds)</span>
         <div id="tads">
-          <a href="top1.com"></a>
-          <a href="top2.com"></a>
+          <a href="top1.com">
+            <div role="heading">TOP AD</div>
+          </a>
+          <a href="top2.com">
+            <div role="heading">TOP AD</div>
+          </a>
+          <a href="https://www.google.com/?clk">
+            <div role="heading">Ignored link</div>
+          </a>
         </div>
         <div id="search">
-          <div class="g"><div><div><a href="search1.com"></a></div></div></div>
-          <div class="g"><div><div><a href="search2.com"></a></div></div></div>
-          <div class="g"><div><div><a href="search3.com"></a></div></div></div>
+          <div class="g"><div><div>
+            <a href="search1.com">
+              <h3>SEARCH RESULT</h3>
+            </a>
+          </div></div></div>
+          <div class="g"><div><div>
+            <a href="search2.com">
+              <h3>SEARCH RESULT</h3>
+            </a>
+          </div></div></div>
+          <div class="g"><div><div>
+            <a href="search3.com">
+              <h3>SEARCH RESULT</h3>
+            </a>
+          </div></div></div>
         </div>
         <div id="bottomads">
           <div id="tadsb">
-            <a href="bot1.com"></a>
+            <a href="bot1.com">
+              <div role="heading">BOTTOM AD</div>
+            </a>
           </div>
         </div>
       </body>

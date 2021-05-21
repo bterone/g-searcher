@@ -55,15 +55,15 @@
 
 <section class="search-result-url">
   <h1 class="search-result-url__header">Top Advertiser URLs</h1>
-  <%= render "_search-result-url-table.html", urls: @search_result.top_advertiser_urls %>
+  <%= render "_search-result-url-table.html", urls: top_advertiser_urls(@search_result_urls) %>
 </section>
 
 <section class="search-result-url">
   <h1 class="search-result-url__header">Other Advertiser URLs</h1>
-  <%= render "_search-result-url-table.html", urls: @search_result.regular_advertiser_urls %>
+  <%= render "_search-result-url-table.html", urls: other_advertiser_urls(@search_result_urls) %>
 </section>
 
 <section class="search-result-url">
   <h1 class="search-result-url__header">Search Result URLs</h1>
-  <%= render "_search-result-url-table.html", urls: @search_result.search_result_urls %>
+  <%= render "_search-result-url-table.html", urls: non_ad_urls(@search_result_urls) %>
 </section>

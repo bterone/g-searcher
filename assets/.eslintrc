@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "@nimbl3/eslint-config-nimbl3"
+  ],
+  "globals": {
+    "CustomEvent": true,
+    "Event": true,
+    "FileReader": true,
+    "FormData": true,
+    "I18n": true,
+    "Image": true,
+    "noUiSlider": true,
+    "wNumb": true
+  }
+}

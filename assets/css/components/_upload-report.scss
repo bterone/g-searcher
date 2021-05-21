@@ -1,5 +1,18 @@
-.form {
-  @apply block;
+.upload-report {
+  @apply flex flex-col;
+}
+
+.upload-report .form-report {
+  @apply invisible opacity-0;
+
+  height: 0;
+  transition: height 0.2s ease, opacity 0.5s ease;
+
+  &.show {
+    @apply visible opacity-100;
+
+    height: 225px;
+  }
 
   &__label {
     @apply block text-gray-700 text-sm font-bold mb-2;
@@ -11,6 +24,10 @@
     &--error {
       @apply inline-block text-red-600 font-normal;
     }
+  }
+
+  &__button {
+    @apply w-min ml-auto;
   }
 
   &__input {
