@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body class="<%= class_name(@conn) %>">
+  <body class="<%= body_class_name(@conn) %>">
     <%= render "_header.html", conn: @conn %>
     <main class="app-content" role="main">
       <%= render GSearcherWeb.SharedView, "_flash.html", conn: @conn %>
