@@ -9,19 +9,7 @@
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body class="<%= class_name(@conn) %>">
-    <header class="app-header">
-      <nav class="app-header__navigation" role="navigation">
-        <div class="app-header__logo"><a class="app-header__logo-text" href="/">G Searcher</a></div>
-        <div class="app-header__navigation-pane">
-          <%= if @conn.assigns.user_signed_in? do %>
-            <%= link "Dashboard", to: Routes.dashboard_path(@conn, :index), class: "app-header__navigation-link" %>
-            <%= link "Sign Out", to: Routes.authentication_path(@conn, :sign_out), method: :delete, class: "app-header__navigation-link" %>
-          <% else %>
-            <%= link "Sign In", to: Routes.authentication_path(@conn, :request, "google"), class: "app-header__navigation-link" %>
-          <% end %>
-        </div>
-      </nav>
-    </header>
+    <%= render "_header.html", conn: @conn %>
     <main class="app-content" role="main">
       <%= render GSearcherWeb.SharedView, "_flash.html", conn: @conn %>
 

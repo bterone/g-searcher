@@ -85,6 +85,51 @@ defmodule GSearcher.SearchResultsTest do
     end
   end
 
+  describe "list_search_results_by_user_id/2" do
+    test "returns list of search_results" do
+      user = insert(:user)
+
+      report1 = insert(:report, user: user)
+      report2 = insert(:report, user: user)
+      search_result1 = insert(:search_result) |> forget_associations()
+      search_result2 = insert(:search_result) |> forget_associations()
+
+      _report_search_result_1 =
+        insert(:report_search_result, report: report1, search_result: search_result1)
+
+      _report_search_result_2 =
+        insert(:report_search_result, report: report2, search_result: search_result2)
+
+      _invalid_report_result = insert(:report_search_result)
+
+      assert SearchResults.list_search_results_by_user_id(user.id) == [
+               search_result1,
+               search_result2
+             ]
+    end
+
+    test "returns list of search_results given query params" do
+      user = insert(:user)
+
+      report1 = insert(:report, user: user)
+      report2 = insert(:report, user: user)
+
+      search_result1 =
+        insert(:search_result, search_term: "The quick fox") |> forget_associations()
+
+      search_result2 =
+        insert(:search_result, search_term: "The lazy dog") |> forget_associations()
+
+      _report_search_result_1 =
+        insert(:report_search_result, report: report1, search_result: search_result1)
+
+      _report_search_result_2 =
+        insert(:report_search_result, report: report2, search_result: search_result2)
+
+      assert SearchResults.list_search_results_by_user_id(user.id, "quick") == [search_result1]
+    end
+  end
+
   describe "update_search_result/2" do
     test "updates search result given a valid ID and attributes" do
       search_result = insert(:search_result)
