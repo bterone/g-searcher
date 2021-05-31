@@ -1,3 +1,7 @@
 <section class="search-result-list">
-  <%= render GSearcherWeb.SharedView, "_search-result-table.html", assigns %>
+  <%= render GSearcherWeb.SharedView,
+            "_search-result-table.html",
+            search_results: Enum.with_index(@search_results, 1),
+            conn: @conn
+  %>
 </section>

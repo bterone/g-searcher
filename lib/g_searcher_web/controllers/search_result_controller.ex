@@ -9,7 +9,7 @@ defmodule GSearcherWeb.SearchResultController do
 
     search_results = SearchResults.list_search_results_by_user_id(user_id, params["query"])
 
-    render(conn, "index.html", search_results: Enum.with_index(search_results, 1))
+    render(conn, "index.html", search_results: search_results)
   end
 
   def show(conn, %{"id" => search_result_id}) do
