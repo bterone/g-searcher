@@ -1,7 +1,7 @@
-defmodule GSearcherWeb.SearchHelperTest do
+defmodule GSearcherWeb.Helpers.SearchHelperTest do
   use GSearcherWeb.ConnCase
 
-  alias GSearcherWeb.SearchHelper
+  alias GSearcherWeb.Helpers.SearchHelper
 
   describe "parse_query/1" do
     test "returns a filter map given some filter params string" do

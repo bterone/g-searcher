@@ -1,6 +1,15 @@
-defmodule GSearcherWeb.SearchHelper do
+defmodule GSearcherWeb.Helpers.SearchHelper do
   @valid_operators ["title", "url", "top_ads", "regular_ads", "status"]
 
+  @spec parse_query(String.t()) ::
+          %{
+            query: String.t(),
+            title: String.t(),
+            url: String.t(),
+            top_ads: String.t(),
+            regular_ads: String.t(),
+            status: String.t()
+          }
   def parse_query(query) when is_binary(query) do
     query
     |> split_by_space(ignore_in_double_quotes: true)
