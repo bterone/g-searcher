@@ -38,5 +38,16 @@ defmodule GSearcherWeb.Helpers.SearchHelperTest do
                   url: "https://www.test.com/"
                 }}
     end
+
+    test "returns escaped percentage sign in query given a regular string" do
+      query = "Some % string title:\"%tea\""
+
+      assert SearchHelper.parse_query(query) ==
+               {:ok,
+                %{
+                  query: "Some \\% string",
+                  title: "\\%tea"
+                }}
+    end
   end
 end

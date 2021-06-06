@@ -13,6 +13,7 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
   def parse_query(query) when is_binary(query) do
     parsed_query =
       query
+      |> escape_percentage_sign()
       |> split_by_space(ignore_in_double_quotes: true)
       |> convert_search_options_to_map()
       |> build_query_attributes()
@@ -58,6 +59,8 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
       Map.merge(search_option, acc)
     end)
   end
+
+  defp escape_percentage_sign(string), do: String.replace(string, "%", "\\%")
 
   defp cast_operator("title"), do: :title
   defp cast_operator("url"), do: :url

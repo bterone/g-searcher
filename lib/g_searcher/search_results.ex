@@ -97,7 +97,7 @@ defmodule GSearcher.SearchResults do
   end
 
   defp filter_by_search_term(query, %{search_term: search_term}),
-    do: where(query, [sr], like(sr.search_term, ^"%#{escape_percentage_sign(search_term)}%"))
+    do: where(query, [sr], like(sr.search_term, ^"%#{search_term}%"))
 
   defp filter_by_search_term(query, _), do: query
 
@@ -118,12 +118,12 @@ defmodule GSearcher.SearchResults do
   defp filter_by_regular_ads(query, _), do: query
 
   defp filter_by_report_title(query, %{title: report_title}),
-    do: where(query, [_, _, r], like(r.title, ^"%#{escape_percentage_sign(report_title)}%"))
+    do: where(query, [_, _, r], like(r.title, ^"%#{report_title}%"))
 
   defp filter_by_report_title(query, _), do: query
 
   defp filter_by_url(query, %{url: url}),
-    do: where(query, [_, _, _, sr_url], like(sr_url.url, ^"%#{escape_percentage_sign(url)}%"))
+    do: where(query, [_, _, _, sr_url], like(sr_url.url, ^"%#{url}%"))
 
   defp filter_by_url(query, _), do: query
 
@@ -138,7 +138,4 @@ defmodule GSearcher.SearchResults do
 
   defp where_count(query, field_name, "=", count),
     do: where(query, [v], fragment("? = ?", field(v, ^field_name), ^count))
-
-  # TODO: Move to search_helper to sanitize user input in #41
-  defp escape_percentage_sign(query), do: String.replace(query, "%", "\\%")
 end
