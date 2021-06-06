@@ -3,13 +3,17 @@ defmodule GSearcherWeb.SearchResultController do
 
   alias GSearcher.{SearchResults, SearchResultURLs}
   alias GSearcherWeb.ErrorHandler
+  alias GSearcherWeb.Helpers.{ParamsValidator, SearchHelper, SearchResultParams}
 
   def index(conn, params) do
     %{id: user_id} = conn.assigns.current_user
 
-    search_results = SearchResults.list_search_results_by_user_id(user_id, params["query"])
-
-    render(conn, "index.html", search_results: search_results)
+    with {:ok, query_params} <- SearchHelper.parse_query(params["query"]),
+         {:ok, validated_params} <-
+           ParamsValidator.validate(query_params, as: SearchResultParams),
+         search_results <- SearchResults.list_search_results_by_user_id(user_id, validated_params) do
+      render(conn, "index.html", search_results: search_results)
+    end
   end
 
   def show(conn, %{"id" => search_result_id}) do
