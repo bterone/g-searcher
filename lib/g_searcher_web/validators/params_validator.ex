@@ -1,8 +1,8 @@
-defmodule GSearcherWeb.Helpers.ParamsValidator do
+defmodule GSearcherWeb.Validators.ParamsValidator do
   alias Ecto.Changeset
 
-  def validate(query, as: params_module) do
-    query
+  def validate(params, as: params_module) do
+    params
     |> params_module.changeset()
     |> handle_changeset()
   end
@@ -18,13 +18,10 @@ defmodule GSearcherWeb.Helpers.ParamsValidator do
     end)
   end
 
-  defp extract_changes([%Changeset{} | _] = changesets) do
-    Enum.map(changesets, &extract_changes/1)
-  end
+  defp extract_changes([%Changeset{} | _] = changesets),
+    do: Enum.map(changesets, &extract_changes/1)
 
-  defp extract_changes(value) do
-    value
-  end
+  defp extract_changes(value), do: value
 
   defp put_action(%Changeset{} = changeset) do
     changeset |> Map.put(:action, :validate)

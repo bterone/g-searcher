@@ -1,7 +1,7 @@
-defmodule GSearcherWeb.Helpers.SearchResultParamsTest do
+defmodule GSearcherWeb.Validators.SearchResultParamsTest do
   use GSearcher.DataCase, async: true
 
-  alias GSearcherWeb.Helpers.SearchResultParams
+  alias GSearcherWeb.Validators.SearchResultParams
 
   describe "changeset/2" do
     test "returns valid changeset given valid params" do

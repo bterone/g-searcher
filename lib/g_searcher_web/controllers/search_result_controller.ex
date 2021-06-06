@@ -4,7 +4,8 @@ defmodule GSearcherWeb.SearchResultController do
   alias Ecto.Changeset
   alias GSearcher.{SearchResults, SearchResultURLs}
   alias GSearcherWeb.ErrorHandler
-  alias GSearcherWeb.Helpers.{ParamsValidator, SearchHelper, SearchResultParams}
+  alias GSearcherWeb.Helpers.SearchHelper
+  alias GSearcherWeb.Validators.{ParamsValidator, SearchResultParams}
 
   def index(conn, params) do
     %{id: user_id} = conn.assigns.current_user

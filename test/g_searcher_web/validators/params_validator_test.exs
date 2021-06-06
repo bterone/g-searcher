@@ -1,14 +1,14 @@
-defmodule GSearcherWeb.Helpers.ParamsValidatorTest do
+defmodule GSearcherWeb.Validators.ParamsValidatorTest do
   use GSearcher.DataCase
 
-  alias GSearcherWeb.Helpers.ParamsValidator
+  alias GSearcherWeb.Validators.ParamsValidator
 
   defmodule CreateDeveloperParams do
     use Ecto.Schema
 
     import Ecto.Changeset
 
-    alias GSearcherWeb.Helpers.ParamsValidatorTest.CreateLanguageParams
+    alias GSearcherWeb.Validators.ParamsValidatorTest.CreateLanguageParams
 
     embedded_schema do
       field(:name, :string)
@@ -58,6 +58,7 @@ defmodule GSearcherWeb.Helpers.ParamsValidatorTest do
 
       assert {:error, :invalid_params, changeset} = result
       assert changeset.valid? == false
+      assert changeset.action == :validate
 
       assert errors_on(changeset) == %{
                name: ["can't be blank"],

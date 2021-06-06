@@ -1,9 +1,8 @@
-defmodule GSearcherWeb.Helpers.SearchResultParams do
+defmodule GSearcherWeb.Validators.SearchResultParams do
   use Ecto.Schema
 
   import Ecto.Changeset
 
-  @primary_key false
   @valid_quantity_operators ["<", ">", "="]
 
   embedded_schema do
