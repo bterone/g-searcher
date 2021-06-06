@@ -214,9 +214,18 @@ defmodule GSearcher.SearchResultsTest do
         insert(:search_result_url, search_result: search_result1, url: "https://www.boba.com/tea")
 
       _search_result_url2 =
+        insert(:search_result_url, search_result: search_result1, url: "https://www.boba.com/help")
+
+      _search_result_url3 =
         insert(:search_result_url,
           search_result: search_result2,
           url: "https://www.boba.com/coffee"
+        )
+
+      _search_result_url4 =
+        insert(:search_result_url,
+          search_result: search_result2,
+          url: "https://www.boba.com/offce-hours"
         )
 
       _random_url = insert(:search_result_url)

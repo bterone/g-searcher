@@ -11,11 +11,16 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
             status: String.t()
           }
   def parse_query(query) when is_binary(query) do
-    query
-    |> split_by_space(ignore_in_double_quotes: true)
-    |> convert_search_options_to_map()
-    |> build_query_attributes()
+    parsed_query =
+      query
+      |> split_by_space(ignore_in_double_quotes: true)
+      |> convert_search_options_to_map()
+      |> build_query_attributes()
+
+    {:ok, parsed_query}
   end
+
+  def parse_query(nil), do: {:error, :no_query}
 
   defp split_by_space(query, ignore_in_double_quotes: true) when is_binary(query),
     do: Regex.split(~r{\s+(?=([^"]*"[^"]*")*[^"]*$)}, query)

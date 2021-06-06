@@ -18,7 +18,6 @@ defmodule GSearcherWeb.Helpers.SearchResultParams do
     data
     |> cast(params, [:title, :url, :top_ads, :regular_ads])
     |> put_change(:search_term, params["query"])
-    |> validate_required([:search_term])
     |> is_count_operation?(:top_ads)
     |> is_count_operation?(:regular_ads)
   end

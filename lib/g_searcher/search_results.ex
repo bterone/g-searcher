@@ -55,6 +55,8 @@ defmodule GSearcher.SearchResults do
     |> filter_by_report_title(filter_params)
     |> join(:left, [sr], sr_url in assoc(sr, :search_result_urls))
     |> filter_by_url(filter_params)
+    |> distinct(true)
+    |> order_by(:id)
     |> Repo.all()
   end
 

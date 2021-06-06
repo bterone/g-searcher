@@ -19,16 +19,6 @@ defmodule GSearcherWeb.Helpers.SearchResultParamsTest do
       assert changeset.changes.url == "https://www.test.com"
     end
 
-    test "returns invalid changeset given blank query params" do
-      changeset = SearchResultParams.changeset(%{"query" => ""})
-
-      assert changeset.valid? == false
-
-      assert errors_on(changeset) == %{
-               search_term: ["can't be blank"]
-             }
-    end
-
     test "returns valid changeset given valid quantity operator and value for top and regular ads" do
       valid_params_1 = %{"query" => "Something", "top_ads" => ">10", "regular_ads" => "<10"}
       valid_params_2 = %{"query" => "Something else", "top_ads" => "=2", "regular_ads" => "=4"}
