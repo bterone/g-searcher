@@ -16,6 +16,11 @@ defmodule GSearcherWeb.SearchResultController do
          search_results <- SearchResults.list_search_results_by_user_id(user_id, validated_params) do
       render(conn, "index.html", search_results: search_results)
     else
+      {:error, :no_query} ->
+        search_results = SearchResults.list_search_results_by_user_id(user_id)
+
+        render(conn, "index.html", search_results: search_results)
+
       {:error, :invalid_params, changeset} ->
         search_results = SearchResults.list_search_results_by_user_id(user_id)
         error_message = combine_changeset_errors(changeset)
