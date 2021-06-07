@@ -4,6 +4,7 @@ defmodule GSearcher.SearchResults do
   import Ecto.Query, warn: false
 
   alias GSearcher.Repo
+  alias GSearcher.SearchResults.Queries.SearchResultQuery
   alias GSearcher.SearchResults.{ReportSearchResult, SearchResult, SearchResultURL}
 
   def create_search_result(attrs) do
@@ -45,18 +46,8 @@ defmodule GSearcher.SearchResults do
   end
 
   def list_search_results_by_user_id(user_id, filter_params \\ %{}) do
-    SearchResult
-    |> filter_by_search_term(filter_params)
-    |> filter_by_top_ads(filter_params)
-    |> filter_by_regular_ads(filter_params)
-    |> join(:full, [sr], rsr in assoc(sr, :report_search_result))
-    |> join(:full, [rsr], r in assoc(rsr, :reports))
-    |> where([_, _, r], r.user_id == ^user_id)
-    |> filter_by_report_title(filter_params)
-    |> join(:left, [sr], sr_url in assoc(sr, :search_result_urls))
-    |> filter_by_url(filter_params)
-    |> distinct(true)
-    |> order_by(:id)
+    user_id
+    |> SearchResultQuery.list_search_results_by_user_id(filter_params)
     |> Repo.all()
   end
 
@@ -96,46 +87,6 @@ defmodule GSearcher.SearchResults do
     |> Repo.insert()
   end
 
-  defp filter_by_search_term(query, %{search_term: search_term}),
-    do: where(query, [sr], like(sr.search_term, ^"%#{search_term}%"))
-
-  defp filter_by_search_term(query, _), do: query
-
-  defp filter_by_top_ads(query, %{top_ads: <<operator::binary-size(1), ad_count::binary>>}) do
-    {value, _} = Integer.parse(ad_count)
-
-    where_count(query, :number_of_top_advertisers, operator, value)
-  end
-
-  defp filter_by_top_ads(query, _), do: query
-
-  defp filter_by_regular_ads(query, %{regular_ads: <<operator::binary-size(1), ad_count::binary>>}) do
-    {value, _} = Integer.parse(ad_count)
-
-    where_count(query, :number_of_regular_advertisers, operator, value)
-  end
-
-  defp filter_by_regular_ads(query, _), do: query
-
-  defp filter_by_report_title(query, %{title: report_title}),
-    do: where(query, [_, _, r], like(r.title, ^"%#{report_title}%"))
-
-  defp filter_by_report_title(query, _), do: query
-
-  defp filter_by_url(query, %{url: url}),
-    do: where(query, [_, _, _, sr_url], like(sr_url.url, ^"%#{url}%"))
-
-  defp filter_by_url(query, _), do: query
-
   defp is_changeset?(%Ecto.Changeset{}), do: true
   defp is_changeset?(_), do: false
-
-  defp where_count(query, field_name, "<", count),
-    do: where(query, [v], fragment("? < ?", field(v, ^field_name), ^count))
-
-  defp where_count(query, field_name, ">", count),
-    do: where(query, [v], fragment("? > ?", field(v, ^field_name), ^count))
-
-  defp where_count(query, field_name, "=", count),
-    do: where(query, [v], fragment("? = ?", field(v, ^field_name), ^count))
 end

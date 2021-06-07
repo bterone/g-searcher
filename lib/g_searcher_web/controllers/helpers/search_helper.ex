@@ -14,7 +14,7 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
     parsed_query =
       query
       |> escape_percentage_sign()
-      |> split_by_space(ignore_in_double_quotes: true)
+      |> split_string_by_space(ignore_in_double_quotes: true)
       |> convert_search_options_to_map()
       |> build_query_attributes()
 
@@ -23,7 +23,7 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
 
   def parse_query(nil), do: {:error, :no_query}
 
-  defp split_by_space(query, ignore_in_double_quotes: true) when is_binary(query),
+  defp split_string_by_space(query, ignore_in_double_quotes: true) when is_binary(query),
     do: Regex.split(~r{\s+(?=([^"]*"[^"]*")*[^"]*$)}, query)
 
   defp convert_search_options_to_map(query_list) when is_list(query_list) do
@@ -38,6 +38,7 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
     end)
   end
 
+  # Trims double quotes from query and casts operation to an atom
   defp convert_search_options_to_map(operator, query_param) when operator in @valid_operators do
     trimmed_param = String.trim(query_param, "\"")
 
@@ -48,16 +49,18 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
     do: operator <> ":" <> query_param
 
   defp build_query_attributes(query_list) when is_list(query_list) do
-    query =
-      query_list
-      |> Enum.reject(&is_map/1)
-      |> Enum.join(" ")
-
+    query = join_non_operator_filters(query_list)
     search_params = Enum.filter(query_list, &is_map/1)
 
     Enum.reduce([%{query: query}] ++ search_params, fn search_option, acc ->
       Map.merge(search_option, acc)
     end)
+  end
+
+  defp join_non_operator_filters(list) do
+    list
+    |> Enum.reject(&is_map/1)
+    |> Enum.join(" ")
   end
 
   defp escape_percentage_sign(string), do: String.replace(string, "%", "\\%")
