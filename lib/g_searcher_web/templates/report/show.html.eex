@@ -52,5 +52,5 @@
 </section>
 
 <section class="report-search-results">
-  <%= render GSearcherWeb.SharedView, "_search-result-table.html", assigns %>
+  <%= render GSearcherWeb.SharedView, "_search-result-table.html", search_results: @search_results, conn: @conn %>
 </section>
