@@ -1,13 +1,13 @@
 defmodule GSearcher.SearchResults.Queries.SearchResultQuery do
   import Ecto.Query, warn: false
 
-  alias GSearcher.SearchResults.SearchResult
+  alias GSearcher.SearchResults.{Report, ReportSearchResult, SearchResult}
 
   def list_search_results_by_user_id(user_id, filter_params \\ %{}) do
     SearchResult
     |> filter_search_results(filter_params)
-    |> join(:full, [sr], rsr in assoc(sr, :report_search_result))
-    |> join(:full, [rsr], r in assoc(rsr, :reports))
+    |> join(:inner, [sr], rsr in ReportSearchResult, on: sr.id == rsr.search_result_id)
+    |> join(:inner, [_, rsr], r in Report, on: r.id == rsr.report_id)
     |> where([_, _, r], r.user_id == ^user_id)
     |> filter_by_report_title(filter_params)
     |> join(:left, [sr], sr_url in assoc(sr, :search_result_urls))

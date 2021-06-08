@@ -258,13 +258,19 @@ defmodule GSearcher.SearchResultsTest do
 
       search_result1 = insert(:search_result, search_term: "e-commerce") |> forget_associations()
       search_result2 = insert(:search_result, search_term: "e-commerce") |> forget_associations()
-      _random_search_result = insert(:search_result)
+      search_result3 = insert(:search_result)
+      random_search_result = insert(:search_result)
 
       _report_search_result1 =
         insert(:report_search_result, report: report1, search_result: search_result1)
 
       _report_search_result2 =
         insert(:report_search_result, report: report2, search_result: search_result2)
+
+      _report_search_result3 =
+        insert(:report_search_result, report: report1, search_result: search_result3)
+
+      _random_associated_rsr = insert(:report_search_result, search_result: random_search_result)
 
       assert SearchResults.list_search_results_by_user_id(user.id, %{
                search_term: "e-commerce",
@@ -278,7 +284,8 @@ defmodule GSearcher.SearchResultsTest do
 
       assert SearchResults.list_search_results_by_user_id(user.id, %{title: "Business"}) == [
                search_result1,
-               search_result2
+               search_result2,
+               search_result3
              ]
     end
   end

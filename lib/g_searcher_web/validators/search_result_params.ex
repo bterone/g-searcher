@@ -16,7 +16,7 @@ defmodule GSearcherWeb.Validators.SearchResultParams do
   def changeset(data \\ %__MODULE__{}, params) do
     data
     |> cast(params, [:title, :url, :top_ads, :regular_ads])
-    |> put_change(:search_term, params["query"])
+    |> put_change(:search_term, params.query)
     |> is_count_operation?(:top_ads)
     |> is_count_operation?(:regular_ads)
   end
