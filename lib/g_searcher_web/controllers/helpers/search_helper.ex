@@ -38,11 +38,11 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
     end)
   end
 
-  # Trims double quotes from query and casts operation to an atom
+  # Trims double quotes from query
   defp convert_search_options_to_map(operator, query_param) when operator in @valid_operators do
     trimmed_param = String.trim(query_param, "\"")
 
-    %{cast_operator(operator) => trimmed_param}
+    %{operator => trimmed_param}
   end
 
   defp convert_search_options_to_map(operator, query_param),
@@ -51,8 +51,9 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
   defp build_query_attributes(query_list) when is_list(query_list) do
     query = join_non_operator_filters(query_list)
     search_params = Enum.filter(query_list, &is_map/1)
+    combined_search_params = [%{"query" => query}] ++ search_params
 
-    Enum.reduce([%{query: query}] ++ search_params, fn search_option, acc ->
+    Enum.reduce(combined_search_params, fn search_option, acc ->
       Map.merge(search_option, acc)
     end)
   end
@@ -64,10 +65,4 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
   end
 
   defp escape_percentage_sign(string), do: String.replace(string, "%", "\\%")
-
-  defp cast_operator("title"), do: :title
-  defp cast_operator("url"), do: :url
-  defp cast_operator("top_ads"), do: :top_ads
-  defp cast_operator("regular_ads"), do: :regular_ads
-  defp cast_operator("status"), do: :status
 end
