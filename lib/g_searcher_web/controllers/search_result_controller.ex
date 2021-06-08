@@ -1,7 +1,6 @@
 defmodule GSearcherWeb.SearchResultController do
   use GSearcherWeb, :controller
 
-  alias Ecto.Changeset
   alias GSearcher.{SearchResults, SearchResultURLs}
   alias GSearcherWeb.ErrorHandler
   alias GSearcherWeb.Helpers.SearchHelper
@@ -23,7 +22,7 @@ defmodule GSearcherWeb.SearchResultController do
 
       {:error, :invalid_params, changeset} ->
         search_results = SearchResults.list_search_results_by_user_id(user_id)
-        error_message = combine_changeset_errors(changeset)
+        error_message = ErrorHandler.combine_changeset_errors(changeset)
 
         conn
         |> put_flash(:error, error_message)
@@ -57,21 +56,5 @@ defmodule GSearcherWeb.SearchResultController do
       {:error, :not_found} ->
         ErrorHandler.render_error(conn, 404)
     end
-  end
-
-  defp combine_changeset_errors(changeset) do
-    errors =
-      Changeset.traverse_errors(changeset, fn {msg, opts} ->
-        Enum.reduce(opts, msg, fn {key, value}, acc ->
-          String.replace(acc, "%{#{key}}", to_string(value))
-        end)
-      end)
-
-    error_message =
-      errors
-      |> Enum.map(fn {key, errors} -> "#{key} #{Enum.join(errors, ", ")}" end)
-      |> Enum.join("\n")
-
-    error_message
   end
 end
