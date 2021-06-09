@@ -36,12 +36,12 @@ defmodule GSearcherWeb.ErrorHandlerTest do
     end
   end
 
-  describe "combine_changeset_errors/1" do
+  describe "build_changeset_error_message/1" do
     test "returns errors given an invalid changeset" do
       changeset = CreateDeveloper.changeset(%{name: "", language: ""})
 
-      assert ErrorHandler.combine_changeset_errors(changeset) =~ "language can't be blank"
-      assert ErrorHandler.combine_changeset_errors(changeset) =~ "name can't be blank"
+      assert ErrorHandler.build_changeset_error_message(changeset) =~ "language can't be blank"
+      assert ErrorHandler.build_changeset_error_message(changeset) =~ "name can't be blank"
     end
   end
 end

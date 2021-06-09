@@ -6,28 +6,31 @@ defmodule GSearcherWeb.SearchResultController do
   alias GSearcherWeb.Helpers.SearchHelper
   alias GSearcherWeb.Validators.{ParamsValidator, SearchResultParams}
 
-  def index(conn, params) do
+  def index(conn, %{"query" => query}) when is_binary(query) do
     %{id: user_id} = conn.assigns.current_user
 
-    with {:ok, query_params} <- SearchHelper.parse_query(params["query"]),
+    with {:ok, query_params} <- SearchHelper.parse_query(query),
          {:ok, validated_params} <-
            ParamsValidator.validate(query_params, as: SearchResultParams),
          search_results <- SearchResults.list_search_results_by_user_id(user_id, validated_params) do
       render(conn, "index.html", search_results: search_results)
     else
-      {:error, :no_query} ->
-        search_results = SearchResults.list_search_results_by_user_id(user_id)
-
-        render(conn, "index.html", search_results: search_results)
-
       {:error, :invalid_params, changeset} ->
         search_results = SearchResults.list_search_results_by_user_id(user_id)
-        error_message = ErrorHandler.combine_changeset_errors(changeset)
+        error_message = ErrorHandler.build_changeset_error_message(changeset)
 
         conn
         |> put_flash(:error, error_message)
         |> render("index.html", search_results: search_results)
     end
+  end
+
+  def index(conn, _params) do
+    %{id: user_id} = conn.assigns.current_user
+
+    search_results = SearchResults.list_search_results_by_user_id(user_id)
+
+    render(conn, "index.html", search_results: search_results)
   end
 
   def show(conn, %{"id" => search_result_id}) do

@@ -1,5 +1,5 @@
 defmodule GSearcherWeb.Helpers.SearchHelperTest do
-  use GSearcherWeb.ConnCase
+  use GSearcherWeb.ConnCase, async: true
 
   alias GSearcherWeb.Helpers.SearchHelper
 

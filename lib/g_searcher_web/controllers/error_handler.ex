@@ -13,7 +13,7 @@ defmodule GSearcherWeb.ErrorHandler do
     |> halt()
   end
 
-  def combine_changeset_errors(changeset) do
+  def build_changeset_error_message(changeset) do
     errors =
       Changeset.traverse_errors(changeset, fn {msg, opts} ->
         Enum.reduce(opts, msg, fn {key, value}, acc ->

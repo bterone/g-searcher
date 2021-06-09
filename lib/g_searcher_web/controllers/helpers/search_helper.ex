@@ -1,4 +1,5 @@
 defmodule GSearcherWeb.Helpers.SearchHelper do
+  @spaces_outside_double_quotes ~r{\s+(?=([^"]*"[^"]*")*[^"]*$)}
   @valid_operators ["title", "url", "top_ads", "regular_ads", "status"]
 
   @spec parse_query(String.t()) :: {:ok, %{String.t() => String.t()}}
@@ -6,17 +7,17 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
     parsed_query =
       query
       |> escape_percentage_sign()
-      |> split_string_by_space(ignore_in_double_quotes: true)
+      |> split_string_by_space()
       |> convert_search_options_to_map()
       |> build_query_attributes()
 
     {:ok, parsed_query}
   end
 
-  def parse_query(nil), do: {:error, :no_query}
+  defp escape_percentage_sign(string), do: String.replace(string, "%", "\\%")
 
-  defp split_string_by_space(query, ignore_in_double_quotes: true) when is_binary(query),
-    do: Regex.split(~r{\s+(?=([^"]*"[^"]*")*[^"]*$)}, query)
+  defp split_string_by_space(query) when is_binary(query),
+    do: Regex.split(@spaces_outside_double_quotes, query)
 
   defp convert_search_options_to_map(query_list) when is_list(query_list) do
     Enum.map(query_list, fn query ->
@@ -55,6 +56,4 @@ defmodule GSearcherWeb.Helpers.SearchHelper do
     |> Enum.reject(&is_map/1)
     |> Enum.join(" ")
   end
-
-  defp escape_percentage_sign(string), do: String.replace(string, "%", "\\%")
 end
