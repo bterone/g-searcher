@@ -6,7 +6,7 @@ defmodule GSearcherWeb.SearchResultControllerTest do
       user = insert(:user)
       report = insert(:report, user: user)
 
-      search_result = insert(:search_result, search_term: "Example")
+      search_result = insert(:search_result)
 
       _report_search_result =
         insert(:report_search_result, report: report, search_result: search_result)
@@ -17,44 +17,6 @@ defmodule GSearcherWeb.SearchResultControllerTest do
         |> get(Routes.search_result_path(conn, :index), query: "Example")
 
       assert html_response(conn, 200)
-      assert conn.resp_body =~ search_result.search_term
-    end
-
-    test "renders search results belonging to user given invalid params", %{conn: conn} do
-      user = insert(:user)
-      report = insert(:report, user: user)
-
-      search_result = insert(:search_result, search_term: "Boba Tea")
-
-      _report_search_result =
-        insert(:report_search_result, report: report, search_result: search_result)
-
-      conn =
-        conn
-        |> sign_in(user)
-        |> get(Routes.search_result_path(conn, :index), %{query: "Tea top_ads:\"Boba Tea\""})
-
-      assert html_response(conn, 200)
-      assert get_flash(conn, :error) == "top_ads operation should only be '<, >, ='"
-      assert conn.resp_body =~ search_result.search_term
-    end
-
-    test "renders search results belonging to user given no params", %{conn: conn} do
-      user = insert(:user)
-      report = insert(:report, user: user)
-
-      search_result = insert(:search_result)
-
-      _report_search_result =
-        insert(:report_search_result, report: report, search_result: search_result)
-
-      conn =
-        conn
-        |> sign_in(user)
-        |> get(Routes.search_result_path(conn, :index))
-
-      assert html_response(conn, 200)
-      assert conn.resp_body =~ search_result.search_term
     end
   end
 
