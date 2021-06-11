@@ -4,6 +4,7 @@ defmodule GSearcher.SearchResults do
   import Ecto.Query, warn: false
 
   alias GSearcher.Repo
+  alias GSearcher.SearchResults.Queries.SearchResultQuery
   alias GSearcher.SearchResults.{ReportSearchResult, SearchResult, SearchResultURL}
 
   def create_search_result(attrs) do
@@ -44,12 +45,9 @@ defmodule GSearcher.SearchResults do
     end
   end
 
-  def list_search_results_by_user_id(user_id, query \\ "") do
-    SearchResult
-    |> join(:full, [sr], rsr in assoc(sr, :report_search_result))
-    |> join(:full, [rsr], r in assoc(rsr, :reports))
-    |> where([_, _, r], r.user_id == ^user_id)
-    |> where([sr, _, _], like(sr.search_term, ^"%#{escape_percentage_sign(query)}%"))
+  def list_search_results_by_user_id(user_id, filter_params \\ %{}) do
+    user_id
+    |> SearchResultQuery.list_search_results_by_user_id(filter_params)
     |> Repo.all()
   end
 
@@ -91,7 +89,4 @@ defmodule GSearcher.SearchResults do
 
   defp is_changeset?(%Ecto.Changeset{}), do: true
   defp is_changeset?(_), do: false
-
-  # TODO: Move to search_helper to sanitize user input in #41
-  defp escape_percentage_sign(query), do: String.replace(query, "%", "\\%")
 end
