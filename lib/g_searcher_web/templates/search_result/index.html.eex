@@ -1,6 +1,7 @@
-<%# TODO: Style this page in #19 %>
-<ul>
-  <%= for search_result <- @search_results do %>
-    <li><%= search_result.search_term %></li>
-  <% end %>
-</ul>
+<section class="search-result-list">
+  <%= render GSearcherWeb.SharedView,
+            "_search-result-table.html",
+            search_results: Enum.with_index(@search_results, 1),
+            conn: @conn
+  %>
+</section>

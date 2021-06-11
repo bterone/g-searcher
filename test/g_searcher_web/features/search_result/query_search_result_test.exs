@@ -5,7 +5,7 @@ defmodule GSearcherWeb.SearchResult.QuerySearchResultTest do
   @selectors %{
     search_button: ".app-header__search-button",
     search_input: ".app-header__search-input",
-    search_result_list: "li"
+    search_result_list: ".table__item--keyword p"
   }
 
   feature "query search results given user has search results", %{session: session} do
