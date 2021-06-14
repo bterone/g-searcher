@@ -85,6 +85,211 @@ defmodule GSearcher.SearchResultsTest do
     end
   end
 
+  describe "list_search_results_by_user_id/2" do
+    test "returns list of search_results" do
+      user = insert(:user)
+
+      report1 = insert(:report, user: user)
+      report2 = insert(:report, user: user)
+      search_result1 = insert(:search_result) |> forget_associations()
+      search_result2 = insert(:search_result) |> forget_associations()
+
+      _report_search_result_1 =
+        insert(:report_search_result, report: report1, search_result: search_result1)
+
+      _report_search_result_2 =
+        insert(:report_search_result, report: report2, search_result: search_result2)
+
+      _invalid_report_result = insert(:report_search_result)
+
+      assert SearchResults.list_search_results_by_user_id(user.id) == [
+               search_result1,
+               search_result2
+             ]
+    end
+
+    test "returns list of search_results given query params for search term" do
+      user = insert(:user)
+
+      report1 = insert(:report, user: user)
+      report2 = insert(:report, user: user)
+
+      search_result1 =
+        insert(:search_result, search_term: "The quick fox") |> forget_associations()
+
+      search_result2 =
+        insert(:search_result, search_term: "The lazy dog") |> forget_associations()
+
+      _random_search_result = insert(:search_result)
+
+      _report_search_result1 =
+        insert(:report_search_result, report: report1, search_result: search_result1)
+
+      _report_search_result2 =
+        insert(:report_search_result, report: report2, search_result: search_result2)
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{search_term: "quick"}) == [
+               search_result1
+             ]
+    end
+
+    test "returns list of search_results given query params for regular ads" do
+      user = insert(:user)
+
+      report1 = insert(:report, user: user)
+      report2 = insert(:report, user: user)
+
+      search_result1 =
+        insert(:search_result, number_of_regular_advertisers: 15) |> forget_associations()
+
+      search_result2 =
+        insert(:search_result, number_of_regular_advertisers: 23) |> forget_associations()
+
+      _random_search_result = insert(:search_result)
+
+      _report_search_result1 =
+        insert(:report_search_result, report: report1, search_result: search_result1)
+
+      _report_search_result2 =
+        insert(:report_search_result, report: report2, search_result: search_result2)
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{regular_ads: "<20"}) == [
+               search_result1
+             ]
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{regular_ads: "=15"}) == [
+               search_result1
+             ]
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{regular_ads: ">14"}) == [
+               search_result1,
+               search_result2
+             ]
+    end
+
+    test "returns list of search_results given query params for top ads" do
+      user = insert(:user)
+
+      report1 = insert(:report, user: user)
+      report2 = insert(:report, user: user)
+
+      search_result1 =
+        insert(:search_result, number_of_top_advertisers: 15) |> forget_associations()
+
+      search_result2 =
+        insert(:search_result, number_of_top_advertisers: 23) |> forget_associations()
+
+      _random_search_result = insert(:search_result)
+
+      _report_search_result1 =
+        insert(:report_search_result, report: report1, search_result: search_result1)
+
+      _report_search_result2 =
+        insert(:report_search_result, report: report2, search_result: search_result2)
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{top_ads: "<20"}) == [
+               search_result1
+             ]
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{top_ads: "=15"}) == [
+               search_result1
+             ]
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{top_ads: ">14"}) == [
+               search_result1,
+               search_result2
+             ]
+    end
+
+    test "returns list of search_results given query params for url" do
+      user = insert(:user)
+
+      report1 = insert(:report, user: user)
+      report2 = insert(:report, user: user)
+
+      search_result1 = insert(:search_result) |> forget_associations()
+      search_result2 = insert(:search_result) |> forget_associations()
+
+      _search_result_url1 =
+        insert(:search_result_url, search_result: search_result1, url: "https://www.boba.com/tea")
+
+      _search_result_url2 =
+        insert(:search_result_url, search_result: search_result1, url: "https://www.boba.com/help")
+
+      _search_result_url3 =
+        insert(:search_result_url,
+          search_result: search_result2,
+          url: "https://www.boba.com/coffee"
+        )
+
+      _search_result_url4 =
+        insert(:search_result_url,
+          search_result: search_result2,
+          url: "https://www.boba.com/offce-hours"
+        )
+
+      _random_url = insert(:search_result_url)
+
+      _report_search_result1 =
+        insert(:report_search_result, report: report1, search_result: search_result1)
+
+      _report_search_result2 =
+        insert(:report_search_result, report: report2, search_result: search_result2)
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{
+               url: "https://www.boba.com/tea"
+             }) == [search_result1]
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{url: "boba.com/tea"}) == [
+               search_result1
+             ]
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{url: "boba.com"}) == [
+               search_result1,
+               search_result2
+             ]
+    end
+
+    test "returns list of search_results given query params for report title" do
+      user = insert(:user)
+
+      report1 = insert(:report, user: user, title: "Business Marketing")
+      report2 = insert(:report, user: user, title: "Other Businesses")
+
+      search_result1 = insert(:search_result, search_term: "e-commerce") |> forget_associations()
+      search_result2 = insert(:search_result, search_term: "e-commerce") |> forget_associations()
+      search_result3 = insert(:search_result)
+      random_search_result = insert(:search_result)
+
+      _report_search_result1 =
+        insert(:report_search_result, report: report1, search_result: search_result1)
+
+      _report_search_result2 =
+        insert(:report_search_result, report: report2, search_result: search_result2)
+
+      _report_search_result3 =
+        insert(:report_search_result, report: report1, search_result: search_result3)
+
+      _random_associated_rsr = insert(:report_search_result, search_result: random_search_result)
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{
+               search_term: "e-commerce",
+               title: "Business Marketing"
+             }) == [search_result1]
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{
+               search_term: "e-commerce",
+               title: "Marketing"
+             }) == [search_result1]
+
+      assert SearchResults.list_search_results_by_user_id(user.id, %{title: "Business"}) == [
+               search_result1,
+               search_result2,
+               search_result3
+             ]
+    end
+  end
+
   describe "update_search_result/2" do
     test "updates search result given a valid ID and attributes" do
       search_result = insert(:search_result)

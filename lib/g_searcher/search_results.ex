@@ -4,6 +4,7 @@ defmodule GSearcher.SearchResults do
   import Ecto.Query, warn: false
 
   alias GSearcher.Repo
+  alias GSearcher.SearchResults.Queries.SearchResultQuery
   alias GSearcher.SearchResults.{ReportSearchResult, SearchResult, SearchResultURL}
 
   def create_search_result(attrs) do
@@ -42,6 +43,12 @@ defmodule GSearcher.SearchResults do
       [] -> {:error, :not_found}
       search_results -> {:ok, search_results}
     end
+  end
+
+  def list_search_results_by_user_id(user_id, filter_params \\ %{}) do
+    user_id
+    |> SearchResultQuery.list_search_results_by_user_id(filter_params)
+    |> Repo.all()
   end
 
   def update_search_result(search_result, params) do

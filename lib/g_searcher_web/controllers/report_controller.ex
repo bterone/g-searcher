@@ -3,13 +3,13 @@ defmodule GSearcherWeb.ReportController do
 
   alias GSearcher.Reports
   alias GSearcherWeb.{DashboardController, DashboardView, ErrorHandler}
-  alias GSearcherWeb.Validators.{CreateReportParams, ParamValidator}
+  alias GSearcherWeb.Validators.{CreateReportParams, ParamsValidator}
 
   def create(conn, %{"report" => report_params}) do
     user = conn.assigns.current_user
 
     with {:ok, %{title: title, csv: csv}} <-
-           ParamValidator.validate(report_params, for: CreateReportParams),
+           ParamsValidator.validate(report_params, as: CreateReportParams),
          {:ok, _report} <- Reports.create_report(user.id, title, csv.path) do
       conn
       |> put_flash(:info, "Report generated successfully.")

@@ -56,6 +56,7 @@ defmodule GSearcherWeb.Router do
 
     get "/report/:id", ReportController, :show
 
+    get "/search-result", SearchResultController, :index
     get "/search-result/:id", SearchResultController, :show
     get "/search-result/:id/result_snapshot", SearchResultController, :result_snapshot
   end
