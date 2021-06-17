@@ -74,3 +74,7 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :g_searcher, GSearcher.Tokenizer,
+  issuer: "g_searcher",
+  secret_key: "rnfdubCpZZlBGtBV0tE2eaVA8yE9bHLlzQ3Jm5xccYf9DehSIcmsbI8yULWk/oMT"

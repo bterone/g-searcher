@@ -28,7 +28,18 @@ config :g_searcher, Oban,
 
 config :ueberauth, Ueberauth,
   providers: [
-    google: {Ueberauth.Strategy.Google, []}
+    google:
+      {Ueberauth.Strategy.Google,
+       [
+         request_path: "/auth/google",
+         callback_path: "/auth/google/callback"
+       ]},
+    google_api:
+      {Ueberauth.Strategy.Google,
+       [
+         request_path: "/api/auth/google",
+         callback_path: "/api/auth/google/callback"
+       ]}
   ]
 
 # Configures Elixir's Logger
