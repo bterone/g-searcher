@@ -28,7 +28,7 @@ defmodule GSearcherWeb.APICase do
 
       import Mimic
 
-      alias GSearcherWeb.Router.Helpers, as: Routes
+      alias GSearcherWeb.APIRouter.Helpers, as: APIRoutes
 
       # The default endpoint for testing
       @endpoint GSearcherWeb.Endpoint

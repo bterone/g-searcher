@@ -33,4 +33,4 @@ config :logger, level: :warn
 
 config :g_searcher, GSearcher.Tokenizer,
   issuer: "g_searcher",
-  secret_key: "lvYn4Mng4lc71b6sMGMvicfi3gdmnrZVOO/9lahbtvMxAWZ8z5NVwVcFo2k1tnUb"
+  secret_key: "yXnwGn94XQa3DWhvt7Qqn28JaT7agPrJIiT64e/jhaWzREY5ZOrfcjSCgaHVN5WD"
