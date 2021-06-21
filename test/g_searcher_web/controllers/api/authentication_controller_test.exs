@@ -69,8 +69,8 @@ defmodule GSearcherWeb.API.AuthenticationControllerTest do
       assert json_response(conn, 400) == %{
                "errors" => [
                  %{
-                   "status" => "bad_request",
-                   "detail" => "Unable to sign in"
+                   "detail" => "Unable to sign in",
+                   "status" => "bad_request"
                  }
                ]
              }

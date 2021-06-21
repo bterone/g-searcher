@@ -42,7 +42,10 @@ defmodule GSearcherWeb.ErrorHandlerTest do
 
       assert json_response(conn, 404) == %{
                "errors" => [
-                 %{"detail" => "Not found", "status" => "not_found"}
+                 %{
+                   "detail" => "Not found",
+                   "status" => "not_found"
+                 }
                ]
              }
     end
