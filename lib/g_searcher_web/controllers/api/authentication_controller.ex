@@ -13,7 +13,7 @@ defmodule GSearcherWeb.API.AuthenticationController do
   end
 
   defp sign_in(conn, user_params) do
-    case insert_or_update_user(user_params) do
+    case fetch_or_insert_user(user_params) do
       {:ok, user} ->
         {:ok, access_token, _} = Tokenizer.generate_access_token(user)
 
@@ -26,7 +26,7 @@ defmodule GSearcherWeb.API.AuthenticationController do
     end
   end
 
-  defp insert_or_update_user(user_params) do
+  defp fetch_or_insert_user(user_params) do
     case Accounts.get_user_by_email(user_params.email) do
       nil ->
         Accounts.create_user(user_params)

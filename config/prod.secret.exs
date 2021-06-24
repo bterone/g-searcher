@@ -32,12 +32,12 @@ config :g_searcher, GSearcherWeb.Endpoint,
   secret_key_base: secret_key_base
 
 config :ueberauth, Ueberauth.Strategy.Google.OAuth,
-  client_id: System.get_env("GOOGLE_CLIENT_ID"),
-  client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
+  client_id: System.fetch_env!("GOOGLE_CLIENT_ID"),
+  client_secret: System.fetch_env!("GOOGLE_CLIENT_SECRET")
 
 config :g_searcher, GSearcher.Tokenizer,
   issuer: "g_searcher",
-  secret_key: System.get_env("GUARDIAN_SECRET")
+  secret_key: System.fetch_env!("GUARDIAN_SECRET")
 
 # ## Using releases (Elixir v1.9+)
 #

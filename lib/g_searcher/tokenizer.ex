@@ -3,13 +3,10 @@ defmodule GSearcher.Tokenizer do
 
   alias GSearcher.Accounts
 
-  def generate_access_token(user) do
-    encode_and_sign(user, %{}, ttl: {1, :days}, token_type: "access")
-  end
+  def generate_access_token(user),
+    do: encode_and_sign(user, %{}, ttl: {1, :days}, token_type: "access")
 
-  def subject_for_token(resource, _options) do
-    {:ok, resource.id}
-  end
+  def subject_for_token(resource, _options), do: {:ok, resource.id}
 
   def resource_from_claims(claims) do
     Accounts.get_user_by_id(claims["sub"])
