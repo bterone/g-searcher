@@ -31,6 +31,6 @@ defmodule GSearcherWeb.APIRouter do
   scope "/api", GSearcherWeb.API, as: :api do
     pipe_through [:api, :authentication]
 
-    # Routes that require authenication
+    post "/reports", ReportController, :create
   end
 end

@@ -1,10 +1,17 @@
 defmodule GSearcher.Helpers.SessionHelper do
   import GSearcher.Factory
 
+  alias GSearcher.Tokenizer
   alias Plug.Conn
 
   def assign_user_auth(%Conn{} = conn, user) do
     Conn.assign(conn, :ueberauth_auth, build_ueberauth_payload(user))
+  end
+
+  def authenticate_user(%Conn{} = conn, user) do
+    {:ok, access_token, _} = Tokenizer.generate_access_token(user)
+
+    Conn.put_req_header(conn, "authorization", "Bearer " <> access_token)
   end
 
   def sign_in(%Conn{} = conn, user) do
