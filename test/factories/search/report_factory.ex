@@ -5,7 +5,7 @@ defmodule GSearcher.SearchResults.ReportFactory do
     quote do
       def report_factory do
         %Report{
-          title: Faker.Lorem.word(),
+          title: sequence(:title, &"#{Faker.Lorem.word()}#{&1}"),
           user: build(:user),
           csv_path: "test/support/fixtures/test.csv"
         }

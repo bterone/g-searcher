@@ -30,3 +30,7 @@ config :wallaby,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :g_searcher, GSearcher.Tokenizer,
+  issuer: "g_searcher",
+  secret_key: "yXnwGn94XQa3DWhvt7Qqn28JaT7agPrJIiT64e/jhaWzREY5ZOrfcjSCgaHVN5WD"

@@ -10,11 +10,6 @@ defmodule GSearcherWeb.Router do
     plug GSearcherWeb.Plugs.SetCurrentUser
   end
 
-  # coveralls-ignore-start
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   pipeline :authentication do
     plug GSearcherWeb.Plugs.EnsureAuth
   end
@@ -22,8 +17,6 @@ defmodule GSearcherWeb.Router do
   pipeline :mock_oauth do
     plug GSearcherWeb.Plugs.Tests.MockOauth
   end
-
-  # coveralls-ignore-stop
 
   scope "/", GSearcherWeb do
     pipe_through :browser
