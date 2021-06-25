@@ -3,7 +3,6 @@ defmodule GSearcherWeb.APIRouter do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug JSONAPI.EnsureSpec
     plug JSONAPI.Deserializer
     plug JSONAPI.UnderscoreParameters
   end

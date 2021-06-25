@@ -15,16 +15,10 @@ defmodule GSearcherWeb.API.ReportControllerTest do
         |> post(
           APIRoutes.api_report_path(conn, :create),
           %{
-            "data" => %{
-              "type" => "report",
-              "attributes" => %{
-                "title" => "Test Report",
-                "csv" => %Plug.Upload{
-                  path: report.csv_path,
-                  filename: "test.csv",
-                  content_type: "text/csv"
-                }
-              }
+            "csv" => %Plug.Upload{
+              path: report.csv_path,
+              filename: "test.csv",
+              content_type: "text/csv"
             }
           }
         )
@@ -32,14 +26,12 @@ defmodule GSearcherWeb.API.ReportControllerTest do
       assert conn.status == 204
 
       assert [report_in_db] = Repo.all(Report)
-      assert report_in_db.title == "Test Report"
+      assert report_in_db.title == "test.csv"
     end
 
     test "renders dashboard with error flash if report title is taken", %{conn: conn} do
       user = insert(:user)
-      _old_report = insert(:report, user: user, title: "Taken Title")
-
-      report = build(:report, title: "Taken Title")
+      _old_report = insert(:report, user: user, title: "test.csv")
 
       conn =
         conn
@@ -47,16 +39,10 @@ defmodule GSearcherWeb.API.ReportControllerTest do
         |> post(
           APIRoutes.api_report_path(conn, :create),
           %{
-            "data" => %{
-              "type" => "report",
-              "attributes" => %{
-                "title" => "Taken Title",
-                "csv" => %Plug.Upload{
-                  path: report.csv_path,
-                  filename: "test.csv",
-                  content_type: "text/csv"
-                }
-              }
+            "csv" => %Plug.Upload{
+              path: "test/support/fixtures/test.csv",
+              filename: "test.csv",
+              content_type: "text/csv"
             }
           }
         )
@@ -80,16 +66,10 @@ defmodule GSearcherWeb.API.ReportControllerTest do
         |> post(
           APIRoutes.api_report_path(conn, :create),
           %{
-            "data" => %{
-              "type" => "report",
-              "attributes" => %{
-                "title" => "Test Report",
-                "csv" => %Plug.Upload{
-                  path: "invalid_path",
-                  filename: "invalid_filename",
-                  content_type: "text/csv"
-                }
-              }
+            "csv" => %Plug.Upload{
+              path: "invalid_path",
+              filename: "invalid_filename",
+              content_type: "text/csv"
             }
           }
         )

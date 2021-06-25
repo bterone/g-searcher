@@ -3,14 +3,15 @@ defmodule GSearcherWeb.API.ReportController do
 
   alias GSearcher.Reports
   alias GSearcherWeb.ErrorHandler
-  alias GSearcherWeb.Validators.{CreateReportParams, ParamsValidator}
+  alias GSearcherWeb.Validators.API.CreateReportParams
+  alias GSearcherWeb.Validators.ParamsValidator
 
   def create(conn, params) do
     %{id: user_id} = conn.assigns.user
 
-    with {:ok, %{title: title, csv: csv}} <-
+    with {:ok, %{csv: csv}} <-
            ParamsValidator.validate(params, as: CreateReportParams),
-         {:ok, _report} <- Reports.create_report(user_id, title, csv.path) do
+         {:ok, _report} <- Reports.create_report(user_id, csv.filename, csv.path) do
       send_resp(conn, :no_content, "")
     else
       {:error, :invalid_params, %Ecto.Changeset{} = report_changeset} ->
