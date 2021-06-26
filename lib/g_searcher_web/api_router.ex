@@ -7,6 +7,10 @@ defmodule GSearcherWeb.APIRouter do
     plug JSONAPI.UnderscoreParameters
   end
 
+  pipeline :ensure_spec do
+    plug JSONAPI.EnsureSpec
+  end
+
   pipeline :authentication do
     plug Guardian.Plug.Pipeline,
       module: GSearcher.Tokenizer,
@@ -31,5 +35,11 @@ defmodule GSearcherWeb.APIRouter do
     pipe_through [:api, :authentication]
 
     post "/reports", ReportController, :create
+  end
+
+  scope "/api", GSearcherWeb.API, as: :api do
+    pipe_through [:api, :authentication, :ensure_spec]
+
+    # Routes that require following the JSONAPI spec
   end
 end
