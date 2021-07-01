@@ -5,7 +5,7 @@ defmodule GSearcherWeb.API.ReportControllerTest do
   alias GSearcher.SearchResults.Report
 
   describe "create/2" do
-    test "redirects to dashboard with success flash given valid CSV", %{conn: conn} do
+    test "returns successful response given valid CSV", %{conn: conn} do
       user = insert(:user)
       report = build(:report)
 
@@ -29,7 +29,7 @@ defmodule GSearcherWeb.API.ReportControllerTest do
       assert report_in_db.title == "test.csv"
     end
 
-    test "renders dashboard with error flash if report title is taken", %{conn: conn} do
+    test "returns an error response given a report title is taken", %{conn: conn} do
       user = insert(:user)
       _old_report = insert(:report, user: user, title: "test.csv")
 
@@ -57,7 +57,7 @@ defmodule GSearcherWeb.API.ReportControllerTest do
              }
     end
 
-    test "redirects to dashboard with error flash if CSV is invalid", %{conn: conn} do
+    test "returns an error response given an invalid CSV", %{conn: conn} do
       user = insert(:user)
 
       conn =
