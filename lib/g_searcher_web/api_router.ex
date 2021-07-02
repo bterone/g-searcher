@@ -41,5 +41,6 @@ defmodule GSearcherWeb.APIRouter do
     pipe_through [:api, :authentication, :ensure_spec]
 
     get "/search_results", SearchResultController, :index
+    get "/search-result/:id", SearchResultController, :show
   end
 end
