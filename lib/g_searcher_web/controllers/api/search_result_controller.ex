@@ -3,6 +3,24 @@ defmodule GSearcherWeb.API.SearchResultController do
 
   alias GSearcher.{SearchResults, SearchResultURLs}
   alias GSearcherWeb.ErrorHandler
+  alias GSearcherWeb.Validators.{ParamsValidator, SearchResultParams}
+
+  def index(conn, params) when is_map(params) do
+    %{id: user_id} = conn.assigns.user
+
+    with {:ok, validated_params} <-
+           ParamsValidator.validate(params, as: SearchResultParams),
+         search_results <- SearchResults.list_search_results_by_user_id(user_id, validated_params) do
+      render(conn, "index.json", %{search_results: search_results})
+    else
+      {:error, :invalid_params, changeset} ->
+        changeset_errors = ErrorHandler.build_changeset_error_message(changeset)
+
+        conn
+        |> put_status(:bad_request)
+        |> ErrorHandler.render_error_json(:bad_request, changeset_errors)
+    end
+  end
 
   def index(conn, _params) do
     %{id: user_id} = conn.assigns.user
