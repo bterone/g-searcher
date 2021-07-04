@@ -5,7 +5,17 @@ defmodule GSearcherWeb.API.SearchResultController do
   alias GSearcherWeb.ErrorHandler
   alias GSearcherWeb.Validators.{ParamsValidator, SearchResultParams}
 
-  def index(conn, params) when is_map(params) do
+  def index(conn, params) when params == %{} do
+    %{id: user_id} = conn.assigns.user
+
+    search_results = SearchResults.list_search_results_by_user_id(user_id)
+
+    conn
+    |> put_status(:ok)
+    |> render("index.json", %{search_results: search_results})
+  end
+
+  def index(conn, params) do
     %{id: user_id} = conn.assigns.user
 
     with {:ok, validated_params} <-
@@ -20,16 +30,6 @@ defmodule GSearcherWeb.API.SearchResultController do
         |> put_status(:bad_request)
         |> ErrorHandler.render_error_json(:bad_request, changeset_errors)
     end
-  end
-
-  def index(conn, _params) do
-    %{id: user_id} = conn.assigns.user
-
-    search_results = SearchResults.list_search_results_by_user_id(user_id)
-
-    conn
-    |> put_status(:ok)
-    |> render("index.json", %{search_results: search_results})
   end
 
   def show(conn, %{"id" => search_result_id}) do
