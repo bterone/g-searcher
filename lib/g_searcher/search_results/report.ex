@@ -23,7 +23,7 @@ defmodule GSearcher.SearchResults.Report do
     |> cast(attrs, [:title, :csv_path, :user_id])
     |> validate_required([:title, :user_id])
     |> unique_constraint([:title, :user_id],
-      message: "is already used."
+      message: "is already used"
     )
   end
 end
