@@ -12,7 +12,7 @@ defmodule GSearcherWeb.API.ReportController do
     with {:ok, %{csv: csv}} <-
            ParamsValidator.validate(params, as: CreateReportParams),
          {:ok, _report} <- Reports.create_report(user_id, csv.filename, csv.path) do
-      send_resp(conn, :no_content, "")
+      send_resp(conn, :created, "")
     else
       {:error, :invalid_params, %Ecto.Changeset{} = report_changeset} ->
         changeset_errors = ErrorHandler.build_changeset_error_message(report_changeset)
@@ -23,8 +23,8 @@ defmodule GSearcherWeb.API.ReportController do
 
       {:error, :failed_to_save_keywords} ->
         conn
-        |> put_status(:internal_server_error)
-        |> ErrorHandler.render_error_json(:internal_server_error, "Failed to save from file")
+        |> put_status(:unprocessable_entity)
+        |> ErrorHandler.render_error_json(:unprocessable_entity, "Failed to save from file")
     end
   end
 end

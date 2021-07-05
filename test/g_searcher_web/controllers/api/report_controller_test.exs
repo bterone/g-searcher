@@ -23,7 +23,7 @@ defmodule GSearcherWeb.API.ReportControllerTest do
           }
         )
 
-      assert conn.status == 204
+      assert conn.status == 201
 
       assert [report_in_db] = Repo.all(Report)
       assert report_in_db.title == "test.csv"
@@ -74,11 +74,11 @@ defmodule GSearcherWeb.API.ReportControllerTest do
           }
         )
 
-      assert json_response(conn, 500) == %{
+      assert json_response(conn, 422) == %{
                "errors" => [
                  %{
                    "detail" => "Failed to save from file",
-                   "status" => "internal_server_error"
+                   "status" => "unprocessable_entity"
                  }
                ]
              }
