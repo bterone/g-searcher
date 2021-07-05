@@ -71,7 +71,9 @@ defmodule GSearcher.SearchResults.SearchResultParser do
     search_result_urls =
       html_tree
       |> build_result_params(@search_results)
-      |> Enum.reject(fn url -> url == "#" end)
+      |> Enum.reject(fn %{title: title, url: url} ->
+        url == "#" || title == ""
+      end)
 
     %{
       search_result_urls: search_result_urls,
