@@ -40,6 +40,6 @@ defmodule GSearcherWeb.APIRouter do
   scope "/api", GSearcherWeb.API, as: :api do
     pipe_through [:api, :authentication, :ensure_spec]
 
-    # Routes that require following the JSONAPI spec
+    resources "/search-result", SearchResultController, only: [:index, :show]
   end
 end
