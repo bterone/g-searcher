@@ -11,6 +11,6 @@
     "test/support"
   ],
   "coverage_options": {
-    "minimum_coverage": 99
+    "minimum_coverage": 100
   }
 }
