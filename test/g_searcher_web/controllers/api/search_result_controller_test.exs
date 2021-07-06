@@ -2,7 +2,7 @@ defmodule GSearcherWeb.API.SearchResultControllerTest do
   use GSearcherWeb.APICase, async: true
 
   describe "index/2" do
-    test "returns search results belonging to the user", %{conn: conn} do
+    test "returns search results belonging to the user given no params", %{conn: conn} do
       user = insert(:user)
       report = insert(:report, user: user)
 
@@ -50,6 +50,39 @@ defmodule GSearcherWeb.API.SearchResultControllerTest do
              }
     end
 
+    test "returns search results belonging to user given valid params", %{conn: conn} do
+      user = insert(:user)
+      report = insert(:report, user: user)
+
+      search_result =
+        insert(:search_result, total_number_of_results: 1_000_000, search_term: "Boba Tea")
+
+      _report_search_result =
+        insert(:report_search_result, report: report, search_result: search_result)
+
+      conn =
+        conn
+        |> authenticate_user(user)
+        |> get(APIRoutes.api_search_result_path(conn, :index), %{query: "Tea"})
+
+      assert json_response(conn, 200) == %{
+               "data" => [
+                 %{
+                   "type" => "search_result",
+                   "id" => search_result.id,
+                   "attributes" => %{
+                     "keyword" => search_result.search_term,
+                     "status" => "Completed",
+                     "top_advertiser_count" => search_result.number_of_top_advertisers,
+                     "regular_advertiser_count" => search_result.number_of_regular_advertisers,
+                     "page_result_count" => search_result.number_of_results_on_page,
+                     "total_result_count" => "1 Million"
+                   }
+                 }
+               ]
+             }
+    end
+
     test "returns no search results given the user has NO search results", %{conn: conn} do
       user = insert(:user)
 
@@ -59,6 +92,34 @@ defmodule GSearcherWeb.API.SearchResultControllerTest do
         |> get(APIRoutes.api_search_result_path(conn, :index))
 
       assert json_response(conn, 200) == %{"data" => []}
+    end
+
+    test "returns a 400 error response belonging to user given invalid params", %{conn: conn} do
+      user = insert(:user)
+      report = insert(:report, user: user)
+
+      search_result =
+        insert(:search_result, total_number_of_results: 1_000_000, search_term: "Boba Tea")
+
+      _report_search_result =
+        insert(:report_search_result, report: report, search_result: search_result)
+
+      conn =
+        conn
+        |> authenticate_user(user)
+        |> get(APIRoutes.api_search_result_path(conn, :index), %{
+          query: "Tea",
+          top_ads: "Boba Tea"
+        })
+
+      assert json_response(conn, 400) == %{
+               "errors" => [
+                 %{
+                   "detail" => "top_ads operation should only be '<, >, ='",
+                   "status" => "bad_request"
+                 }
+               ]
+             }
     end
   end
 
