@@ -94,7 +94,7 @@ defmodule GSearcherWeb.API.SearchResultControllerTest do
       assert json_response(conn, 200) == %{"data" => []}
     end
 
-    test "renders search results belonging to user given invalid params", %{conn: conn} do
+    test "returns a 400 error response belonging to user given invalid params", %{conn: conn} do
       user = insert(:user)
       report = insert(:report, user: user)
 
