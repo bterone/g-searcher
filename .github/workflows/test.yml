@@ -9,6 +9,7 @@ on:
 env:
   OTP_VERSION: "23.0.2"
   ELIXIR_VERSION: "1.10.4"
+  NODE_VERSION: "14.16.1"
 
 jobs:
   test:
@@ -36,6 +37,10 @@ jobs:
           otp-version: ${{ env.OTP_VERSION }}
           elixir-version: ${{ env.ELIXIR_VERSION }}
           experimental-otp: true
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache Elixir build
         uses: actions/cache@v2
