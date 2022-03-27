@@ -49,6 +49,7 @@ defmodule GSearcher.MixProject do
       {:excoveralls, "~> 0.13.2", [only: :test]},
       {:dialyxir, "~> 1.0.0", [only: [:dev], runtime: false]},
       {:credo, "~> 1.5.0-rc.4", [only: [:dev, :test], runtime: false]},
+      {:corsica, "~> 1.1"},
       {:phoenix, "~> 1.5.5"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
