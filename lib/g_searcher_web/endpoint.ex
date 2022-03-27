@@ -55,7 +55,7 @@ defmodule GSearcherWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
 
-  plug Corsica, origins: "http://localhost"
+  plug Corsica, origins: "http://localhost:3000"
 
   plug GSearcherWeb.Plugs.Router
 end
