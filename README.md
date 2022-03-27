@@ -36,6 +36,7 @@ G-Searcher is a Google Web Scraper. You upload a CSV with all the keywords you w
 * [Erlang/OTP 23.2.4](https://www.erlang.org/)
 * [Elixir 1.11.3](https://elixir-lang.org/)
 * [Phoenix Framework 1.5.5](https://phoenixframework.org/)
+* [Node Version 14.16.1](https://nodejs.org/en/)
 
 ## Getting Started
 
