@@ -9,10 +9,26 @@ on:
 
 jobs:
   publish:
-    name: Publish Wiki
-    uses: nimblehq/publish-github-wiki-action@0.0.1-alpha
-    with:
-      USER_NAME: Terone
-      USER_EMAIL: 34730459+bterone@users.noreply.github.com
-    secrets:
-      USER_TOKEN: ${{ secrets.GH_TOKEN }}
+    name: Publish Github Wiki
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 1
+
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Publish Wiki
+        uses: nimblehq/publish-github-wiki-action@v0.0.5-alpha
+        env:
+          USER_NAME: Terone
+          USER_EMAIL: 34730459+bterone@users.noreply.github.com
+          USER_TOKEN: ${{ secrets.GH_TOKEN }}
