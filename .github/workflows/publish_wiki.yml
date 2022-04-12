@@ -2,10 +2,8 @@ name: Publish Wiki
 
 on:
   push:
-    paths:
-      - .github/wiki/**
     branches:
-      - develop
+      - chore/publish-github-wiki
 
 jobs:
   publish:
@@ -27,8 +25,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Publish Wiki
-        uses: nimblehq/publish-github-wiki-action@v0.0.5-alpha
+        uses: nimblehq/publish-github-wiki-action@v0.1.0-alpha-1
         env:
           USER_NAME: Terone
-          USER_EMAIL: 34730459+bterone@users.noreply.github.com
           USER_TOKEN: ${{ secrets.GH_TOKEN }}

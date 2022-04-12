@@ -1,4 +1,6 @@
-## About The Project
+## G-Searcher
+
+#### About The Project
 
 G-Searcher is a Google Web Scraper. You upload a CSV with all the keywords you want searched, and let G-Searcher handle the rest!
 
