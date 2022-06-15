@@ -25,9 +25,8 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Publish Wiki
-        uses: nimblehq/publish-github-wiki-action@v0.1.0-alpha-1
+        uses: nimblehq/publish-github-wiki-action@v0.1.0-alpha-3
         with:
-          USER_EMAIL: 34730459+bterone@users.noreply.github.com
           USER_NAME: Terone
-        secrets:
-          USER_TOKEN: ${{ secrets.GH_TOKEN }}
+          USER_EMAIL: 34730459+bterone@users.noreply.github.com
+          USER_ACCESS_TOKEN: ${{ secrets.GH_TOKEN }}
