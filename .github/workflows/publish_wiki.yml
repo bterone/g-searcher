@@ -1,0 +1,33 @@
+name: Publish Wiki
+
+on:
+  push:
+    branches:
+      - chore/github-wiki
+
+jobs:
+  publish:
+    name: Publish Github Wiki
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 1
+
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Publish Wiki
+        uses: nimblehq/publish-github-wiki-action@v0.1.0-alpha-1
+        with:
+          USER_EMAIL: 34730459+bterone@users.noreply.github.com
+          USER_NAME: Terone
+        secrets:
+          USER_TOKEN: ${{ secrets.GH_TOKEN }}
