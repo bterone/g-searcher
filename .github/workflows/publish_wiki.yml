@@ -20,13 +20,14 @@ jobs:
           access_token: ${{ github.token }}
 
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
 
       - name: Publish Wiki
-        uses: nimblehq/publish-github-wiki-action@v0.1.0-alpha-3
-        with:
-          USER_NAME: Terone
-          USER_EMAIL: 34730459+bterone@users.noreply.github.com
-          USER_ACCESS_TOKEN: ${{ secrets.GH_TOKEN }}
+        uses: Andrew-Chen-Wang/github-wiki-action@v3
+        env:
+          WIKI_DIR: .github/wiki
+          GH_NAME: Terone
+          GH_MAIL: 34730459+bterone@users.noreply.github.com
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
