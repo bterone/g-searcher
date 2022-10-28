@@ -25,9 +25,8 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Publish Wiki
-        uses: Andrew-Chen-Wang/github-wiki-action@v3
+        uses: nimblehq/publish-github-wiki-action@v0.1.0-alpha-4
         env:
-          WIKI_DIR: .github/wiki
-          GH_NAME: Terone
-          GH_MAIL: 34730459+bterone@users.noreply.github.com
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          user_name: Terone
+          user_email: 34730459+bterone@users.noreply.github.com
+          user_access_token: ${{ secrets.USER_ACCESS_TOKEN }}
