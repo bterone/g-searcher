@@ -25,7 +25,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Publish Wiki
-        uses: nimblehq/publish-github-wiki-action@v0.1.0-alpha-4
+        uses: nimblehq/publish-github-wiki-action@v1.0
         with:
           user_name: Terone
           user_email: 34730459+bterone@users.noreply.github.com
